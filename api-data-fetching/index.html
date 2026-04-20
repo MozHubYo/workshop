@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>從 HTML 到 API - 更優雅的數據擷取之道 (v3.0)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #ffffff;
+            --bg-dark: #0d1117;
+            --text-light: #24292f;
+            --text-dark: #e6edf3;
+            --border-light: #d0d7de;
+            --border-dark: #30363d;
+            --code-bg-light: #f6f8fa;
+            --code-bg-dark: #161b22;
+            --link-light: #0969da;
+            --link-dark: #58a6ff;
+            --accent-grad: linear-gradient(90deg, rgba(255, 0, 150, 1) 0%, rgba(0, 200, 255, 1) 100%);
+            --tip-bg: #f1f8ff;
+            --tip-border: #58a6ff;
+            --warning-bg: #fff3cd;
+            --warning-border: #ffc107;
+            --success-bg: #d4edda;
+            --success-border: #28a745;
+        }
+
+        body {
+            font-family: 'Huninn', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            margin: 0;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            border-bottom: 5px solid;
+            border-image: var(--accent-grad) 1;
+        }
+
+        header h1 {
+            font-family: 'Huninn', "SF Mono", "Consolas", "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 2.5em;
+            margin: 0;
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.3;
+        }
+
+        header h1 .subtitle {
+            font-size: 0.7em;
+            font-weight: normal;
+        }
+
+        h2 {
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 0.3em;
+            margin-top: 50px;
+            font-size: 1.6em;
+        }
+
+        h3 {
+            margin-top: 30px;
+            color: var(--link-light);
+            font-size: 1.3em;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-light);
+            margin: 40px 0;
+        }
+
+        a {
+            color: var(--link-light);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul,
+        ol {
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        pre {
+            background-color: var(--code-bg-light);
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid var(--border-light);
+            margin: 20px 0;
+        }
+
+        code {
+            font-family: "SF Mono", "Consolas", "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.9em;
+            background-color: #eef2f5;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            font-size: 1em;
+        }
+
+        .tip-box,
+        .warning-box,
+        .success-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+            border-left-width: 5px;
+            border-left-style: solid;
+        }
+
+        .tip-box {
+            background-color: var(--tip-bg);
+            border-color: var(--tip-border);
+        }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border-color: var(--warning-border);
+        }
+
+        .success-box {
+            background-color: var(--success-bg);
+            border-color: var(--success-border);
+        }
+
+        .tip-box strong,
+        .warning-box strong,
+        .success-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .section-icon {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        #challenge-section {
+            background-color: #f6f8fa;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #challenge-section h4 {
+            margin-top: 0;
+            font-size: 1.4em;
+            color: #333;
+        }
+
+        #challenge-input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+            margin: 10px 10px 10px 0;
+            text-align: center;
+        }
+
+        #challenge-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            font-family: 'Huninn', sans-serif;
+            background-color: var(--link-light);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #challenge-button:hover {
+            background-color: #0558b4;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        .shake-anim {
+            animation: shake 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>從 HTML 到 API <br><span class="subtitle">更優雅的數據獲取之道</span></h1>
+    </header>
+
+    <main>
+        <section id="module0">
+            <h2><span class="section-icon">💡</span>給 non-tech 同事的話</h2>
+            <p>說到「拿一份數據」，大多數人的直覺反應是：</p>
+            <ul>
+                <li>「我去後台點下載按鈕。」</li>
+                <li>「我請工程師幫我匯出 Excel 傳給我。」</li>
+                <li>「我一頁一頁複製貼上到試算表。」</li>
+            </ul>
+            <p>這些做法都能工作，但有一個更優雅、也更可持續的方式——<strong>直接跟 API 要</strong>。</p>
+            <p>這堂課要讓你看見：你以為要點十下按鈕才能完成的事，用 API 其實一行指令就搞定。而且這個技能比你想像中容易上手。</p>
+        </section>
+
+        <section id="module1">
+            <h2><span class="section-icon">🧠</span>為何要改變傳統網頁抓取的模式？</h2>
+
+            <h3>HTML 抓取的方法有什麼問題嗎?</h3>
+            <p>我們目前的作法雖然可行，但如同在沙灘上找貝殼，總會撈起一把沙。其存在幾個難以忽視的痛點：</p>
+            <ul>
+                <li><strong>高噪音的信噪比:</strong> </br>為了獲取個別數據，卻必須載入並處理整個網頁的 HTML，大部分都是我們不需要的「噪音」。</li>
+                <li><strong>脆弱的維護性:</strong> </br>腳本與網頁的 UI 結構緊密耦合。任何前端的調整都可能導致腳本失效，造成頻繁的維護成本。</li>
+                <li><strong>阻塞式的工作流:</strong> </br>網頁渲染是耗時的。當一個自動化流程需要從多頁面數據時，會造成流程堵塞，無法實現高效的併行處理。</li>
+            </ul>
+
+            <h3>API 數據擷取的優勢</h3>
+            <p>HTML 抓取數據比較像是在河裡淘金，通過獲取來源的所有資料，從中淘取需要的部分。</br>
+            相較之下，API 更像是直接從金庫取金條，拿出來的數據就是純金，幾乎沒有雜質。
+            </p>
+             <div class="success-box">
+                <strong>API 的三大優勢</strong>
+                <ul>
+                    <li><strong>精準獲取:</strong> API 允許用戶只請求所需的數據，將「噪音」降至趨近於零。</li>
+                    <li><strong>高度穩定:</strong> API 和數據結構極少變動。一次開發便可長期穩定運行，維護成本極低。</li>
+                    <li><strong>可擴展的基建:</strong> API 請求是輕量級操作，可以輕易地併行處理，即使工作流持續擴張，仍可保持高效率。</li>
+                </ul>
+            </div>
+        </section>
+    </br>
+        <section id="module2">
+            <h2><span class="section-icon">🚀</span> API 的初體驗</h2>
+
+            <h3>爬取頁面數據 v.s. 訪問 API 的工作流對比</h3>
+            <p>假設業務目標是：抓取<strong> 直播 </strong>與<strong> 線下課程 </strong>的最新課程列表。</p>
+
+            <div style="display: flex; gap: 20px;">
+                <div style="flex: 1;">
+                    <h4>傳統頁面抓取方法</h4>
+                    <ol>
+                        <li>進入目標網頁。</li>
+                        <li>等待網頁渲染。</li>
+                        <li>解析頁面上的 HTML 元素來提取課程標題</li>
+                    </ol>
+                </div>
+                <div style="flex: 1;">
+                    <h4>API 導向方法</h4>
+                    <ol>
+                        <li>監控 "Network" 查找 API 資料。</li>
+                        <li>使用 <code>fetch()</code>發出模擬訪問 API 的請求。</li>
+                        <li>獲取數據。</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h3>實作體驗：第一次 API 呼叫</h3>
+            <p>我們用一個公開的免費 API 來示範——<a href="https://jsonplaceholder.typicode.com" target="_blank">JSONPlaceholder</a>（專門給開發者練習的假資料 API，不用註冊、不用 Key）。</p>
+            <p>打開任何一個網頁，按 <code>F12</code> 開啟主控台（Console），貼上以下代碼：</p>
+            <pre><code>// 目標 API：拿一筆貼文的資料
+fetch('https://jsonplaceholder.typicode.com/posts/1')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  });</code></pre>
+            <p>你會看到主控台出現一個結構清晰的物件，包含 <code>userId</code>、<code>id</code>、<code>title</code>、<code>body</code> 四個欄位。</p>
+            <p>接著把網址換成 <code>/posts</code>（不加 id），會回傳 100 筆貼文的陣列。這整個過程你沒有載入任何頁面，沒有解析 HTML，但你拿到的資料比手動爬頁面還乾淨。</p>
+            <div class="tip-box">
+                <strong>💡通過 API 抓取數據，就不需要等待網頁渲染，也不需要管 HTML 結構</strong>
+                我們並未實際「載入」任何頁面，卻可以直接拿到結構化的資料。這就是 API 與爬取 HTML 兩種作法上的本質差異。
+            </div></br>
+
+            <h3>探索邊界：API 的保護機制</h3>
+            <p>剛才的 JSONPlaceholder 是完全開放的，任何人都能呼叫。但真實世界的 API 通常有保護機制。當你嘗試從別的網域呼叫受保護的 API 時，會在主控台看到類似這樣的紅色錯誤訊息：</p>
+            <pre><code>Access to fetch at 'https://some-site.com/api' from origin 'https://another-site.com' has been blocked by CORS policy...</code></pre>
+            <p>這代表 API 的使用並非無條件，尤其越敏感的資料，通常也會有越麻煩的保護機制，常見的保護機制包括：</p>
+            <ul>
+                <li><strong>同源策略 (CORS) : </strong> 資料的請求必須來自於同一個網域，限制/禁止跨網域的請求。</li>
+                <li><strong>Cookie / Session : </strong> 驗證用戶是否為合法的使用者，通常會搭配登入機制。</li>
+                <li><strong>Token / API Key : </strong> 類似權限證明，確保用戶有權限進行操作，或者與付費機制綁定。</li>
+            </ul>
+            <div class="success-box">
+                <strong>通過 API 獲取數據，並非永遠都是最佳解</strong> 
+                在 API 端口所要求的參數與環境過於複雜時，深度地去破解這些參數本身可能更花時間。</br>
+                這種情況下，可能使用傳統的 HTML 數據抓取方式，會比使用 API 簡單很多。
+            </div>
+
+            <h3>核心觀念總結</h3>
+            <div class="tip-box">
+                學習的目標不是 <b>拋棄HTML資料爬取</b> 的做法，而是<b> 增加工具箱內的選項 </b>。</br>
+                根據不同的業務場景，選擇更加合適與高效的解決方案。</br>
+                了解用戶不僅可以「在渲染好的頁面上尋找數據」，也可以「向特定的 API 端點發出數據請求」。
+            </div>
+        </section>
+</br>
+        <section id="module3">
+            <h2><span class="section-icon">🛠️</span>上手 <code>fetch()</code> 與 API 偵測</h2>
+
+            <h3><code>fetch()</code> 語法解析</h3>
+            <p><code>fetch()</code> 的結構相當直觀，其運作方式類似一條流水線：</p>
+            <pre><code>fetch("https://example.com/api/data.json") // 1. 發出請求
+  .then(response => response.json())       // 2. 將回傳的數據流轉換為 JSON 物件
+  .then(data => {                          // 3. 使用處理好的數據
+    console.log(data);
+  });</code></pre>
+            <p>若想深入了解，可參考 <a href="https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch"
+                    target="_blank">MDN Fetch API 的官方文件</a>。</p> </br></br>
+
+            <p>整個API取數的過程，最關鍵的步驟就2點： 1) 找出<strong>正確的 API 端口</strong>； 2) 找出端口要求的<strong>參數</strong>：</p>
+
+            <h3>如何在 Network 面板中找到 API 相關資料？</h3>
+            <ol>
+                <li><strong>打開開發者工具 (F12)</strong>，切換到 <strong>Network</strong> 分頁。</li>
+                <li>在頁面上<strong>觸發目標操作</strong> (例如：點擊搜尋、切換分頁)。</li>
+                <li><strong>篩選網路請求:</strong> 通常 API 請求的類型是 <code>fetch</code> 或 <code>XHR</code>，點擊它可以篩選出可能的 API 請求。
+                </li>
+                <li><strong>分析目標請求:</strong> 點擊列表中的請求，右側會出現詳細資訊。
+                    <ul>
+                        <li><strong>Headers:</strong> 查看請求的 URL、方法 (GET/POST)、以及是否有特殊的 <code>Authorization</code> 或
+                            <code>Token</code> 標頭。
+                        </li>
+                        <li><strong>Payload / Body:</strong> 如果是 POST 請求，這裡會顯示發送給伺服器的數據結構。</li>
+                        <li><strong>Preview / Response:</strong> 檢視伺服器回傳的數據格式，確認其為您所需的數據。</li>
+                    </ul>
+                </li>
+            </ol>
+            <h3>上手練習：在你平常用的網站上找 API</h3>
+            <p>打開任何一個你常用的網站（例如購物、新聞、查股票），F12 切到 Network 分頁，觀察你操作時實際發出了哪些 API 請求。</p>
+            <pre><code>// 步驟 1：使用 Network 觀察窗，找到正確的 API 端口，通常會像一個網址
+"https://example.com/api/data"
+
+// 步驟 2：確定 Headers / Token / Payload / Body 後，用 fetch() 發出請求
+fetch("https://example.com/api/data")
+  .then(response => response.json());
+
+// 步驟 3：拿到資料後，作必要的清洗與加工
+    console.log(data);
+</code></pre>
+        </section>
+</br>
+        <section id="module4">
+            <h2><span class="section-icon">🏆</span>課堂挑戰：三道漸進式實戰題</h2>
+            <p>前面都是概念，現在真的動手。我們會用 <a href="https://github.com/public-apis/public-apis" target="_blank">public-apis</a>（GitHub 上收錄了上千個公開 API 的清單）裡挑出來的三個 API，通通不用註冊、不用 Key、不用 Token，貼上就能跑。</p>
+            <p><strong>操作方式</strong>：打開瀏覽器主控台（任何網頁 F12 都行），把代碼貼進去按 Enter。</p>
+
+            <h3>🟢 第一題｜最基本的 GET 請求</h3>
+            <p><strong>目標</strong>：取得一張隨機的狗狗圖片。</p>
+            <p><strong>API</strong>：<code>Dog CEO API</code>（<a href="https://dog.ceo/dog-api/" target="_blank">dog.ceo</a>）</p>
+            <pre><code>fetch('https://dog.ceo/api/breeds/image/random')
+  .then(response => response.json())
+  .then(data => {
+    console.log('狗狗圖片網址：', data.message);
+  });</code></pre>
+            <div class="tip-box">
+                <strong>💡 思考一下</strong>
+                如果沒有這個 API，你要怎麼「隨機」拿到一張狗狗圖？去 Google 圖片搜尋、手動點一張、右鍵複製網址？用 API 一行就搞定，而且每次執行結果都不同。
+            </div>
+
+            <h3>🟡 第二題｜帶參數的查詢</h3>
+            <p><strong>目標</strong>：查詢台北當下的氣溫。</p>
+            <p><strong>API</strong>：<code>Open-Meteo</code>（<a href="https://open-meteo.com" target="_blank">open-meteo.com</a>，公開免費的天氣 API）</p>
+            <pre><code>// latitude=緯度, longitude=經度（台北的座標）
+const url = 'https://api.open-meteo.com/v1/forecast?latitude=25.03&longitude=121.56&current=temperature_2m';
+
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    const temp = data.current.temperature_2m;
+    console.log(`台北現在 ${temp}°C`);
+  });</code></pre>
+            <div class="tip-box">
+                <strong>💡 思考一下</strong>
+                原本查天氣你要做什麼？打開中央氣象局網站 → 找到台北 → 看溫度。現在你把這段代碼塞進一個排程腳本，每天早上自動回報溫度給你。這才是「自動化」真正的樣子。
+            </div>
+
+            <h3>🔴 第三題｜多個 API 組合（這題才展現 API 的威力）</h3>
+            <p><strong>目標</strong>：給一個國家名稱，自動回傳它的首都、人口，還有首都現在的天氣。</p>
+            <p><strong>用到的 API</strong>：</p>
+            <ul>
+                <li><code>REST Countries</code>（<a href="https://restcountries.com" target="_blank">restcountries.com</a>）— 國家基本資料</li>
+                <li><code>Open-Meteo</code> — 天氣資料</li>
+            </ul>
+            <pre><code>async function getCountryInfo(countryName) {
+  // Step 1：拿國家資料
+  const countryRes = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
+  const countries = await countryRes.json();
+  const country = countries[0];
+
+  const capital = country.capital[0];
+  const population = country.population.toLocaleString();
+  const [lat, lon] = country.capitalInfo.latlng;
+
+  // Step 2：用首都座標查天氣
+  const weatherRes = await fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m`
+  );
+  const weather = await weatherRes.json();
+  const temp = weather.current.temperature_2m;
+
+  console.log(`📍 ${country.name.common}`);
+  console.log(`   首都：${capital}`);
+  console.log(`   人口：${population}`);
+  console.log(`   首都氣溫：${temp}°C`);
+}
+
+getCountryInfo('Japan');</code></pre>
+            <div class="success-box">
+                <strong>🎯 核心重點</strong>
+                這一題示範了 API 最強大的能力——<strong>組合</strong>。第一個 API 的輸出（首都座標）變成第二個 API 的輸入（查天氣）。</br>
+                如果用傳統方式，你要查日本首都、再查東京天氣，至少要切換 3 個分頁、點 10 次滑鼠。而這段代碼把整個流程壓縮成一個函式，還能換成任何國家重複執行。
+            </div>
+
+            <h3>延伸探索</h3>
+            <p><a href="https://github.com/public-apis/public-apis" target="_blank">public-apis</a> 這個 repo 按分類收錄了超過 1,400 個公開 API：動物、區塊鏈、書籍、日曆、加密貨幣、音樂、新聞、影片……</p>
+            <p>建議你找一個你感興趣的主題，挑一個 <strong>Auth: No</strong>、<strong>CORS: Yes</strong> 的 API，試著用今天學的方法呼叫一次。練習越多，越能把「API 思維」內化成你的直覺反應。</p>
+        </section>
+
+
+        <div class="footer">
+            <p>文件版本：v4.0 📑&nbsp;&nbsp;&nbsp;&nbsp;最後更新：2026-04-20 ✨&nbsp;&nbsp;&nbsp;&nbsp;課程編撰：Moz 🤖 </p>
+        </div>
+    </main>
+
+</body>
+
+</html>
