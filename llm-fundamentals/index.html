@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拓展認知疆界 — 你可能忽略的 LLM 底層邏輯</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #ffffff;
+            --bg-dark: #0d1117;
+            --text-light: #24292f;
+            --text-dark: #e6edf3;
+            --border-light: #d0d7de;
+            --link-light: #0969da;
+            --accent-grad: linear-gradient(90deg, rgba(138, 43, 226, 1) 0%, rgba(255, 0, 150, 1) 50%, rgba(255, 140, 0, 1) 100%);
+            --tip-bg: #fff8dc;
+            --tip-border: #ffd700;
+            --warning-bg: #fff3cd;
+            --warning-border: #ffc107;
+            --diagram-bg: #1a1a2e;
+            --gold-primary: #d4af37;
+            --gold-light: #f4e4ba;
+            --gold-dark: #b8960c;
+            --gold-border: #c9a227;
+            --text-on-dark: #e8e8e8;
+        }
+
+        body {
+            font-family: 'Huninn', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            line-height: 1.75;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 60px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 20px 60px 20px;
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--accent-grad);
+        }
+
+        header h1 {
+            font-size: 2.4em;
+            margin: 0;
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+
+        header .subtitle {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: var(--gold-light);
+            opacity: 0.9;
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid var(--gold-border);
+            padding-bottom: 15px;
+            margin-top: 60px;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+        }
+
+        .section-icon {
+            font-size: 1em;
+            margin-right: 15px;
+            background: var(--bg-dark);
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 2px solid var(--gold-primary);
+        }
+
+        h3 {
+            margin-top: 35px;
+            font-size: 1.15em;
+            color: #444;
+            border-left: 4px solid var(--gold-dark);
+            padding-left: 15px;
+        }
+
+        a {
+            color: var(--link-light);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul,
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .key-point {
+            font-weight: bold;
+            color: #8a2be2;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.0) 100%);
+            border-bottom: 2px solid var(--gold-primary);
+            padding: 0 4px;
+            font-weight: bold;
+        }
+
+        .quote-block {
+            position: relative;
+            padding: 30px 40px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 10px;
+            margin: 30px 0;
+            color: var(--text-on-dark);
+            line-height: 1.9;
+            font-size: 1.05em;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .quote-block::before {
+            display: none;
+        }
+
+        .quote-block .source {
+            margin-top: 15px;
+            font-size: 0.85em;
+            opacity: 0.7;
+            text-align: right;
+        }
+
+        .tip-box {
+            background-color: var(--tip-bg);
+            border-left: 4px solid var(--tip-border);
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.03) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-left: 4px solid var(--gold-primary);
+            border-radius: 0 10px 10px 0;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .insight-box h4 {
+            margin-top: 0;
+            color: var(--gold-dark);
+        }
+
+        /* 警告框樣式 */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255, 150, 100, 0.1) 0%, rgba(255, 100, 100, 0.05) 100%);
+            border: 1px solid rgba(255, 150, 100, 0.3);
+            border-left: 4px solid #ff9966;
+            border-radius: 0 10px 10px 0;
+            padding: 20px 25px;
+            margin: 25px 0;
+        }
+
+        .warning-box .warning-title {
+            font-weight: bold;
+            color: #ff9966;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .warning-box p {
+            margin: 0;
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .danger-text {
+            color: #ff6b6b;
+            font-weight: 500;
+        }
+
+        /* 架構圖頂部說明卡片樣式 */
+        .arch-layers-explanation {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .layer-explain {
+            display: flex;
+            flex-direction: column;
+            padding: 18px 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border-top: 3px solid var(--gold-primary);
+        }
+
+        .layer-explain:nth-child(1) {
+            border-top-color: #64ff96;
+        }
+
+        .layer-explain:nth-child(2) {
+            border-top-color: #ffc864;
+        }
+
+        .layer-explain:nth-child(3) {
+            border-top-color: #64c8ff;
+        }
+
+        .layer-explain:nth-child(4) {
+            border-top-color: var(--gold-primary);
+        }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .layer-num {
+            width: 24px;
+            height: 24px;
+            background: var(--gold-primary);
+            color: #1a1a2e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8em;
+            flex-shrink: 0;
+        }
+
+        .layer-explain:nth-child(1) .layer-num {
+            background: #64ff96;
+        }
+
+        .layer-explain:nth-child(2) .layer-num {
+            background: #ffc864;
+        }
+
+        .layer-explain:nth-child(3) .layer-num {
+            background: #64c8ff;
+        }
+
+        .layer-explain:nth-child(4) .layer-num {
+            background: var(--gold-primary);
+        }
+
+        .layer-title {
+            font-size: 0.85em;
+            color: var(--gold-light);
+            font-weight: bold;
+        }
+
+        .layer-subtitle {
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.5);
+            display: block;
+        }
+
+        .layer-text {
+            flex: 1;
+        }
+
+        .layer-text p {
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .layer-text em {
+            color: var(--gold-light);
+            font-style: normal;
+        }
+
+        .layer-key {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .layer-key strong {
+            color: var(--gold-light);
+        }
+
+        .arch-intro {
+            font-size: 0.95em;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 20px 0;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .arch-intro strong {
+            color: var(--gold-light);
+        }
+
+        /* Context Assembly Architecture 架構圖樣式 */
+        .architecture-diagram {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 12px;
+            padding: 30px 25px;
+            margin: 30px 0;
+            color: var(--text-on-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .arch-title {
+            text-align: center;
+            color: var(--gold-light);
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .arch-layer {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 10px 0;
+        }
+
+        .layer-label {
+            font-size: 0.85em;
+            color: var(--gold-light);
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .layer-label span {
+            font-weight: normal;
+            opacity: 0.7;
+            margin-left: 8px;
+        }
+
+        .layer-content {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .source-layer .layer-content {
+            justify-content: space-around;
+        }
+
+        .source-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 12px 18px;
+            border-radius: 6px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .source-icon {
+            font-size: 1.5em;
+        }
+
+        .source-text strong {
+            display: block;
+            color: var(--gold-light);
+            font-size: 0.95em;
+        }
+
+        .source-text small {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8em;
+        }
+
+        .arch-arrow {
+            text-align: center;
+            color: var(--gold-primary);
+            font-size: 1.2em;
+            margin: 8px 0;
+        }
+
+        .tool-layer {
+            border-color: rgba(100, 200, 255, 0.3);
+            background: rgba(100, 200, 255, 0.05);
+        }
+
+        /* Tool Pipeline 流程樣式 */
+        .tool-pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 10px;
+            flex-wrap: wrap;
+        }
+
+        .pipeline-input,
+        .pipeline-output {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .pipeline-input span,
+        .pipeline-output span {
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .pipeline-data {
+            font-family: monospace;
+            letter-spacing: -2px;
+        }
+
+        .pipeline-data.thick {
+            color: #ffc864;
+            font-size: 1.2em;
+        }
+
+        .pipeline-data.thin {
+            color: #64ff96;
+            font-size: 1em;
+        }
+
+        .pipeline-arrow {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .pipeline-step {
+            display: flex;
+            align-items: center;
+        }
+
+        .tool-tag {
+            background: rgba(100, 200, 255, 0.15);
+            color: #8ecfff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            border: 1px solid rgba(100, 200, 255, 0.3);
+        }
+
+        .tool-warning {
+            text-align: center;
+            color: #ff9966;
+            font-size: 0.85em;
+            margin-top: 12px;
+        }
+
+        .window-layer {
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        .context-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stack-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 6px;
+            gap: 15px;
+        }
+
+        .stack-core {
+            background: linear-gradient(90deg, rgba(100, 255, 150, 0.15) 0%, rgba(100, 255, 150, 0.05) 100%);
+            border-left: 3px solid #64ff96;
+        }
+
+        .stack-dynamic {
+            background: linear-gradient(90deg, rgba(100, 200, 255, 0.15) 0%, rgba(100, 200, 255, 0.05) 100%);
+            border-left: 3px solid #64c8ff;
+        }
+
+        .stack-task {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border-left: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .stack-badge {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .stack-content {
+            flex: 1;
+        }
+
+        .stack-content strong {
+            display: block;
+            color: var(--gold-light);
+            font-size: 0.9em;
+        }
+
+        .stack-content small {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8em;
+        }
+
+        .stack-indicator {
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 4px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .llm-layer {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold-primary);
+        }
+
+        .llm-box {
+            text-align: center;
+            color: var(--gold-light);
+            font-weight: bold;
+        }
+
+        .arch-note {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+        }
+
+        .arch-note strong {
+            color: var(--gold-light);
+        }
+
+        /* Memory Tag Styles (RAM vs Disk) */
+        .memory-tag {
+            font-size: 0.75em;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-left: 10px;
+            font-weight: normal;
+        }
+
+        .disk-tag {
+            background: rgba(100, 255, 150, 0.2);
+            color: #64ff96;
+            border: 1px solid rgba(100, 255, 150, 0.3);
+        }
+
+        .ram-tag {
+            background: rgba(255, 200, 100, 0.2);
+            color: #ffc864;
+            border: 1px solid rgba(255, 200, 100, 0.3);
+        }
+
+        /* Funnel Visual Styles */
+        .funnel-container {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .funnel-visual {
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .funnel-visual svg {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .funnel-description {
+            flex: 1;
+        }
+
+        .funnel-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.8em;
+        }
+
+        .funnel-in {
+            color: #ffc864;
+        }
+
+        .funnel-out {
+            color: #64ff96;
+        }
+
+        /* Context Stack Container */
+        .context-stack-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .stack-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .stack-visual .stack-item {
+            border-radius: 0;
+            border-left: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 0;
+        }
+
+        .stack-visual .stack-item:last-child {
+            border-bottom: none;
+        }
+
+        .stack-visual .stack-core {
+            background: linear-gradient(90deg, rgba(100, 255, 150, 0.25) 0%, rgba(100, 255, 150, 0.1) 100%);
+            border-left: 4px solid #64ff96;
+        }
+
+        .stack-visual .stack-dynamic {
+            background: linear-gradient(90deg, rgba(255, 200, 100, 0.08) 0%, rgba(255, 200, 100, 0.02) 100%);
+            border-left: 4px dashed rgba(255, 200, 100, 0.5);
+        }
+
+        /* Dynamic 層的不穩定視覺效果 */
+        .stack-visual .stack-dynamic.unstable {
+            border: 1px dashed rgba(255, 200, 100, 0.4);
+            border-left: 4px dashed rgba(255, 200, 100, 0.6);
+            position: relative;
+        }
+
+        .stack-visual .stack-dynamic.unstable::before {
+            content: '～～～';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 200, 100, 0.4);
+            font-size: 0.8em;
+            letter-spacing: 2px;
+        }
+
+        .stack-visual .stack-task {
+            background: linear-gradient(90deg, rgba(100, 200, 255, 0.15) 0%, rgba(100, 200, 255, 0.05) 100%);
+            border-left: 4px solid #64c8ff;
+        }
+
+        .squeeze-indicator,
+        .foundation-indicator {
+            font-size: 0.75em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .squeeze-indicator {
+            color: #ffc864;
+            background: rgba(255, 200, 100, 0.15);
+        }
+
+        .foundation-indicator {
+            color: #64ff96;
+            background: rgba(100, 255, 150, 0.15);
+        }
+
+        .stack-summary {
+            text-align: center;
+            color: var(--gold-light);
+            font-size: 0.9em;
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 6px;
+        }
+
+        .flow-diagram {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 10px;
+            padding: 25px 20px;
+            margin: 25px 0;
+            color: var(--text-on-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .flow-title {
+            text-align: center;
+            color: var(--gold-light);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .flow-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .flow-box.highlight {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--gold-primary);
+            color: var(--gold-light);
+        }
+
+        .flow-box small {
+            display: block;
+            font-size: 0.8em;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .flow-arrow {
+            color: var(--gold-primary);
+            font-size: 1.2em;
+        }
+
+        .flow-note {
+            text-align: center;
+            font-size: 0.85em;
+            color: var(--gold-light);
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        .timeline {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 25px 0;
+            color: var(--text-on-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            padding-bottom: 25px;
+            border-left: 2px solid var(--gold-border);
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+            border-left-color: transparent;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            background: var(--gold-primary);
+            border-radius: 50%;
+        }
+
+        .timeline-year {
+            font-weight: bold;
+            color: var(--gold-primary);
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .timeline-content {
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+
+        .gold-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .gold-table th {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--gold-light);
+            padding: 14px;
+            text-align: left;
+            border-bottom: 2px solid var(--gold-border);
+        }
+
+        .gold-table td {
+            padding: 14px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--text-on-dark);
+        }
+
+        .gold-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 對比表格樣式 */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .comparison-table th {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold-light);
+            padding: 14px 12px;
+            text-align: center;
+            border-bottom: 2px solid var(--gold-border);
+            font-size: 0.95em;
+        }
+
+        .comparison-table td {
+            padding: 16px 12px;
+            color: var(--text-on-dark);
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        .comparison-table .row-label {
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1em;
+            vertical-align: middle;
+        }
+
+        .comparison-table .row-negative {
+            background: rgba(255, 100, 100, 0.08);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .comparison-table .row-positive {
+            background: rgba(100, 255, 150, 0.08);
+        }
+
+        .comparison-table td strong {
+            color: var(--gold-light);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .comparison-table td .desc {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 10px;
+            padding: 25px;
+            color: var(--text-on-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .card h4 {
+            color: var(--gold-light);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .card p {
+            font-size: 0.9em;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .comp-col {
+            padding: 30px;
+        }
+
+        .comp-col.old {
+            background-color: #f5f5f5;
+            border-right: 1px solid #ddd;
+        }
+
+        .comp-col.new {
+            background: var(--diagram-bg);
+            color: var(--text-on-dark);
+            position: relative;
+        }
+
+        .comp-col.new::after {
+            content: '✨ 新共識';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--gold-primary);
+            color: #000;
+            font-size: 0.7em;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .comp-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .comp-col.new .comp-title {
+            color: var(--gold-primary);
+        }
+
+        .comp-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .comp-list li {
+            margin-bottom: 15px;
+            padding-left: 28px;
+            position: relative;
+            font-size: 0.95em;
+        }
+
+        .comp-col.old .comp-list li::before {
+            content: '❌';
+            position: absolute;
+            left: 0;
+        }
+
+        .comp-col.new .comp-list li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+        }
+
+        .footer {
+            margin-top: 80px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9em;
+            padding-top: 40px;
+            border-top: 1px solid #eee;
+        }
+
+        /* 可收合的延伸學習區塊 */
+        .learn-more {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .learn-more summary {
+            padding: 18px 25px;
+            cursor: pointer;
+            color: #666;
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s;
+        }
+
+        .learn-more summary:hover {
+            background: #f0f0f0;
+        }
+
+        .learn-more summary::marker {
+            color: #999;
+        }
+
+        .learn-more[open] summary {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .video-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-item .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-item iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-item p {
+            margin: 10px 0 0 0;
+            font-size: 0.9em;
+            color: var(--text-on-dark);
+            opacity: 0.8;
+            text-align: center;
+        }
+
+        /* 模型卡片樣式 */
+        .model-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .model-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .model-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .model-card.openai::before {
+            background: linear-gradient(90deg, #10a37f, #1a7f64);
+        }
+
+        .model-card.anthropic::before {
+            background: linear-gradient(90deg, #d4a574, #c9956c);
+        }
+
+        .model-card.google::before {
+            background: linear-gradient(90deg, #4285f4, #34a853, #fbbc05, #ea4335);
+        }
+
+        .model-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .model-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+        }
+
+        .model-card.openai .model-logo {
+            background: rgba(16, 163, 127, 0.2);
+        }
+
+        .model-card.anthropic .model-logo {
+            background: rgba(212, 165, 116, 0.2);
+        }
+
+        .model-card.google .model-logo {
+            background: rgba(66, 133, 244, 0.2);
+        }
+
+        .model-info h4 {
+            margin: 0;
+            color: var(--gold-light);
+            font-size: 1.15em;
+        }
+
+        .model-info .company {
+            font-size: 0.8em;
+            opacity: 0.6;
+            color: var(--text-on-dark);
+            margin-top: 2px;
+        }
+
+        .model-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .spec-row:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            font-size: 0.8em;
+            color: var(--text-on-dark);
+            opacity: 0.6;
+        }
+
+        .spec-value {
+            font-size: 0.9em;
+            color: var(--gold-light);
+            text-align: right;
+        }
+
+        .model-strength {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .model-strength .label {
+            font-size: 0.75em;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .model-strength .value {
+            font-size: 0.85em;
+            color: var(--text-on-dark);
+            line-height: 1.5;
+        }
+
+        /* 垂直流程圖樣式 */
+        .process-flow {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 40px 30px;
+            margin: 30px 0;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            position: relative;
+        }
+
+        .process-step:not(:last-child) {
+            padding-bottom: 20px;
+        }
+
+        /* 左側：圖示 + 連接線 */
+        .process-icon-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .process-icon {
+            width: 52px;
+            height: 52px;
+            background: rgba(212, 175, 55, 0.15);
+            border: 2px solid var(--gold-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .process-line {
+            width: 2px;
+            flex-grow: 1;
+            min-height: 20px;
+            background: linear-gradient(180deg, var(--gold-primary) 0%, rgba(212, 175, 55, 0.3) 100%);
+            margin-top: 8px;
+        }
+
+        .process-step:last-child .process-line {
+            display: none;
+        }
+
+        /* 右側：卡片內容 */
+        .process-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 10px;
+            padding: 18px 22px;
+            position: relative;
+        }
+
+        /* 連接線：從圖示到卡片 */
+        .process-content::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 26px;
+            width: 24px;
+            height: 2px;
+            background: var(--gold-primary);
+        }
+
+        .process-content h4 {
+            margin: 0 0 8px 0;
+            color: var(--gold-light);
+            font-size: 1.05em;
+        }
+
+        .process-content p {
+            margin: 0;
+            font-size: 0.9em;
+            color: var(--text-on-dark);
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 600px) {
+            .process-flow {
+                padding: 30px 20px;
+            }
+
+            .process-step {
+                gap: 16px;
+            }
+
+            .process-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2em;
+            }
+
+            .process-content::before {
+                left: -16px;
+                width: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .model-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .staircase-diagram {
+                padding-left: 20px;
+            }
+
+            .staircase-step {
+                margin-left: calc(var(--step-index) * 20px);
+            }
+
+            .step-box {
+                min-width: auto;
+                max-width: none;
+            }
+
+            .staircase-arrow {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>拓展認知疆界</h1>
+        <div class="subtitle">從實務開發心得談：你可能忽略的 LLM 底層邏輯</div>
+    </header>
+
+    <main>
+
+        <!-- 開場 -->
+        <section id="intro">
+
+            <p style="font-size: 1.05em; margin-top: 40px;">隨著團隊對 AI 工具越來越熟悉，開發工具已經不是困難的任務，各位也都至少完成一次應用開發。<br>網路上甚至有開發者，把 AI 應用到更多的工作場景中。</p>
+
+            <img src="img/01-ai-applications.jpg" alt="AI 應用場景"
+                style="width: 100%; border-radius: 10px; margin: 25px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.15);">
+
+            <p>但隨著使用次數變多，大家一定會感覺到了——<span class="highlight">AI 的表現很不穩定</span>。</p>
+
+            <p>這背後的原因，其實不是 AI 的問題，而是我們對它的理解不夠透徹。所以今天的分享，不會再教新技術。<br>而是帶大家回頭補課，理解那些我們一開始直接跳過的基礎概論：<span
+                    class="key-point"> 什麼是 AI？ 怎麼用好 AI？</span></p>
+        </section>
+
+        <!-- 第一節：LLM 到底是什麼? -->
+        <section id="llm-truth">
+            <h2><span class="section-icon">🤖</span>LLM 到底是什麼?</h2>
+
+            <p>很多人都跟我提過，覺得 AI 笨、不可靠、有幻覺。但深究問題往往會發現，是<span class="key-point">人類對 LLM 有錯誤的期待</span>。</p>
+
+            <h3>LLM 並不是有智慧的 AI</h3>
+
+            <p>在網路上查資料，你會發現大家習慣用「AI」這個大詞來包山包海。<br>但對研發人員來說，「AI」這個名詞太籠統了——就像用「交通工具」來形容所有會動的載具一樣。</p>
+
+            <p>更精準的區分是：</p>
+            <ul>
+                <li><span class="key-point">LLM（大型語言模型）</span>：就是現在 ChatGPT、Claude 背後的技術，已經很成熟</li>
+                <li><span class="key-point">AGI（通用人工智慧）</span>：能像人類一樣在所有領域思考的 AI，目前還不存在</li>
+            </ul>
+
+            <p>雖然 OpenAI 的 Sam Altman 說「AGI 已經隱約可見」，Anthropic 的 Dario Amodei 預測 2026-2027 年可能出現<br>但截至 2026 年初，<span
+                    class="highlight">真正的 AGI 還沒有被發明出來</span>。</p>
+
+            <p>而現在的 LLM，核心只做一件事：<span class="highlight">猜下一個字</span>。</p>
+
+            <div class="card" style="margin: 25px 0;">
+                <h4>Next Token Prediction（預測下一個 token）</h4>
+                <p>LLM 的核心任務是「預測下一個 token」。它看到「今天天氣」，就猜下一個字可能是「很好」或「不錯」。</p>
+                <p style="margin-top: 12px; color: var(--gold-primary);">→ 它沒有真正的「理解」，只是統計上的模式匹配</p>
+            </div>
+
+            <p>在這個基礎上，再透過兩個機制讓它「更好用」：</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>RLHF（從人類回饋中學習）</h4>
+                    <p>讓人類評估 AI 的回答，告訴它哪個答案「更好」，讓它學會符合人類期待的回答方式。</p>
+                    <p style="margin-top: 12px; color: var(--gold-primary);">→ 這就是為什麼 ChatGPT 比原始 GPT 更「聽話」</p>
+                </div>
+                <div class="card">
+                    <h4>針對 Benchmark 優化</h4>
+                    <p>模型會針對各種測試題目優化，所以它在「考試」上表現很好，但實際應用可能有落差。</p>
+                    <p style="margin-top: 12px; color: var(--gold-primary);">→ Benchmark 分數 ≠ 實際好用程度</p>
+                </div>
+            </div>
+
+
+
+            <h3 style="margin-top: 50px;">LLM 的知識是「凍結」的</h3>
+
+            <p>LLM 調教好之後，內部參數就不會更新了。就像一部電影，你可以快轉、重播、倒帶，但不管怎麼操作，內容都一樣。</p>
+
+
+            <!-- 神經網路凍結示意圖 -->
+            <div style="padding: 35px 20px; margin: 20px 0;">
+                <div style="display: flex; align-items: flex-start; justify-content: center; gap: 8px;">
+                    <!-- 輸入 -->
+                    <div style="width: 220px; text-align: center;">
+                        <div style="font-size: 2.2em; font-weight: bold; color: #333; margin-bottom: 8px;">📥 輸入</div>
+                        <div style="font-size: 0.85em; color: #888; line-height: 1.5;">
+                            "雲端儲存費怎麼算？"
+                        </div>
+                    </div>
+
+                    <div style="color: var(--gold-dark); font-size: 1.5em; padding-top: 12px;">→</div>
+
+                    <!-- 凍結的參數 -->
+                    <div style="width: 220px; text-align: center;">
+                        <div style="font-size: 2.2em; font-weight: bold; color: var(--gold-dark); margin-bottom: 8px;">
+                            🔒 參數</div>
+                        <div style="font-size: 0.85em; color: #888; line-height: 1.5;">
+                            w₁ = 0.73；w₂ = -0.21；w₃ = 0.58
+                        </div>
+                    </div>
+
+                    <div style="color: var(--gold-dark); font-size: 1.5em; padding-top: 12px;">→</div>
+
+                    <!-- 輸出 -->
+                    <div style="width: 220px; text-align: center;">
+                        <div style="font-size: 2.2em; font-weight: bold; color: #333; margin-bottom: 8px;">📤 輸出</div>
+                        <div style="font-size: 0.85em; color: #888; line-height: 1.5;">
+                            "標準尺寸商品每立方公尺 €26..."
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 25px;">
+                    <span style="font-size: 0.9em; color: #666;">💡 AI 會自信地回答，但這可能是<span
+                            style="color: var(--gold-dark); font-weight: bold;">去年的費率</span>——而你們都不會發現。</span>
+                </div>
+            </div>
+
+            <div
+                style="background: #f8f9fa; border-radius: 10px; padding: 20px 25px; margin: 20px 0; font-size: 0.9em; color: #555; line-height: 1.8;">
+                <div style="margin-bottom: 12px;">💭 <strong>LLM 不認識你</strong> — 即使你上週跟它聊過，LLM 也不記得你的名字、偏好、或之前的對話內容。
+                </div>
+                <div style="margin-bottom: 12px;">💭 <strong>每次對話都從零開始</strong> — 你今天問的問題，LLM 不會「記住」然後下次答得更好。</div>
+                <div style="margin-bottom: 12px;">💭 <strong>LLM 不會從錯誤中學習</strong> — 你糾正它一次，LLM
+                    不會記住這個教訓。下次問類似問題，可能犯同樣的錯。</div>
+                <div style="margin-bottom: 12px;">💭 <strong>同樣的問題，可能得到不同答案</strong> — 因為沒有記憶，每次都是「即興演出」。</div>
+                <div>💭 <strong>「記憶」是靠外掛</strong> — 有些工具看起來「有記憶」，其實是把對話歷史塞進 prompt 裡。模型本身不會變。</div>
+            </div>
+
+            <p>目前主流模型的<span class="highlight">知識截止日期</span>與<span class="highlight">規格</span></p>
+
+            <div class="model-cards">
+                <!-- GPT-5.4 -->
+                <div class="model-card openai">
+                    <div class="model-header">
+                        <div class="model-logo">🟢</div>
+                        <div class="model-info">
+                            <h4>GPT-5.4</h4>
+                            <div class="company">OpenAI</div>
+                        </div>
+                    </div>
+                    <div class="model-specs">
+                        <div class="spec-row">
+                            <span class="spec-label">知識截止</span>
+                            <span class="spec-value">2025 年 8 月</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">上下文窗口</span>
+                            <span class="spec-value">400K tokens</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">最大輸出</span>
+                            <span class="spec-value">128K tokens</span>
+                        </div>
+                    </div>
+                    <div class="model-strength">
+                        <div class="label">強項</div>
+                        <div class="value">數學推理、專業知識、多步驟任務</div>
+                    </div>
+                </div>
+
+                <!-- Claude 4.7 Opus -->
+                <div class="model-card anthropic">
+                    <div class="model-header">
+                        <div class="model-logo">🟤</div>
+                        <div class="model-info">
+                            <h4>Claude 4.7 Opus</h4>
+                            <div class="company">Anthropic</div>
+                        </div>
+                    </div>
+                    <div class="model-specs">
+                        <div class="spec-row">
+                            <span class="spec-label">知識截止</span>
+                            <span class="spec-value">2025 年 3 月</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">上下文窗口</span>
+                            <span class="spec-value">200K (1M beta)</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">最大輸出</span>
+                            <span class="spec-value">64K tokens</span>
+                        </div>
+                    </div>
+                    <div class="model-strength">
+                        <div class="label">強項</div>
+                        <div class="value">程式碼生成、安全性、長文分析</div>
+                    </div>
+                </div>
+
+                <!-- Gemini 3.1 Pro -->
+                <div class="model-card google">
+                    <div class="model-header">
+                        <div class="model-logo">🔵</div>
+                        <div class="model-info">
+                            <h4>Gemini 3.1 Pro</h4>
+                            <div class="company">Google DeepMind</div>
+                        </div>
+                    </div>
+                    <div class="model-specs">
+                        <div class="spec-row">
+                            <span class="spec-label">知識截止</span>
+                            <span class="spec-value">2025 年 1 月</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">上下文窗口</span>
+                            <span class="spec-value">1M tokens</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">最大輸出</span>
+                            <span class="spec-value">64K tokens</span>
+                        </div>
+                    </div>
+                    <div class="model-strength">
+                        <div class="label">強項</div>
+                        <div class="value">多模態、超長上下文、G 家生態整合</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- 延伸學習影片 -->
+            <p style="font-size: 0.9em; color: #888; margin-top: 30px;">🎬 想深入了解「凍結的參數」是什麼？看這三支影片：</p>
+            <div style="display: flex; gap: 20px; margin: 15px 0 30px 0;">
+                <div style="flex: 1;">
+                    <div style="position: relative; padding-bottom: 56.25%; border-radius: 8px; overflow: hidden;">
+                        <iframe src="https://www.youtube.com/embed/mpGiFuRYrDk"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <p style="font-size: 0.8em; color: #999; text-align: center; margin-top: 8px;">Transformer 如何成為 AI
+                        模型的地基</p>
+                </div>
+                <div style="flex: 1;">
+                    <div style="position: relative; padding-bottom: 56.25%; border-radius: 8px; overflow: hidden;">
+                        <iframe src="https://www.youtube.com/embed/SguTbOIilJM"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <p style="font-size: 0.8em; color: #999; text-align: center; margin-top: 8px;">Transformer 架構 10
+                        分鐘速通</p>
+                </div>
+                <div style="flex: 1;">
+                    <div style="position: relative; padding-bottom: 56.25%; border-radius: 8px; overflow: hidden;">
+                        <iframe src="https://www.youtube.com/embed/nIncwp0iAkw"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <p style="font-size: 0.8em; color: #999; text-align: center; margin-top: 8px;">ChatGPT 原理揭密</p>
+                </div>
+            </div>
+
+            <h3>怎麼讓 LLM 更新新資訊？</h3>
+
+            <p>既然 LLM 的知識是凍結的，那要怎麼讓它加載最新資訊？主要有三種方式：</p>
+
+            <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="card">
+                    <h4>Prompt / Context</h4>
+                    <p style="font-size: 0.85em; color: var(--gold-light); margin-bottom: 12px;">在對話中直接提供</p>
+                    <p>最簡單的方式，把資訊直接貼進對話裡，讓 LLM 添加到計算中。</p>
+                    <p style="margin-top: 12px; font-size: 0.85em;">✅ 零成本、立即生效<br>❌ 受上下文窗口限制</p>
+                </div>
+                <div class="card">
+                    <h4>RAG 檢索增強生成</h4>
+                    <p style="font-size: 0.85em; color: var(--gold-light); margin-bottom: 12px;">讓 AI 搜尋、查資料庫</p>
+                    <p>回答前先從資料庫「搜尋」相關資訊，再根據搜尋結果回答。</p>
+                    <p style="margin-top: 12px; font-size: 0.85em;">✅ 可處理大量文件、即時更新<br>❌ 需建置向量資料庫</p>
+                </div>
+                <div class="card">
+                    <h4>Fine-tuning 微調訓練</h4>
+                    <p style="font-size: 0.85em; color: var(--gold-light); margin-bottom: 12px;">重新訓練模型</p>
+                    <p>用客製化資料重新訓練模型，讓知識「寫進」模型參數裡。</p>
+                    <p style="margin-top: 12px; font-size: 0.85em;">✅ 回答更精準、不需每次提供上下文<br>❌ 成本高、需 ML 專業</p>
+                </div>
+            </div>
+
+            <p style="font-size: 0.9em; color: #666; margin: 25px 0; line-height: 1.8;">
+                💡 <strong>實務建議</strong>：大多數情況下，<span class="highlight">Prompt + RAG 就夠用了</span>。Fine-tuning
+                通常只在需要特定語氣、格式、或高度專業領域時才值得投資。</p>
+
+        </section>
+        <!-- 第二節：工具 vs LLM -->
+        <!-- 第二節：從 Prompt Engineering 到 Context Engineering -->
+        <section id="context-engineering">
+            <h2><span class="section-icon">📝</span>從 Prompt Engineering 到 Context Engineering</h2>
+
+            <p>根據 GitHub 2025 年 Spec-Driven Development 研究報告與多項 AI 開發工具產業調查顯示：<span
+                    class="highlight">採用規格驅動開發（Spec-Driven Development）的團隊，AI 程式碼接受率從 33% 提升到
+                    65%</span>。這個數據揭示了一個關鍵轉變：影響 AI 產出品質的核心因素，已經從「如何下指令」轉向「提供什麼資訊」。</p>
+
+            <p>LLM 產出的差異主要來自三個因素：提示詞（Prompt）、上下文（Context）、Temperature 設定。2024 年初，主流觀點是「提示詞決定一切」，所有人都在堆疊提示詞、設計複雜的 Chain
+                of Thought。但到了 2025 年，隨著 Claude 4.x 和 GPT-5 等新一代模型的推出，社群開始發現：<span
+                    class="highlight">過度詳細的指令反而限制了模型的發揮，真正的關鍵在於提供完整的上下文（Context）</span>。</p>
+
+            <p>這個認知轉變，標誌著我們從 Prompt Engineering 時代進入了 Context Engineering 時代。</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2024 年初：Prompt Engineering 時代</div>
+                    <div class="timeline-content">
+                        大家瘋狂研究提示詞技巧：角色設定、Chain of Thought、Few-shot Examples...<br>
+                        主流觀點：「提示詞寫得越詳細、步驟越多，效果越好」
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2024 年中：開始出現質疑</div>
+                    <div class="timeline-content">
+                        有人發現：同樣的提示詞，在不同模型上效果差異很大。<br>
+                        開始有人提出「提示詞可能被高估了」的觀點。
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2025 年：Context Engineering 時代</div>
+                    <div class="timeline-content">
+                        隨著 Claude 4.x 和 GPT-5 的推出，新共識形成：<br>
+                        <span style="color: var(--gold-primary);">重點不是「怎麼問」，而是「給什麼資訊」</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Context Engineering 的核心任務</h3>
+
+            <p>根據 Anthropic 2025 年 9 月發布的技術文章〈Effective Context Engineering for AI Agents〉，Context Engineering
+                核心任務是：<span class="highlight">為 AI 提供完成任務所需的所有資訊與工具，而不只是一個精心設計的提示詞</span>。</p>
+
+            <p>AI 專家 Andrej Karpathy 也強調： LLM 應用不是靠運氣或一次性提示詞成功，而是靠<span class="highlight">精心組裝每一步所需的正確資訊</span>。</p>
+
+            <div class="process-flow">
+                <div class="process-step">
+                    <div class="process-icon-wrapper">
+                        <div class="process-icon">📋</div>
+                        <div class="process-line"></div>
+                    </div>
+                    <div class="process-content">
+                        <h4>撰寫（Writing）</h4>
+                        <p>建立外部記憶：用 SPEC.md、README、設計文件等，讓 AI 能「記住」專案背景</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="process-icon-wrapper">
+                        <div class="process-icon">🎯</div>
+                        <div class="process-line"></div>
+                    </div>
+                    <div class="process-content">
+                        <h4>選擇（Selecting）</h4>
+                        <p>精準檢索：只提供與當前任務相關的資訊，避免資訊過載</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="process-icon-wrapper">
+                        <div class="process-icon">📦</div>
+                        <div class="process-line"></div>
+                    </div>
+                    <div class="process-content">
+                        <h4>壓縮（Compressing）</h4>
+                        <p>摘要與精簡：在有限的 Token 預算內，最大化資訊密度</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="process-icon-wrapper">
+                        <div class="process-icon">🔒</div>
+                    </div>
+                    <div class="process-content">
+                        <h4>隔離（Isolating）</h4>
+                        <p>分區管理：複雜任務拆分成獨立的上下文區塊，避免資訊互相干擾</p>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin: 25px 0; line-height: 1.8;">
+                💡 <strong>關鍵洞察</strong>：根據 Chroma Research 的「Context Rot」研究，當上下文超過 32K tokens 時，多數模型的準確率會下降超過 50%。<span
+                    class="highlight">Context Engineering 的核心不是「給越多越好」，而是「給對的資訊」</span>——精準的上下文往往比塞滿整個 Context Window
+                更有效。
+            </p>
+
+            <h3>Context 最重要的技巧：記筆記</h3>
+
+            <p>理解了 Context Engineering 的核心任務後，接下來的問題是：<span class="highlight">實際操作中，我們該怎麼做？</span></p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🔧 工具可以「管理」 Context</h4>
+                    <p>我們不可能全部自己管理上下文，所以選擇對的工具，讓不同工具能讀取不同來源的資訊就會影響最終效果</p>
+                    <ul style="margin: 15px 0; padding-left: 20px;">
+                        <li><strong>網頁插件</strong>（Q Suite）：讀取當前網頁內容</li>
+                        <li><strong>CLI 工具</strong>（Kiro CLI）：讀取專案資料夾結構</li>
+                        <li><strong>IDE 工具</strong>（Kiro IDE）：讀取本地文件、程式碼庫</li>
+                    </ul>
+                    <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(212, 175, 55, 0.2);">
+                        <span class="highlight">好工具不是讓 AI 更聰明，而是更有效地提供上下文。</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>⚠️ 工具也會「遺失」 Context</h4>
+                    <p>但這裡有個很多人沒想過的問題：<br>當 Session 太長，工具會自動壓縮上下文。</p>
+                    <p style="margin: 15px 0;">以 Kiro IDE 為例，當 Usage 達到 80% 時，系統會自動開啟新的 Session 並壓縮前後文。<br><span
+                            class="highlight">LLM 選擇保留的重點，不一定是你認為重要的</span>。</p>
+                    <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(212, 175, 55, 0.2);">
+                        GitHub 和開發者論壇有開發者抱怨「AI 花了 800K tokens 理解程式碼庫，結果只是一個 API endpoint 設定錯誤」。
+                    </p>
+                </div>
+            </div>
+
+            <h4>解決方案：建立「持久化筆記」</h4>
+            <p>不一定要用 SPEC.md，任何形式的筆記都可以。關鍵是讓 AI 在新 Session 開始時能快速「恢復記憶」。</p>
+
+            <table class="gold-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">筆記類型</th>
+                        <th style="width: 35%;">適用場景</th>
+                        <th style="width: 40%;">工具支援</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SPEC.md / README</strong></td>
+                        <td>專案架構、API 規格、設計決策</td>
+                        <td>手動貼入 / IDE 自動讀取</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Steering Files</strong></td>
+                        <td>編碼規範、團隊慣例、專案特定規則</td>
+                        <td>Kiro IDE 的 .kiro/steering/ 資料夾會自動載入</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CLAUDE.md</strong></td>
+                        <td>AI 助手的行為指引、專案背景</td>
+                        <td>Claude Code、Cursor 等工具會自動讀取</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p style="font-size: 0.9em; color: #666; margin: 25px 0; line-height: 1.8;">
+                💡 <strong>實務建議</strong>：筆記不是越多越好。根據 Kiro 官方文件，<span class="highlight">Steering 文件超過 2
+                    頁就應該拆分</span>——太長的筆記反而會佔用 Token 預算，造成新的「過載」問題。建議採用「分層引用」策略：核心規則永遠載入，詳細說明按需引用。
+            </p>
+
+            <div class="architecture-diagram">
+                <div class="arch-title">Context Assembly Pipeline</div>
+
+                <div class="arch-layers-explanation">
+                    <div class="layer-explain">
+                        <div class="layer-header">
+                            <div class="layer-num">1</div>
+                            <div class="layer-title">Source Layer<span class="layer-subtitle">你的資產庫</span></div>
+                        </div>
+                        <div class="layer-text">
+                            <p><em>代碼庫</em> = raw data<br><em>筆記</em> = meta data</p>
+                        </div>
+                        <div class="layer-key">💾 <strong>永久存儲</strong></div>
+                    </div>
+                    <div class="layer-explain">
+                        <div class="layer-header">
+                            <div class="layer-num">2</div>
+                            <div class="layer-title">Tooling Layer<span class="layer-subtitle">過濾漏斗</span></div>
+                        </div>
+                        <div class="layer-text">
+                            <p>IDE 透過 RAG 檢索相關片段。<span class="danger-text">最危險環節</span>——沒有筆記當索引，工具就像亂翻書。</p>
+                        </div>
+                        <div class="layer-key">⚡<strong>產出不穩定的主因</strong></div>
+                    </div>
+                    <div class="layer-explain">
+                        <div class="layer-header">
+                            <div class="layer-num">3</div>
+                            <div class="layer-title">Context Window<span class="layer-subtitle">記憶體堆疊</span></div>
+                        </div>
+                        <div class="layer-text">
+                            <p><em>Task</em>：必須保留<br><em>Dynamic</em>：易被捨棄<br><em>Core</em>：最高權重</p>
+                        </div>
+                        <div class="layer-key">📦 <strong>隨時會遺失的區域</strong></div>
+                    </div>
+                    <div class="layer-explain">
+                        <div class="layer-header">
+                            <div class="layer-num">4</div>
+                            <div class="layer-title">LLM Engine<span class="layer-subtitle">處理器</span></div>
+                        </div>
+                        <div class="layer-text">
+                            <p>Context 進入模型推理。模型再強，輸入破碎則輸出錯誤。</p>
+                        </div>
+                        <div class="layer-key">🔄 <strong>Garbage In, Garbage Out</strong></div>
+                    </div>
+                </div>
+                <p class="arch-intro">下圖揭示了用戶在 IDE 中與 AI 對話時，背後真實發生的<strong>資料流動過程</strong></p>
+                <!-- Layer 1: Source Layer with Disk annotation -->
+                <div class="arch-layer source-layer">
+                    <div class="layer-label">1. Source Layer <span class="memory-tag disk-tag">💾 Disk / Long-term
+                            Memory</span></div>
+                    <div class="layer-content">
+                        <div class="source-box">
+                            <div class="source-icon">📋</div>
+                            <div class="source-text">
+                                <strong>持久化筆記</strong>
+                                <small>SPEC.md / Steering / Rules</small>
+                            </div>
+                        </div>
+                        <div class="source-box">
+                            <div class="source-icon">📁</div>
+                            <div class="source-text">
+                                <strong>專案代碼庫</strong>
+                                <small>Codebase / Dependencies</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layer 2: Tooling Layer with Funnel visual -->
+                <div class="arch-layer tool-layer">
+                    <div class="layer-label">2. Tooling Layer <span class="memory-tag ram-tag">⚡ RAM / Volatile
+                            Memory</span></div>
+                    <div class="tool-pipeline">
+                        <div class="pipeline-input">
+                            <div class="pipeline-data thick">▮▮▮</div>
+                            <span>海量資料</span>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-step">
+                            <span class="tool-tag">RAG 檢索</span>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-step">
+                            <span class="tool-tag">自動壓縮</span>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-step">
+                            <span class="tool-tag">注入 System Prompt</span>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-output">
+                            <div class="pipeline-data thin">▮</div>
+                            <span>精華輸出</span>
+                        </div>
+                    </div>
+                    <div class="tool-warning">⚠️ 沒有筆記當索引，AI 就像在亂翻書</div>
+                </div>
+
+                <!-- Layer 3: Context Window as visual stack (reversed order) -->
+                <div class="arch-layer window-layer">
+                    <div class="layer-label">3. Context Window <span>有限空間的記憶體堆疊</span></div>
+                    <div class="context-stack-container">
+                        <div class="stack-visual">
+                            <!-- Task on top (newest, always present) -->
+                            <div class="stack-item stack-task">
+                                <div class="stack-badge">Task</div>
+                                <div class="stack-content">
+                                    <strong>當前指令</strong>
+                                    <small>User Query（不可壓縮）</small>
+                                </div>
+                            </div>
+                            <!-- Dynamic in middle (gets squeezed) - 虛線邊框表示不穩定 -->
+                            <div class="stack-item stack-dynamic unstable">
+                                <div class="stack-badge">Dynamic</div>
+                                <div class="stack-content">
+                                    <strong>相關代碼片段</strong>
+                                    <small>工具動態填入（易被擠壓）</small>
+                                </div>
+                                <div class="squeeze-indicator">← 空間不夠時最先被壓縮</div>
+                            </div>
+                            <!-- Core at bottom (foundation) -->
+                            <div class="stack-item stack-core">
+                                <div class="stack-badge">Core</div>
+                                <div class="stack-content">
+                                    <strong>System Context</strong>
+                                    <small>穩固層 (System Prompt)，最高權重，鎖定行為</small>
+                                </div>
+                                <div class="foundation-indicator">← 你的筆記在這裡打底</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Layer 4: LLM Engine -->
+                <div class="arch-layer llm-layer">
+                    <div class="layer-label">4. LLM Engine <span>處理器 (CPU & GPU)</span></div>
+                    <div class="layer-content">
+                        <div class="llm-box">運算與輸出 → 決定「智能上限」</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Context Engineering 的四大失敗模式</h3>
+            <p>根據 2025 年產業實踐經驗，以下是最常見的 Context 管理錯誤：</p>
+
+            <div class="card-grid" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2em; margin-bottom: 10px;">📥</div>
+                    <h4 style="font-size: 0.95em;">Overload<br><span
+                            style="opacity: 0.7; font-weight: normal;">過載</span></h4>
+                    <p style="font-size: 0.82em;">把所有資訊都塞進去，AI 反而被無關細節淹沒</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2em; margin-bottom: 10px;">☠️</div>
+                    <h4 style="font-size: 0.95em;">Poisoning<br><span
+                            style="opacity: 0.7; font-weight: normal;">污染</span></h4>
+                    <p style="font-size: 0.82em;">錯誤資訊進入上下文後被反覆引用，持續產出錯誤</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2em; margin-bottom: 10px;">🌀</div>
+                    <h4 style="font-size: 0.95em;">Confusion<br><span
+                            style="opacity: 0.7; font-weight: normal;">混淆</span></h4>
+                    <p style="font-size: 0.82em;">資訊太雜亂，即使沒有矛盾，AI 也難以理解意圖</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2em; margin-bottom: 10px;">⚔️</div>
+                    <h4 style="font-size: 0.95em;">Clash<br><span style="opacity: 0.7; font-weight: normal;">衝突</span>
+                    </h4>
+                    <p style="font-size: 0.82em;">上下文中存在互相矛盾的資訊，無法產出一致回應</p>
+                </div>
+            </div>
+
+            <h3>Prompt 技巧：角色扮演比步驟指令更有效</h3>
+            <p>OpenAI 創始成員 Andrej Karpathy 曾公開表示：<span class="highlight">「LLMs are not chatbots, they are
+                    simulators.」</span>。語言模型在訓練時見過最平庸的網友發言，也見過最頂尖專家的論文。如果你只給普通提示詞，模型可能模擬「普通網友」來回答；但如果要求它模擬「世界頂級專家」，模型就會調用訓練資料中那些高品質的思維模式。
+            </p>
+
+            <p>與其給 AI 一堆規則限制，不如直接問：「如果你是這個領域的頂尖專家，你會怎麼思考這個問題？」</p>
+
+            <table class="gold-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">傳統提示詞（設定規則）</th>
+                        <th>角色扮演提示詞（激發模擬）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-size: 0.9em; line-height: 1.8;">
+                            請幫我寫一個 Python 腳本。<br>
+                            1. 首先引入 pandas<br>
+                            2. 讀取 csv 檔案<br>
+                            3. 把第一列改名為 "ID"<br>
+                            4. 過濾掉空值<br>
+                            5. 輸出成 json 格式...
+                        </td>
+                        <td style="font-size: 0.9em; line-height: 1.8;">
+                            你現在是 Python 數據處理領域的最強大腦。<br><br>
+                            我的目標是：將這份 CSV 轉換成符合系統 API 規格的 JSON。<br><br>
+                            請運用你的專業知識，給我最優美的解決方案。
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><span class="highlight">「模擬」優於「指導」：大模型本身沒有觀點，但能模擬特定人物的思維方式，從而輸出更高質量的內容。</span></p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;"></th>
+                        <th style="width: 28%;">你給的指令</th>
+                        <th style="width: 28%;">AI 的反應</th>
+                        <th style="width: 29%;">你得到的結果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="row-negative">
+                        <td class="row-label">❌ 傳統</td>
+                        <td>
+                            <strong>步驟指令</strong><br>
+                            <span class="desc">「先做A，再做B...」</span>
+                        </td>
+                        <td>
+                            <strong>照章辦事</strong><br>
+                            <span class="desc">限制在你給的框架內</span>
+                        </td>
+                        <td>
+                            <strong>「及格」的標準答案</strong><br>
+                            <span class="desc">不會出錯，但也不會驚艷</span>
+                        </td>
+                    </tr>
+                    <tr class="row-positive">
+                        <td class="row-label">✅ 模擬</td>
+                        <td>
+                            <strong>角色扮演</strong><br>
+                            <span class="desc">「你是頂尖專家」</span>
+                        </td>
+                        <td>
+                            <strong>調用專家思維</strong><br>
+                            <span class="desc">激發訓練資料中的高品質模式</span>
+                        </td>
+                        <td>
+                            <strong>「超出預期」的解決方案</strong><br>
+                            <span class="desc">可能給你沒想過的好方法</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </section>
+
+
+        <!-- 第七節：人類的價值函數 -->
+        <section id="human-value">
+            <h2><span class="section-icon">⚖️</span>人類為什麼仍然重要？</h2>
+
+            <p>現代 LLM 的訓練過程中，有個步驟叫做 <span class="key-point">RLHF（Reinforcement Learning from Human
+                    Feedback）</span> 從人類回饋中強化學習。</p>
+
+            <div class="flow-diagram">
+                <div class="flow-title">RLHF 訓練流程：人類定義「什麼是好」</div>
+                <div class="flow-row">
+                    <div class="flow-box">
+                        AI 生成多個回答
+                        <small>針對同一個問題</small>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box highlight">
+                        人類評估排序
+                        <small>哪個回答「更好」？</small>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        訓練 Reward Model
+                        <small>將偏好轉為數值信號</small>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        AI 優化輸出
+                        <small>最大化 Reward 分數</small>
+                    </div>
+                </div>
+                <div class="flow-note">
+                    AI 的「好壞標準」100% 來自人類的判斷。Reward Model 只是將人類偏好「數值化」，但定義權始終在人類手上。
+                </div>
+            </div>
+
+            <p>這意味著<span class="highlight">AI 不會自己判斷什麼是「對的方向」</span>，它只會優化人類告訴它的目標。</p>
+
+            <h3>成為 AI 的價值函數</h3>
+
+            <p><span class="key-point">價值函數</span> 是用來評估「某個行動能帶來多少預期回報」的數學公式，<span class="highlight">是人類不可取代的核心競爭力</span>。</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🤖 AI 是極致的「優化器」</h4>
+                    <p>AI 能基於目標下，迅速找出最佳執行路徑。</p>
+                    <p style="margin-top: 12px;">但它無法自行定義目的地、商業價值、或是美感。</p>
+                </div>
+                <div class="card">
+                    <h4>👤 人類是「價值的定義者」</h4>
+                    <p>人類的經驗、直覺、品味，決定了 AI 該優化什麼。</p>
+                    <p style="margin-top: 12px;">沒有人類，AI 很容易陷入 Goodhart's Law 的陷阱。</p>
+                </div>
+            </div>
+
+            <p style="font-size: 0.9em; color: #666; margin: 25px 0; line-height: 1.8;">
+                💡 <strong>Goodhart's Law（古德哈特定律）</strong>：<span class="highlight">"When a measure becomes a target, it ceases to be a good measure."</span><br>
+                例如工廠的績效指標是「生產釘子的數量」，工人就會製造數百萬個極小的釘子；如果指標改為「生產釘子的重量」，工人就會製造幾個巨大無比的釘子。這兩種結果都不是原本想要的「好用的釘子」。
+                LLM 的本質工作就是在獎勵函數的基礎上，用盡一切算力去最大化目標函數。由於沒有人類的常識、道德或潛規則，它只看數學指標。因此會比人類更極端地鑽漏洞。
+                這通常被稱為 「獎勵駭客」或 「規格博弈」。
+            </p>
+
+            <p>因此，人類在工作流中的角色，<span class="highlight">不再只是比拼執行速度，而是運用經驗與直覺，為強大的算力指引正確方向</span>。</p>
+
+            <div class="flow-diagram">
+                <div class="flow-title">人類作為「價值函數」的角色</div>
+                <div class="flow-row">
+                    <div class="flow-box highlight">
+                        定義目標
+                        <small>什麼問題值得解決？</small>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        AI 執行
+                        <small>快速產出解決方案</small>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box highlight">
+                        評估結果
+                        <small>這是我們要的嗎？</small>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box highlight">
+                        調整方向
+                        <small>需要改變策略嗎？</small>
+                    </div>
+                </div>
+                <div class="flow-note">
+                    黃色框是人類不可取代的角色：定義、評估、調整。這就是你的「價值函數」——告訴 AI 什麼是「好」的輸出。
+                </div>
+            </div>
+            <p>當 AI 讓每個人都能快速產出程式碼時，<span class="highlight">區分高手與新手的不再是「能不能寫」，而是「知不知道該寫什麼」</span>。</p>
+
+            <div class="quote-block">
+                <p style="font-size: 0.9em; color: var(--gold-light); margin-bottom: 15px; opacity: 0.8;">💬 「Human
+                    taste is now more important than ever as codegen tools make everyone a 10x engineer.」</p>
+                「當程式碼生成工具讓每個人都成為 10 倍工程師時，<span style="color: var(--gold-primary);">人類的品味比以往任何時候都更重要</span>。」
+                <div class="source">— Leo Paz, Vercel (<a href="https://x.com/leopaz/status/1867597568605233633"
+                        target="_blank" style="color: var(--gold-light);">X/Twitter, 2024</a>)</div>
+            </div>
+
+            <p>Google Chrome 團隊的 Addy Osmani 在他的 AI 工作流文章中也指出：</p>
+
+            <div class="quote-block">
+                <p style="font-size: 0.9em; color: var(--gold-light); margin-bottom: 15px; opacity: 0.8;">💬 「AI handles
+                    the 70% of routine work, but the challenging 30% becomes an even larger part of our value.」</p>
+                「AI 處理了 70% 的例行工作，但<span style="color: var(--gold-primary);">那困難的 30% 成為我們價值中更大的部分</span>。」
+                <div class="source">— Addy Osmani, Google (<a href="https://addyosmani.com/blog/ai-coding-workflow/"
+                        target="_blank" style="color: var(--gold-light);">AI Coding Workflow, 2025</a>)</div>
+            </div>
+
+            <p>為什麼資深工程師使用 AI 的效果往往比新手更好。<span class="highlight">不是因為他們的提示詞更厲害，而是因為他們知道「什麼是好的程式碼」</span>。
+            </p>
+
+            <h3>怎麼發揮好的「價值函數」角色？</h3>
+
+            <div class="process-flow">
+                <div class="process-step">
+                    <div class="process-icon-wrapper">
+                        <div class="process-icon">🎨</div>
+                        <div class="process-line"></div>
+                    </div>
+                    <div class="process-content">
+                        <h4>培養品味（Cultivate Taste）</h4>
+                        <p>LLM 的生成上限取決於操作者的鑑賞力。只有看過足夠多的優雅與美好，才能建立內心的「黃金標準」。<br>並在 LLM 給出 60 分的平庸答案時，指出缺陷之處，並要求它優化至 100 分。</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="process-icon-wrapper">
+                        <div class="process-icon">🎯</div>
+                        <div class="process-line"></div>
+                    </div>
+                    <div class="process-content">
+                        <h4>注入真實脈絡（Inject Context）</h4>
+                        <p>LLM 擁有通用知識，但缺乏「當下情境」的理解。人類的價值在於補足那些看不到的隱性參數，<br>例如：公司的商業目標、團隊的技術債現狀、使用者的隱性需求。</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="process-icon-wrapper">
+                        <div class="process-icon">🔄</div>
+                    </div>
+                    <div class="process-content">
+                        <h4>定期校準方向（Calibrate Direction）</h4>
+                        <p>LLM 很容易陷入「局部最優」的陷阱，因為眼界限制，滿足於現狀，而錯過了真正最好的結果。<br>每完成一個階段就反問：「這真的是我們要解決的問題嗎？」防止專案在戰術上成功，卻在戰略上失敗。</p>
+                    </div>
+                </div>
+            </div>
+
+         <h3>手段過剩，目標稀缺的時代</h3>
+
+            <p>在文章的最後，我想偷渡一些個人感想，嘗試回答：為什麼有了 LLM ，工作卻沒有發生『翻天覆地』的變化？</p>
+            <p>答案可能是：<span class="highlight">實際上多數人缺乏的是「目標」，而不是「手段」</span>。</p>
+
+            <img src="img/02-means-vs-goals.jpg" alt="手段過剩，目標稀缺"
+                style="width: 100%; border-radius: 10px; margin: 25px 0; box-shadow: 0 5px 20px rgba(0,0,0,0.15);">
+
+        <h3>高分的低能</h3>
+            <p>即便手握在各項基準測試拿滿分的頂尖 LLM，若使用者心中缺乏明確的「價值函數」，在現實世界中依然無法創造價值。
+                當 AI 徹底解決了所有「如何做」的執行門檻，潮水就退了；不清楚「為何做」以及「做什麼」的人，就只能裸奔。
+            </p>
+            <p>在「答案」唾手可得的時代，<span class="highlight">「好問題」</span>才是真正的稀缺資產。</p>
+
+            <div class="quote-block">
+                <p style="font-size: 0.9em; color: var(--gold-light); margin-bottom: 15px; opacity: 0.8;"> Computers are useless. They can only give you answers. </p>
+                電腦毫無用處，因為它只能給你答案。
+                <div class="source">— Pablo Picasso,《<a href="https://www.theparisreview.org/interviews/4732/the-art-of-fiction-no-32-pablo-picasso" target="_blank" style="color: var(--gold-light);">A Composite Interview</a>》, The Paris Review Issue 32, 1964</div>
+            </div>
+       </section>
+
+        <!-- 延伸閱讀 -->
+        <section id="references">
+            <h2><span class="section-icon">📚</span>延伸閱讀</h2>
+            <ul>
+                <li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"
+                        target="_blank">Anthropic: Effective context engineering for AI agents</a> — 官方的 Context
+                    Engineering 指南</li>
+                <li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/be-clear-and-direct"
+                        target="_blank">Claude Docs: Be clear, direct, and detailed</a> — 官方提示詞最佳實踐</li>
+                <li><a href="https://www.reddit.com/r/ClaudeAI/comments/1os5khh/how_we_got_amazing_results_from_claude_code_its/"
+                        target="_blank">Reddit: How we got amazing results from Claude Code</a> — 實戰經驗分享</li>
+                <li><a href="https://learnprompting.org/docs/advanced/zero_shot/role_prompting" target="_blank">Learn
+                        Prompting: Role Prompting</a> — 角色扮演的學術研究整理</li>
+                <li><a href="https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/"
+                        target="_blank">GitHub Blog: Spec-driven development with AI</a> — Spec-Driven Development 官方介紹
+                </li>
+                <li><a href="https://blog.bytebytego.com/p/top-ai-agentic-workflow-patterns" target="_blank">ByteByteGo:
+                        Top AI Agentic Workflow Patterns</a> — Agentic Workflow 模式解析</li>
+                <li><a href="https://www.microsoft.com/en-us/worklab/work-trend-index/2025-the-year-the-frontier-firm-is-born"
+                        target="_blank">Microsoft Work Trend Index 2025</a> — 人類與 AI 協作的未來</li>
+                <li><a href="https://addyosmani.com/blog/ai-coding-workflow/" target="_blank">Addy Osmani: My LLM coding
+                        workflow going into 2026</a> — 資深工程師的 AI 工作流分享</li>
+            </ul>
+        </section>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p style="margin-top: 30px; font-size: 0.85em; opacity: 0.7;">文件版本：v5.4 &nbsp;|&nbsp; 最後更新：2026-04-20
+                &nbsp;|&nbsp; 編撰者：Moz & Kiro IDE</p>
+        </div>
+
+    </main>
+
+</body>
+
+</html>
