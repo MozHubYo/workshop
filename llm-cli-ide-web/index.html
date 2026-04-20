@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 工具使用指南 - 給非技術背景同事的白話版</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #ffffff;
+            --bg-dark: #0d1117;
+            --text-light: #24292f;
+            --text-dark: #e6edf3;
+            --border-light: #d0d7de;
+            --border-dark: #30363d;
+            --code-bg-light: #f6f8fa;
+            --code-bg-dark: #161b22;
+            --link-light: #0969da;
+            --link-dark: #58a6ff;
+            --accent-grad: linear-gradient(90deg, rgba(138, 43, 226, 1) 0%, rgba(255, 0, 150, 1) 50%, rgba(255, 140, 0, 1) 100%);
+            --tip-bg: #fff8dc;
+            --tip-border: #ffd700;
+            --warning-bg: #fff3cd;
+            --warning-border: #ffc107;
+            --success-bg: #d4edda;
+            --success-border: #28a745;
+            --error-bg: #f8d7da;
+            --error-border: #dc3545;
+        }
+
+        body {
+            font-family: 'Huninn', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            border-bottom: 5px solid;
+            border-image: var(--accent-grad) 1;
+        }
+
+        header h1 {
+            font-family: 'Huninn', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-size: 2.2em;
+            margin: 0;
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 0.3em;
+            margin-top: 50px;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            margin-top: 30px;
+            color: var(--link-light);
+        }
+
+        h4 {
+            margin-top: 25px;
+            font-size: 1.1em;
+        }
+
+        a {
+            color: var(--link-light);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul,
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: var(--code-bg-light);
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid var(--border-light);
+            margin: 16px 0;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+
+        code {
+            font-family: "SF Mono", "Consolas", "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.9em;
+            background-color: var(--code-bg-light);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        .tip-box {
+            background-color: var(--tip-bg);
+            border-left: 4px solid var(--tip-border);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .success-box {
+            background-color: var(--success-bg);
+            border-left: 4px solid var(--success-border);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .error-box {
+            background-color: var(--error-bg);
+            border-left: 4px solid var(--error-border);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .tip-box strong,
+        .warning-box strong,
+        .success-box strong,
+        .error-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .section-icon {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        .key-point {
+            font-weight: bold;
+            color: #8a2be2;
+        }
+
+        .important-tip {
+            background: linear-gradient(135deg, #fff8dc 0%, #ffeaa7 100%);
+            border-left: 4px solid #fdcb6e;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+            box-shadow: 0 2px 8px rgba(253, 203, 110, 0.2);
+        }
+
+        .important-tip strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            color: #24292f;
+        }
+
+        .architecture-diagram {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            font-family: "SF Mono", "Consolas", "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.85em;
+            margin: 20px 0;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.3;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th {
+            background-color: var(--code-bg-light);
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--border-light);
+        }
+
+        .comparison-table td {
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            vertical-align: top;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .tool-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .tool-card h4 {
+            margin-top: 0;
+            color: var(--link-light);
+        }
+
+        .myth-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .myth-card h4 {
+            margin-top: 0;
+            color: var(--link-light);
+            font-size: 1.1em;
+        }
+
+        .myth-card .diagram {
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            color: #dfe6e9;
+            padding: 20px;
+            border-radius: 6px;
+            font-family: "SF Mono", "Consolas", "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.8em;
+            margin: 15px 0;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.3;
+        }
+
+        .myth-card .conclusion {
+            background-color: var(--success-bg);
+            border-left: 3px solid var(--success-border);
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .quick-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .quick-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #5a67d8;
+        }
+
+        .quick-table td {
+            padding: 12px;
+            border: 1px solid var(--border-light);
+        }
+
+        .quick-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .principle-list {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .principle-list ol {
+            margin: 0;
+        }
+
+        .principle-list li {
+            margin-bottom: 12px;
+        }
+
+        .principle-list li strong {
+            color: var(--link-light);
+        }
+
+        /* ========== 黑金配色圖表樣式 ========== */
+
+        /* 黑金色變數 */
+        :root {
+            --diagram-bg: #1a1a2e;
+            --diagram-bg-alt: #16213e;
+            --gold-primary: #d4af37;
+            --gold-light: #f4e4ba;
+            --gold-dark: #b8960c;
+            --gold-border: #c9a227;
+            --text-on-dark: #e8e8e8;
+            --box-bg: rgba(212, 175, 55, 0.1);
+            --box-border: rgba(212, 175, 55, 0.4);
+        }
+
+        /* 主架構圖樣式 */
+        .arch-diagram {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 12px;
+            padding: 30px 20px;
+            margin: 20px 0;
+            color: var(--text-on-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .arch-layer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .arch-layer:last-child {
+            margin-bottom: 0;
+        }
+
+        .arch-box {
+            background: var(--box-bg);
+            border: 2px solid var(--gold-border);
+            border-radius: 8px;
+            padding: 15px 30px;
+            text-align: center;
+        }
+
+        .arch-box.user {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--gold-primary);
+            color: var(--gold-light);
+        }
+
+        .arch-box-title {
+            font-size: 0.85em;
+            color: var(--gold-light);
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .arch-tools-container {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .arch-tools {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .arch-tool {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            border-radius: 6px;
+            padding: 12px 16px;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .arch-tool-name {
+            font-weight: bold;
+            font-size: 0.95em;
+            margin-bottom: 4px;
+            color: var(--gold-light);
+        }
+
+        .arch-tool-desc {
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        .arch-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 0;
+            color: var(--gold-primary);
+        }
+
+        .arch-arrow-line {
+            width: 2px;
+            height: 20px;
+            background: var(--gold-border);
+        }
+
+        .arch-arrow-head {
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        .arch-arrows-multi {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            margin: 10px 0;
+        }
+
+        .arch-llm {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold-primary);
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            color: var(--gold-light);
+        }
+
+        /* 流程圖樣式 - 用於 myth-card */
+        .flow-diagram {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 8px;
+            padding: 25px 15px;
+            margin: 15px 0;
+            color: var(--text-on-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .flow-scenario {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .flow-scenario:last-child {
+            margin-bottom: 0;
+        }
+
+        .flow-scenario-title {
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--gold-primary);
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+
+        .flow-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 0.85em;
+            text-align: center;
+        }
+
+        .flow-box.highlight {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--gold-primary);
+            color: var(--gold-light);
+        }
+
+        .flow-box.tool {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold-border);
+        }
+
+        .flow-box.llm {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--gold-primary);
+            color: var(--gold-light);
+            font-weight: bold;
+        }
+
+        .flow-box.result {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold-border);
+            color: var(--gold-light);
+        }
+
+        .flow-arrow {
+            color: var(--gold-primary);
+            font-size: 1.1em;
+        }
+
+        .flow-arrow-down {
+            display: flex;
+            justify-content: center;
+            color: var(--gold-primary);
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+
+        .flow-context {
+            font-size: 0.75em;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .flow-note {
+            font-size: 0.8em;
+            color: var(--gold-light);
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* 品牌架構圖 */
+        .brand-diagram {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 8px;
+            padding: 25px 15px;
+            margin: 15px 0;
+            color: var(--text-on-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .brand-top {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .brand-box {
+            background: rgba(212, 175, 55, 0.15);
+            border: 2px solid var(--gold-primary);
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-weight: bold;
+            color: var(--gold-light);
+        }
+
+        .brand-split {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 10px;
+        }
+
+        .brand-product {
+            text-align: center;
+        }
+
+        .brand-product-box {
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--gold-border);
+            border-radius: 6px;
+            padding: 12px 20px;
+            margin-bottom: 8px;
+        }
+
+        .brand-product-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--gold-light);
+        }
+
+        .brand-product-features {
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        .brand-conclusion {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--gold-border);
+            font-size: 0.9em;
+            color: var(--gold-light);
+        }
+
+        /* 帳號同步圖 */
+        .sync-diagram {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 8px;
+            padding: 25px 15px;
+            margin: 15px 0;
+            color: var(--text-on-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .sync-account {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .sync-account-box {
+            background: rgba(212, 175, 55, 0.15);
+            border: 2px solid var(--gold-primary);
+            border-radius: 8px;
+            padding: 10px 30px;
+            font-weight: bold;
+            color: var(--gold-light);
+        }
+
+        .sync-tools {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .sync-tool {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gold-border);
+            border-radius: 6px;
+            padding: 12px 15px;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .sync-tool-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: var(--gold-light);
+        }
+
+        .sync-tool-data {
+            font-size: 0.75em;
+            opacity: 0.7;
+        }
+
+        .sync-no-sync {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--gold-border);
+            color: #ff6b6b;
+        }
+
+        .sync-x {
+            color: #ff6b6b;
+            font-size: 1.2em;
+        }
+
+        /* CLI 比較圖 */
+        .cli-compare-diagram {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 8px;
+            padding: 25px 15px;
+            margin: 15px 0;
+            color: var(--text-on-dark);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .cli-layer {
+            margin-bottom: 20px;
+        }
+
+        .cli-layer:last-child {
+            margin-bottom: 0;
+        }
+
+        .cli-layer-title {
+            text-align: center;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+            color: var(--gold-light);
+        }
+
+        .cli-layer-content {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cli-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gold-border);
+            border-radius: 6px;
+            padding: 10px 15px;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .cli-item.amazon {
+            border-color: var(--gold-primary);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .cli-item.google {
+            border-color: var(--gold-border);
+        }
+
+        .cli-item-name {
+            font-weight: bold;
+            font-size: 0.9em;
+            color: var(--gold-light);
+        }
+
+        .cli-item-company {
+            font-size: 0.75em;
+            opacity: 0.6;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>你用的 AI 工具，到底是什麼？</h1>
+        <p style="margin-top: 20px; opacity: 0.9;">從「會用」到「懂用」— 搞懂 LLM、CLI、IDE、Web 的差異</p>
+    </header>
+
+    <main>
+
+        <!-- 第一節：核心概念 -->
+        <section id="concept">
+            <h2><span class="section-icon">🎯</span>過去可能錯過的基礎概念：區分 LLM 層與工具層</h2>
+
+            <h3>整體架構圖</h3>
+            <div class="arch-diagram">
+                <!-- 使用者層 -->
+                <div class="arch-layer">
+                    <div class="arch-box user">
+                        使用者
+                    </div>
+                </div>
+
+                <!-- 箭頭 -->
+                <div class="arch-arrow">
+                    <div class="arch-arrow-line"></div>
+                    <div class="arch-arrow-head">▼</div>
+                </div>
+
+                <!-- 工具層 -->
+                <div class="arch-layer">
+                    <div class="arch-tools-container arch-box">
+                        <div class="arch-box-title">工具層（操作的介面）</div>
+                        <div class="arch-tools">
+                            <div class="arch-tool">
+                                <div class="arch-tool-name">IDE</div>
+                                <div class="arch-tool-desc">視窗軟體 (e.g. Kiro IDE)</div>
+                            </div>
+                            <div class="arch-tool">
+                                <div class="arch-tool-name">CLI</div>
+                                <div class="arch-tool-desc">黑視窗 (e.g. Q CLI)</div>
+                            </div>
+                            <div class="arch-tool" style="min-width: 200px;">
+                                <div class="arch-tool-name">Web</div>
+                                <div class="arch-tool-desc" style="display: flex; flex-direction: column; gap: 4px;">
+                                    <span>網頁工具 (e.g. ChatGPT, AI Studio)</span>
+                                    <span>瀏覽器插件 (e.g. Quick Suite)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 多箭頭 -->
+                <div class="arch-arrows-multi">
+                    <div class="arch-arrow">
+                        <div class="arch-arrow-line"></div>
+                        <div class="arch-arrow-head">▼</div>
+                    </div>
+                    <div class="arch-arrow">
+                        <div class="arch-arrow-line"></div>
+                        <div class="arch-arrow-head">▼</div>
+                    </div>
+                    <div class="arch-arrow">
+                        <div class="arch-arrow-line"></div>
+                        <div class="arch-arrow-head">▼</div>
+                    </div>
+                </div>
+
+                <!-- LLM 層 -->
+                <div class="arch-layer">
+                    <div class="arch-tools-container arch-box">
+                        <div class="arch-box-title">LLM 層（真正在思考的 AI 模型）</div>
+                        <div class="arch-tools">
+                            <div class="arch-llm">Claude Opus 4.5</div>
+                            <div class="arch-llm">GPT-5.2</div>
+                            <div class="arch-llm">Gemini 3 Pro</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>名詞定義</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width: 160px; white-space: nowrap;">名詞</th>
+                        <th style="width: 35%;">是什麼</th>
+                        <th>例子</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="white-space: nowrap;"><strong>Tool</strong> <small>工具</small></td>
+                        <td>你實際操作的軟體或插件</td>
+                        <td>Kiro IDE、Q CLI、Quick Suite、VS Code</td>
+                    </tr>
+                    <tr>
+                        <td style="white-space: nowrap;"><strong>LLM</strong> <small>大型語言模型</small></td>
+                        <td>真正在「思考」和生成回答的 AI 模型</td>
+                        <td>Claude Opus 4.5、GPT-5.2、Gemini 3 Pro</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>關鍵觀念</h3>
+            <ul>
+                <li><span class="key-point">工具 ≠ LLM</span><br> Kiro IDE 是工具，Claude Opus 4.5 是 LLM，它們是不同的東西。</li>
+                <li><span class="key-point">一個工具可以連接一個或多個 LLM</span><br>例如 VS code 允許用戶選擇來自不同公司，甚至自研的 LLM 。</li>
+                <li><span class="key-point">不同工具也能用同一個 LLM</span><br>例如 Google Map、NotebookLM、Google Search
+                    三個不同服務的後面，可能都是用了 Gemini 3 Pro 作為 LLM 。</li>
+            </ul>
+
+            <h3>常見誤解</h3>
+            <div class="flow-diagram">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="width: 160px; white-space: nowrap; padding: 15px; text-align: left; border-bottom: 2px solid var(--gold-border); color: var(--gold-light);">不精準的說法</th>
+                            <th style="padding: 15px; text-align: left; border-bottom: 2px solid var(--gold-border); color: var(--gold-light);">更精準的說法</th>
+                            <th style="padding: 15px; text-align: left; border-bottom: 2px solid var(--gold-border); color: var(--gold-light);">為什麼</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="height: 60px;">
+                            <td style="white-space: nowrap; padding: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.2);">Kiro IDE 是 AI 模型</td>
+                            <td style="padding: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.2);">Kiro IDE 是一個使用 LLM 的軟體</td>
+                            <td style="padding: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.2); color: var(--gold-light);">Kiro IDE 是工具，不是 LLM / AI</td>
+                        </tr>
+                        <tr style="height: 60px;">
+                            <td style="white-space: nowrap; padding: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.2);">Quick Suite 是 AI 工具</td>
+                            <td style="padding: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.2);">Quick Suite 是可以呼叫 LLM 的瀏覽器插件</td>
+                            <td style="padding: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.2); color: var(--gold-light);">Quick Suite 是工具，不是 LLM / AI</td>
+                        </tr>
+                        <tr style="height: 60px;">
+                            <td style="white-space: nowrap; padding: 15px;">Q CLI 比較笨</td>
+                            <td style="padding: 15px;">不同工具可能使用相同的 LLM，智能不會有差距</td>
+                            <td style="padding: 15px; color: var(--gold-light);">LLM 決定智能，工具決定介面</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 第二節：三種工具 -->
+        <section id="tools">
+            <h2><span class="section-icon">🛠️</span>認識 3 種工具：CLI、IDE、Web</h2>
+            <div class="important-tip">
+                <strong>💡 1 秒自檢 — 怎麼知道現在該用哪個工具?：</strong>
+                <ul style="margin-bottom: 0;">
+                    <li>你正在看網頁，想針對網頁內容提問? → 用 <span class="key-point">Web</span> 的瀏覽器插件 (e.g. Quick Suite)</li>
+                    <li>你只是想快速問個問題? → 用 <span class="key-point">Web</span> 的網頁工具 (e.g. ChatGPT, AI Studio) 或 <span class="key-point">CLI</span></li>
+                    <li>你想要進一步研究或開發專案? → 用 <span class="key-point">IDE</span></li>
+                    <li>你不知道你現在該用哪個工具? → 用 <span class="key-point">IDE</span></li>
+                </ul>
+            </div>
+
+            <!-- 三欄工具卡片 -->
+            <div style="display: flex; gap: 30px; margin-top: 20px;">
+                <!-- CLI 工具 -->
+                <div class="flow-diagram" style="flex: 1; padding: 20px;">
+                    <h4 style="color: var(--gold-light); margin-top: 0; margin-bottom: 15px; font-size: 1.1em;">CLI</h4>
+                    <p style="font-size: 0.9em; margin-bottom: 15px; opacity: 0.9;">黑視窗、純鍵盤操作</p>
+                    <p style="font-size: 0.85em; color: var(--gold-light); margin-bottom: 8px;">適合</p>
+                    <ul style="font-size: 0.85em; margin: 0 0 15px 0; padding-left: 18px; opacity: 0.9;">
+                        <li>快速問一個問題</li>
+                        <li>跨資料夾的檔案操作</li>
+                        <li>根據 Readme 安裝程式</li>
+                    </ul>
+                    <p style="font-size: 0.85em; color: var(--gold-light); margin-bottom: 8px;">不適合</p>
+                    <ul style="font-size: 0.85em; margin: 0; padding-left: 18px; opacity: 0.9;">
+                        <li>需要看完整專案結構</li>
+                        <li>需要來回修改多版本</li>
+                        <li>想用截圖作為輸入</li>
+                    </ul>
+                </div>
+
+                <!-- IDE 工具 -->
+                <div class="flow-diagram" style="flex: 1; padding: 20px;">
+                    <h4 style="color: var(--gold-light); margin-top: 0; margin-bottom: 15px; font-size: 1.1em;">IDE</h4>
+                    <p style="font-size: 0.9em; margin-bottom: 15px; opacity: 0.9;">視窗軟體、滑鼠操作</p>
+                    <p style="font-size: 0.85em; color: var(--gold-light); margin-bottom: 8px;">適合</p>
+                    <ul style="font-size: 0.85em; margin: 0 0 15px 0; padding-left: 18px; opacity: 0.9;">
+                        <li>複雜專案開發</li>
+                        <li>需要來回修改多版本</li>
+                        <li>不確定該用什麼工具時</li>
+                    </ul>
+                    <p style="font-size: 0.85em; color: var(--gold-light); margin-bottom: 8px;">不適合</p>
+                    <ul style="font-size: 0.85em; margin: 0; padding-left: 18px; opacity: 0.9;">
+                        <li>只是快速問一個問題</li>
+                        <li>處理網頁上的內容</li>
+                    </ul>
+                </div>
+
+                <!-- Web 工具 -->
+                <div class="flow-diagram" style="flex: 1; padding: 20px;">
+                    <h4 style="color: var(--gold-light); margin-top: 0; margin-bottom: 15px; font-size: 1.1em;">Web</h4>
+                    <p style="font-size: 0.9em; margin-bottom: 15px; opacity: 0.9;">網頁工具、瀏覽器插件</p>
+                    <p style="font-size: 0.85em; color: var(--gold-light); margin-bottom: 8px;">適合</p>
+                    <ul style="font-size: 0.85em; margin: 0 0 15px 0; padding-left: 18px; opacity: 0.9;">
+                        <li>快速問答、腦力激盪</li>
+                        <li>翻譯或彙總網頁內容</li>
+                        <li>不需安裝軟體即可使用</li>
+                    </ul>
+                    <p style="font-size: 0.85em; color: var(--gold-light); margin-bottom: 8px;">不適合</p>
+                    <ul style="font-size: 0.85em; margin: 0; padding-left: 18px; opacity: 0.9;">
+                        <li>處理電腦裡的檔案</li>
+                        <li>需要複雜的專案開發</li>
+                        <li>需要大量上下文額度</li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 第四節：老手誤解 -->
+        <section id="myths">
+            <h2><span class="section-icon">🔍</span>「有經驗的使用者」常見的錯誤理解</h2>
+            <!-- 誤解 1 -->
+            <div class="myth-card">
+                <h4>Kiro IDE 跟 Kiro CLI 都有 Kiro logo，所以是同一個軟體的不同版本</h4>
+
+                <p><strong>實際架構圖：</strong></p>
+                <div class="brand-diagram">
+                    <div class="brand-top">
+                        <div class="brand-box">🏷️ Kiro 品牌</div>
+                    </div>
+                    <div class="flow-arrow-down">▼</div>
+                    <div class="brand-split">
+                        <div class="brand-product">
+                            <div class="brand-product-box">
+                                <div class="brand-product-name">Kiro IDE</div>
+                                <div class="brand-product-features">
+                                    視窗介面 · 滑鼠操作<br>可看多檔案 · 獨立安裝
+                                </div>
+                            </div>
+                        </div>
+                        <div class="brand-product">
+                            <div class="brand-product-box">
+                                <div class="brand-product-name">Kiro CLI</div>
+                                <div class="brand-product-features">
+                                    黑視窗介面 · 純鍵盤操作<br>單次問答 · 獨立安裝
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="brand-conclusion">
+                        它們是同品牌的「兩個不同產品」，不是同產品的「兩個版本」。
+                    </div>
+                </div>
+            </div>
+            <!-- 誤解 2 -->
+            <div class="myth-card">
+                <h4>「同一個問題，用不同工具問，答案應該一模一樣」</h4>
+
+                <p><strong>實際流程圖：</strong></p>
+                <div class="flow-diagram">
+                    <div class="flow-row" style="margin-bottom: 15px;">
+                        <div class="flow-box highlight">用戶問：「什麼是變數？」</div>
+                    </div>
+                    <div class="flow-arrow-down">▼ ▼ ▼</div>
+                    <div class="flow-row" style="gap: 15px; margin: 15px 0;">
+                        <div class="flow-box tool" style="min-width: 120px;">
+                            <strong>Kiro IDE</strong>
+                            <div class="flow-context">系統提示：扮演一位程式開發助手<br>上下文：專案資料夾</div>
+                        </div>
+                        <div class="flow-box tool" style="min-width: 120px;">
+                            <strong>Q CLI</strong>
+                            <div class="flow-context">系統提示：扮演一位命令列助手<br>上下文：無</div>
+                        </div>
+                        <div class="flow-box tool" style="min-width: 120px;">
+                            <strong>Quick Suite</strong>
+                            <div class="flow-context">系統提示：扮演一位網頁瀏覽助手<br>上下文：目前網頁</div>
+                        </div>
+                    </div>
+                    <div class="flow-arrow-down">▼ ▼ ▼</div>
+                    <div class="flow-row" style="margin: 15px 0;">
+                        <div class="flow-box llm">Claude Opus 4.5</div>
+                    </div>
+                    <div class="flow-arrow-down">▼ ▼ ▼</div>
+                    <div class="flow-row" style="gap: 15px;">
+                        <div class="flow-box result">回答 A<br><small>詳細+範例</small></div>
+                        <div class="flow-box result">回答 B<br><small>簡潔</small></div>
+                        <div class="flow-box result">回答 C<br><small>配合網頁</small></div>
+                    </div>
+                    <div class="brand-conclusion">
+                        同 LLM + 不同的系統提示詞 + 不同的前後文資料 = 不同回答。
+                    </div>
+                </div>
+                <p><strong>再舉一個例子，對比 <span class="key-point">Kiro IDE</span> 與 <span class="key-point">Amazon Quick Suite</span></strong></p>
+                <div class="flow-diagram">
+                    <div class="flow-scenario">
+                        <div class="flow-scenario-title">情境 A：在 Kiro IDE 中問「Python怎麼寫迴圈」</div>
+                        <div class="flow-row">
+                            <div class="flow-box">你的問題</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box tool">
+                                Kiro IDE 加上
+                                <div class="flow-context">系統提示 + 檔案內容 + 程式碼設定</div>
+                            </div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box llm">Claude Opus 4.5</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box result">回答 A（詳細、有程式碼）</div>
+                        </div>
+                    </div>
+                    <div class="flow-scenario">
+                        <div class="flow-scenario-title">情境 B：用 Quick Suite 問「Python怎麼寫迴圈」</div>
+                        <div class="flow-row">
+                            <div class="flow-box">你的問題</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box tool">
+                                Quick Suite 加上
+                                <div class="flow-context">系統提示 + 網頁內容 + 簡潔設定</div>
+                            </div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box llm">Claude Opus 4.5</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box result">回答 B（簡短、偏概念）</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 誤解 3 -->
+            <div class="myth-card">
+                <h4>Q CLI 和 Gemini CLI 都是 CLI，所以功能一樣</h4>
+
+                <p><strong>實際架構圖：</strong></p>
+                <div class="cli-compare-diagram">
+                    <div class="cli-layer">
+                        <div class="cli-layer-title">CLI 工具層（操作方式類似）</div>
+                        <div class="cli-layer-content">
+                            <div class="cli-item amazon">
+                                <div class="cli-item-name">Q CLI</div>
+                                <div class="cli-item-company">Amazon</div>
+                            </div>
+                            <div class="cli-item google">
+                                <div class="cli-item-name">Gemini CLI</div>
+                                <div class="cli-item-company">Google</div>
+                            </div>
+                            <div class="cli-item amazon">
+                                <div class="cli-item-name">Kiro CLI</div>
+                                <div class="cli-item-company">Amazon</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flow-arrow-down">▼ ▼ ▼</div>
+                    <div class="cli-layer">
+                        <div class="cli-layer-title">LLM 層（完全不同的模型）</div>
+                        <div class="cli-layer-content">
+                            <div class="cli-item amazon">
+                                <div class="cli-item-name">Claude Sonnet 4.5</div>
+                            </div>
+                            <div class="cli-item google">
+                                <div class="cli-item-name">Gemini 3 Pro</div>
+                            </div>
+                            <div class="cli-item amazon">
+                                <div class="cli-item-name">Claude Opus 4.5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="brand-conclusion">
+                        CLI 只是一種介面類型， LLM 才是決定產出品質的主要關鍵。
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 頁尾 -->
+        <div class="footer">
+            <p><strong>文件版本</strong>：v1.4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>最後更新</strong>：2025-12-17 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✨&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>編撰者</strong>：🤖 Moz</p>
+        </div>
+    </main>
+
+</body>
+
+</html>
