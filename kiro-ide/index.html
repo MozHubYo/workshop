@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiro IDE 工作坊</title>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .toc{position:sticky;top:0;z-index:100;margin:-40px -20px 20px;padding:10px 20px;background:rgba(248,249,250,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid #eee;display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center}
+        .toc a{display:inline-flex;align-items:center;gap:4px;padding:3px 8px 3px 3px;border-radius:14px;font-size:0.72rem;text-decoration:none;transition:background 0.15s;color:#636e72}
+        .toc a:hover{background:#f0edff;color:#6c5ce7;text-decoration:none}
+        .toc .toc-num{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;font-size:0.62rem;font-weight:700;flex-shrink:0;background:#eee;color:#b2bec3}
+        .toc .toc-sep{color:#dfe6e9;font-size:0.65rem;margin:0 1px}
+        section{scroll-margin-top:50px}
+        .section-divider{border:none;border-top:2px solid #f0edff;margin:48px 0}
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- 目錄導航 -->
+        <nav class="toc" aria-label="課程目錄">
+            <a href="#setup"><span class="toc-num">1</span>環境設置</a>
+            <span class="toc-sep">›</span>
+            <a href="#kiro-ui"><span class="toc-num">2</span>Kiro 介面</a>
+            <span class="toc-sep">›</span>
+            <a href="#mcp"><span class="toc-num">3</span>搜尋工具</a>
+            <span class="toc-sep">›</span>
+            <a href="#skill"><span class="toc-num">4</span>Skill</a>
+            <span class="toc-sep">›</span>
+            <a href="#playwright"><span class="toc-num">5</span>瀏覽器自動化</a>
+            <span class="toc-sep">›</span>
+            <a href="#survey"><span class="toc-num">6</span>問卷</a>
+        </nav>
+
+        <!-- ====== Section 1: 環境設置 ====== -->
+        <section id="setup">
+            <span class="badge">前置準備</span>
+            <h1>🛠️ 環境設置：安裝所有需要的工具</h1>
+            <p class="subtitle">照著做，十分鐘內把環境全部搞定</p>
+
+            <div class="card">
+                <h2><span class="icon">📥</span> 第一步：安裝 Kiro IDE</h2>
+                <p>前往 <a href="https://kiro.dev" target="_blank">kiro.dev</a> 官方網站，點擊 Download 按鈕，選擇你的作業系統版本下載安裝檔。</p>
+                <ol class="step-list">
+                    <li>安裝過程中，把 <strong>Other 區塊的選項全部打勾</strong>，之後就能通過右鍵啟動 Kiro。</li>
+                    <li>第一次開啟 Kiro，會要求你<strong>登入帳號</strong>。直接用你的 Google 帳號登入就可以了，最快最方便。</li>
+                    <li>如果安裝或使用過程中遇到問題，可以參考 AWS 官方的 <a href="https://aws.amazon.com/tw/events/taiwan/techblogs/" target="_blank"><strong>Kiro FAQ 與安裝指南</strong></a>，裡面有完整且可靠的說明。</li>
+                </ol>
+                <div class="screenshot">
+                    <img src="img/01-Add-Open-With-Kiro.png" alt="安裝 Kiro 時勾選右鍵選單選項">
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">🟢</span> 第二步：安裝 Node.js</h2>
+                <p>前往 <a href="https://nodejs.org/zh-tw/download" target="_blank">nodejs.org</a>，點擊下方的安裝程式，下載後安裝即可。</p>
+                <div class="screenshot">
+                    <img src="img/02-Node-JS.png" alt="Node.js 官網下載 LTS 版本">
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">🐍</span> 第三步：安裝 Python</h2>
+                <p>前往 <a href="https://www.python.org/downloads/" target="_blank">python.org/downloads</a>，點擊頁面上最新的 <strong>Python 3.14.x</strong> 安裝檔下載安裝。</p>
+                <p style="margin-top: 12px;">下載時不要按大按鈕(Python install manager)，點下面有底線的 <strong>Python 3.14.x</strong> 安裝檔即可。</p>
+                <div class="screenshot">
+                    <img src="img/03-Python.png" alt="Python 安裝時勾選 Add to PATH">
+                </div>
+                <p style="margin-top: 12px;">安裝時記得把最下面的 <strong>Add python.exe to PATH</strong> 打勾，這樣 Kiro 才能找到 Python。</p>
+                <div class="screenshot">
+                    <img src="img/07-PATH.png" alt="Python 安裝時勾選 Add python.exe to PATH">
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">🔑</span> 第四步：申請 Tavily API Key</h2>
+                <p>Tavily 是一個搜尋工具，裝好之後 Kiro 就能上網查最新資料。免費帳號每月有 <strong>1,000 次</strong>搜尋額度，不用綁信用卡。</p>
+                <ol class="step-list">
+                    <li>打開 <a href="https://app.tavily.com/home" target="_blank">app.tavily.com</a>，點 <strong>Sign Up</strong> 註冊帳號（可以用 Google 帳號直接登入）。</li>
+                    <li>登入後會看到你的 API Key。在 <strong>OPTIONS</strong> 中，點左邊第二個圖示就能複製 API Key。</li>
+                    <li style="color: #d63031;"><strong style="color: #d63031;">API Key 是你的帳號密碼，不要分享給別人，也不要貼在公開的地方。</strong></li>
+                </ol>
+                <div class="screenshot">
+                    <img src="img/05-Tavily-MCP.png" alt="Tavily 後台，顯示 API Key 的位置">
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- ====== Section 2: Kiro 介面 ====== -->
+        <section id="kiro-ui">
+            <span class="badge">新手上路</span>
+            <h1>🖥️ 打開 Kiro，認識你的工作環境</h1>
+            <p class="subtitle">開一個資料夾、看懂三個區塊、動手試一次就上手</p>
+
+            <div class="card">
+                <h2><span class="icon">📂</span> 怎麼打開 Kiro？</h2>
+                <p>在電腦上新建一個空白資料夾（名字隨便取），打開資料夾後在空白處點<strong>滑鼠右鍵</strong>。</p>
+                <div class="screenshot">
+                    <img src="img/08-Folder.png" alt="新建空白資料夾，右鍵點擊空白處">
+                </div>
+                <p style="margin-top: 12px;">如果右鍵選單裡沒有看到 Open with Kiro，點最下面的 <strong>Show more options</strong>。</p>
+                <div class="screenshot">
+                    <img src="img/09-more-options.png" alt="右鍵選單點擊 Show more options">
+                </div>
+                <p style="margin-top: 12px;">在展開的選單裡找到 <strong>Open with Kiro</strong>，點下去就會打開 Kiro。</p>
+                <div class="screenshot">
+                    <img src="img/10-Open-with-Kiro.png" alt="選擇 Open with Kiro 打開資料夾">
+                </div>
+                <div class="highlight-box" style="margin-top: 16px;">
+                    <p><strong>💡 每個專案用一個獨立的資料夾</strong></p>
+                    <p>AI 會根據資料夾裡的內容來理解用戶的需求，如果把所有東西混在同一個資料夾，AI 容易搞混。</p>
+                    <p>為了能讓 AI 專注於當前任務，建議每個新專案都要開一個新資料夾進行維護。</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">📸</span> 介面總覽</h2>
+                <p>打開 Kiro 之後，畫面長這樣。左邊放檔案，中間看內容，右邊跟 AI 講話。</p>
+                <div class="screenshot">
+                    <img src="img/04-Kiro-UI.png" alt="Kiro IDE 介面總覽，分為左中右三個區塊">
+                </div>
+            </div>
+
+            <div class="zone-grid">
+                <div class="zone-card">
+                    <div class="zone-label">📁 左邊｜檔案區</div>
+                    <p>你的檔案都在這裡。想找之前做過的東西，或看看 AI 幫你加了什麼新檔案，從左邊找就對了。</p>
+                </div>
+                <div class="zone-card">
+                    <div class="zone-label">✏️ 中間｜工作區</div>
+                    <p>AI 幫你寫好的東西會出現在這裡，你可以直接看結果，覺得哪裡不對也能自己改。</p>
+                </div>
+                <div class="zone-card">
+                    <div class="zone-label">💬 右邊｜對話區</div>
+                    <p>這裡就是你跟 AI 講話的地方，打中文告訴它你想幹嘛就好。我們課程中都用 <strong>Vibe</strong> 模式。</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">🚀</span> 現場體驗：檔案區就是你的資料夾</h2>
+                <p>左邊的檔案區不是什麼特別的東西，它就是你電腦裡的資料夾。做兩個小試驗就知道了：</p>
+                <ol class="step-list">
+                    <li>在桌面新建一個資料夾，叫 <strong>my-test</strong>。</li>
+                    <li>打開資料夾，在空白處點<strong>滑鼠右鍵</strong>，選 <strong>Show more options</strong> → <strong>Open with Kiro</strong>。</li>
+                </ol>
+                <p class="sub-step-title"><strong>試驗一：在 Kiro 裡新增檔案，去資料夾找</strong></p>
+                <ol class="step-list">
+                    <li>在 Kiro 右邊的對話區輸入：<strong>幫我建一個 hello.txt，內容寫「你好」</strong></li>
+                    <li>Kiro 會在左邊的檔案區產生一個 hello.txt。</li>
+                    <li>回到桌面，打開 my-test 資料夾，雙擊 hello.txt — 裡面寫的就是「你好」。</li>
+                </ol>
+                <p class="sub-step-title"><strong>試驗二：在資料夾裡改檔案，回 Kiro 看</strong></p>
+                <ol class="step-list">
+                    <li>在剛才打開的 hello.txt 裡，把「你好」改成 <strong>hello</strong>，然後存檔關閉。</li>
+                    <li>回到 Kiro，點一下左邊檔案區的 hello.txt。</li>
+                    <li>看中間的工作區 — 內容已經從「你好」變成 hello 了。</li>
+                </ol>
+                <p style="margin-top: 12px;">兩邊是<strong>同一個東西</strong>，Kiro 只是用不同的介面顯示你的資料夾而已。</p>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- ====== Section 3: MCP Tavily ====== -->
+        <section id="mcp">
+            <span class="badge">工具體驗 1/2</span>
+            <h1>🔌 讓 Kiro 學會上網搜尋</h1>
+            <p class="subtitle">幫 AI 接上搜尋工具，連結網路查詢最新資料</p>
+
+            <div class="card">
+                <h2><span class="icon">🧪</span> 先試試看</h2>
+                <p>在 Kiro 右邊的對話區輸入這個問題：</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-btn" data-copy-target="#weatherPrompt"></button>
+                    <div class="code-block">
+                        <pre id="weatherPrompt">今天西雅圖降雨機率是多少？</pre>
+                    </div>
+                </div>
+                <p style="margin-top: 12px;">它可能會說「我無法上網查詢即時資訊」，或者嘗試用內建的 Fetch 工具（一種上網的指令），拿到相對薄弱的資訊。這就是 AI 普遍遇到的問題：模型被訓練好之後，裡面的資料就凍結了，停在訓練完成的那一天。所以需要接上第三方工具，才能讓模型具備<strong>上網的能力</strong>。</p>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">💡</span> 接上第三方搜尋工具</h2>
+                <p>為了解決聯網的問題，本堂課程我們會使用 <strong>Tavily</strong>，一個專門給 AI 用的搜尋服務來作演示。</p>
+                <p>Tavily 免費帳號每月有 <strong>1,000 次</strong>搜尋額度，而且不用綁信用卡，對日常使用場景來說很夠用了。</p>
+                <p>市場上類似的工具也很多，大家課後可以自己再做研究，選擇自己偏好的搜尋工具。</p>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">⚙️</span> 設定搜尋工具</h2>
+                <ol class="step-list">
+                    <li>在 Kiro 畫面左邊的導航欄，選擇<strong>倒數第二個圖示</strong>（Kiro 的 logo）。</li>
+                    <li>點擊最下方的 <strong>MCP SERVERS</strong> 區域，再點右上角的 <strong>Open MCP Config</strong>。</li>
+                    <li>Kiro 會打開一個設定檔。把設定檔中的所有內容刪掉，然後把下方的設定碼完整貼上。</li>
+                </ol>
+                <div class="screenshot">
+                    <img src="img/06-MCP-Config.png" alt="MCP SERVERS 顯示 tavily Connected，代表設定成功">
+                </div>
+                <div class="code-block-wrapper">
+                    <button class="copy-btn" data-copy-target="#configOutput"></button>
+                    <div class="code-block">
+                        <pre id="configOutput">{
+  "mcpServers": {
+    "tavily": {
+      "command": "npx",
+      "args": ["-y", "tavily-mcp@latest"],
+      "disabled": false,
+      "autoApprove": [
+        "tavily-search",
+        "tavily-extract",
+        "tavily-map",
+        "tavily-crawl"
+      ],
+      "env": {
+        "TAVILY_API_KEY": "tvly-xxxxxxxxxx 每個用戶自己的密鑰"
+      }
+    }
+  }
+}</pre>
+                    </div>
+                </div>
+                <div style="margin: 16px 0;">
+                    <label for="apiKeyInput" class="text-input-label">複製代碼前先在這裡貼上你的 Tavily API Key</label>
+                    <input type="text" id="apiKeyInput" class="text-input" placeholder="tvly-xxxxxxxxxx">
+                </div>
+                <ol class="step-list">
+                    <li>完成更新後，完整關閉 Kiro 並重新開啟。回到 MCP 介面，檢查 Tavily 後方是否有出現綠色勾勾。</li>
+                    <li>常見的錯誤包含：代碼貼錯、沒有重新啟動 Kiro，或者 Node.js 沒有安裝好。</li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">🚀</span> 再試一次</h2>
+                <p>再問一次剛才的問題。成功設置的話，會發現 Kiro 呼叫了 Tavily，查詢了更完整的天氣資料。</p>
+                <div class="screenshot">
+                    <img src="img/11-MCP-demo.png" alt="Kiro 使用 Tavily 搜尋工具回覆即時天氣資料">
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">📋</span> 進階練習：做一份品牌分析報告</h2>
+                <div style="margin: 20px 0; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+                    <div>
+                        <label for="brandName" class="text-input-label-sm">品牌名稱</label>
+                        <input type="text" id="brandName" class="text-input text-input-sm" placeholder="Anker">
+                    </div>
+                    <div>
+                        <label for="brandCategory" class="text-input-label-sm">主營品類</label>
+                        <input type="text" id="brandCategory" class="text-input text-input-sm" placeholder="行動電源、充電器">
+                    </div>
+                    <div>
+                        <label for="brandMarkets" class="text-input-label-sm">銷售國家 / 站點</label>
+                        <input type="text" id="brandMarkets" class="text-input text-input-sm" placeholder="美國、日本、德國">
+                    </div>
+                </div>
+                <div class="code-block-wrapper">
+                    <button class="copy-btn" data-copy-target="#promptOutput"></button>
+                    <div class="code-block">
+                        <pre id="promptOutput">請幫我針對「___」這個品牌做一份分析報告。
+
+品牌資訊：
+- 品牌名稱：___
+- 主營品類：___
+- 目前銷售國家：___
+
+搜尋原則：每個主題最多搜尋 1-2 次就好，不用反覆追查，把時間留給分析。
+
+請涵蓋以下三個主題，並針對搜到的資料做深入解讀：
+
+1. 品牌概況：公司背景、主要產品線、品牌定位
+2. Amazon 表現：熱賣產品、定價策略、評價中看到的優缺點
+3. 近期動態與機會：近期新聞、市場趨勢，並給出你的觀察與建議
+
+請著重在「分析與洞察」，不要只是把搜到的資料條列出來，多加入你的推論與串聯。
+完成後把報告存成 report.html，用繁體中文撰寫，排版清楚好讀。</pre>
+                    </div>
+                </div>
+                <p style="margin-top: 16px;">複製後貼到 Kiro 對話區，AI 會上網搜尋你的品牌資料，整理成一份 HTML 報告。</p>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- ====== Section 4: Skill ====== -->
+        <section id="skill">
+            <span class="badge">工具體驗 2/2</span>
+            <h1>🧩 Skill：一鍵升級 AI 的專業能力</h1>
+            <p class="subtitle">不用寫程式、不用設定，裝上 Skill 就能讓 AI 變成各領域的專家</p>
+
+            <div class="card">
+                <h2><span class="icon">🤔</span> Skill 是什麼？</h2>
+                <p>簡單來說，Skill 就是寫給 AI 看的專案說明書，讓 AI 理解怎麼把一件事情做好，一種提煉於隱性智慧的顯性文檔。</p>
+                <div class="zone-grid" style="margin-top: 20px;">
+                    <div class="zone-card">
+                        <div class="zone-label">🙌 安裝零門檻</div>
+                        <p>不用寫程式、不用改設定檔，說一句話就能裝好。</p>
+                    </div>
+                    <div class="zone-card">
+                        <div class="zone-label">⚡ 即裝即用</div>
+                        <p>裝完直接生效，不需要累計或者沉澱更多使用記錄。</p>
+                    </div>
+                    <div class="zone-card">
+                        <div class="zone-label">📐 可被監督</div>
+                        <p>Skill 是純文字檔，可以藉由人工完成監察，判斷內容。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">🚀</span> 現場體驗：安裝 UI/UX 設計 Skill</h2>
+                <p class="sub-step-title"><strong>第一步：安裝 Skill</strong></p>
+                <p>在 Kiro 的對話區貼上以下指令：</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-btn" data-copy-target="#installSkillPrompt"></button>
+                    <div class="code-block"><pre id="installSkillPrompt">請幫我完成 UI/UX PRO MAX Skill 的安裝，使用以下腳本（請依照我的系統自動選擇）：
+
+Windows（PowerShell）：
+iwr -useb https://raw.githubusercontent.com/MozHubYo/kiro-skills-installer/main/install-ui-ux-pro-max.ps1 | iex
+
+macOS：
+curl -fsSL https://raw.githubusercontent.com/MozHubYo/kiro-skills-installer/main/install-ui-ux-pro-max.sh | bash
+
+執行完畢後，請確認 ~/.kiro/skills/ui-ux-pro-max 已存在，並告訴我結果。</pre></div>
+                </div>
+                <p style="margin-top: 16px;">安裝成功後，在左側面板的 <strong>AGENT STEERING & SKILLS</strong> 下方，Global 區域會出現 ui-ux-pro-max 這個 Skill：</p>
+                <div class="screenshot">
+                    <img src="img/12-UIUX.png" style="width: 100%;" alt="安裝成功後，在 AGENT STEERING & SKILLS 的 Global 區域可以看到 ui-ux-pro-max">
+                </div>
+                <div class="highlight-box">
+                    <p><strong>💡 如果 AI 回覆安裝失敗</strong></p>
+                    <p>最常見的兩個原因：Node.js 沒裝好（回第一頁確認），或是資料夾路徑有中文／空白（把專案搬到 <code>C:\kiro-test</code> 這種純英文路徑再試一次）。</p>
+                </div>
+
+                <p class="sub-step-title"><strong>第二步：使用 Skill </strong></p>
+                <p>只要在文字中，提到Skill，AI 就會自動去讀取相關的技能，進行優化。</p>
+                <p style="margin-top: 12px;">選好選項後，複製指令貼到對話區：</p>
+
+                <div class="prompt-builder">
+                    <div class="prompt-builder-options">
+                        <div class="option-group">
+                            <label class="option-label">📋 報告對象</label>
+                            <div id="audienceOptions" class="chip-group"></div>
+                        </div>
+                        <div class="option-group">
+                            <label class="option-label">🎨 設計風格</label>
+                            <div id="styleOptions" class="chip-group"></div>
+                        </div>
+                    </div>
+                    <div class="code-block-wrapper">
+                        <button class="copy-btn" data-copy-target="#optimizePromptOutput"></button>
+                        <div class="code-block">
+                            <pre id="optimizePromptOutput">使用 UI/UX PRO MAX Skill，對 report.html 進行以下優化：
+
+- 這份報告要給「___」看
+- 設計風格：___
+- 加入清楚的資訊層級：標題、小標、重點數據要一眼就能看到
+- 數據部分用視覺化的方式呈現（例如卡片、標籤、色塊區分）
+- 整體排版要專業、好讀，像一份正式的商業報告
+
+直接修改 report.html，用繁體中文。</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">🔍</span> 去哪裡找更多 Skill？</h2>
+                <p>很多人會把自己做的 Skill 分享到 GitHub (開源社群，可以想像是工程師的 Thread) 上，直接去 GitHub 逛是最快的。</p>
+                <p>GitHub 上的星星數（⭐）就像點讚，星星越多代表越多人覺得好用，剛開始挑 Skill 的時候可以參考。</p>
+
+                <p class="sub-step-title"><strong>🏢 官方出品：Anthropic Skills</strong></p>
+                <p>Anthropic 自己維護了一個 <a href="https://github.com/anthropics/skills" target="_blank">Skill 倉庫</a>，裡面有各種經過官方測試的 Skill</p>
+                <div class="screenshot">
+                    <img src="img/14-Anthropics-SKILL.png" style="width: 100%;" alt="Anthropic 官方 Skills GitHub 頁面">
+                </div>
+
+                <p class="sub-step-title"><strong>😂 同事 Skill</strong></p>
+                <p><a href="https://github.com/titanwings/colleague-skill" target="_blank"><strong>同事 Skill</strong></a> 則是最近 GitHub 上爆紅的SKILL，他可以通過歷史文件，模擬出同事的表現。</p>
+                <div class="screenshot">
+                    <img src="img/13-tong-shi-SKILL.png" style="width: 100%;" alt="Colleague Skill GitHub 頁面">
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- ====== Section 5: 瀏覽器自動化 ====== -->
+        <section id="playwright">
+            <span class="badge">綜合實戰</span>
+            <h1>🌐 實戰：用 AI 自動操作瀏覽器</h1>
+            <p class="subtitle">讓 AI 幫你開網頁、點按鈕、抓資料，把重複的瀏覽器操作變成自動化流程</p>
+
+            <div class="card">
+                <h2><span class="icon">🤔</span> Playwright CLI 是什麼？</h2>
+                <p><a href="https://github.com/microsoft/playwright-cli" target="_blank">Playwright CLI</a> 是微軟出品的工具，可以讓 AI 像人一樣操作瀏覽器：開網頁、填表單、截圖、抓資料。</p>
+                <p style="margin-top: 12px;">而且搭配<strong> Playwright CLI Skill</strong>，AI 就知道怎麼使用，不需要用戶記住指令。</p>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">📦</span> 安裝 Playwright CLI</h2>
+                <p style="margin-top: 12px;">在 Kiro 的對話區貼上以下指令，讓 AI 幫你一次搞定：</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-btn" data-copy-target="#installPlaywrightPrompt"></button>
+                    <div class="code-block"><pre id="installPlaywrightPrompt">請幫我完成 Playwright CLI 的安裝，使用以下腳本（請依照我的系統自動選擇）：
+
+Windows（PowerShell）：
+iwr -useb https://raw.githubusercontent.com/MozHubYo/kiro-skills-installer/main/install-playwright-cli.ps1 | iex
+
+macOS：
+curl -fsSL https://raw.githubusercontent.com/MozHubYo/kiro-skills-installer/main/install-playwright-cli.sh | bash
+
+執行完畢後，請確認 ~/.kiro/skills/playwright-cli 已存在，並執行 playwright-cli --version 告訴我版本號。</pre></div>
+                </div>
+                <p style="margin-top: 12px;">安裝成功後，可以在左側面板的 <strong>AGENT STEERING & SKILLS</strong> 看到 playwright-cli 這個 Skill。</p>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">🔑</span> Step 1：完成設置（登入）</h2>
+                <p style="margin-top: 12px;">很多網站需要登入才能操作。加上 <strong>--persistent</strong> 參數，瀏覽器就會像你平常用 Chrome 一樣記住登入狀態，關掉再開都還在。</p>
+                <p style="margin-top: 16px;">在 Kiro 的對話區貼上：</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-btn" data-copy-target="#step1Prompt"></button>
+                    <div class="code-block"><pre id="step1Prompt">用 Playwright CLI 打開瀏覽器，
+要加上 --headed（我要看到畫面）和 --persistent（保留登入狀態）這兩個參數，
+然後打開 https://www.amazon.com/。</pre></div>
+                </div>
+                <p style="margin-top: 12px;">瀏覽器會跳出來，你可以像平常一樣手動登入你的帳號。登入完成後，以後只要用同樣的指令開瀏覽器，登入狀態就會自動帶入，不需要額外操作。</p>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">🔍</span> Step 2：跟著 AI 一步一步抓競品評論</h2>
+                <p style="margin-top: 12px;">登入完成後，我們來實際操作一次，讓 AI 去 Amazon 抓一個產品的評論。</p>
+                <div style="margin: 20px 0;">
+                    <label for="asinInput" class="text-input-label">貼上你想查的產品 ASIN</label>
+                    <input type="text" id="asinInput" class="text-input" placeholder="B0D1XD1ZV3">
+                </div>
+                <div class="code-block-wrapper">
+                    <button class="copy-btn" data-copy-target="#reviewPromptOutput"></button>
+                    <div class="code-block">
+                        <pre id="reviewPromptOutput">請用目前開著的瀏覽器，幫我做以下操作：
+1. 打開這個 Amazon 產品頁面：https://www.amazon.com/dp/___
+2. 找到評論區，抓取最新的 5 則評論（評分、標題、內容、日期）
+3. 把結果整理成一份表格給我看</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">🔧</span> Step 3：把操作變成可重複執行的腳本</h2>
+                <p>上面的操作是「一次性」的，如果每天都要做同樣的事，寫成腳本，以後一鍵執行。</p>
+                <p style="margin-top: 16px;">在 Kiro 的對話區貼上：</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-btn" data-copy-target="#step3Prompt"></button>
+                    <div class="code-block"><pre id="step3Prompt">請把剛才抓評論的操作寫成一個 .ps1 腳本，
+檔名叫 scrape-reviews.ps1，
+讓我以後只要執行這個腳本，就能自動完成同樣的事。</pre></div>
+                </div>
+                <p style="margin-top: 12px;">AI 會自動生成 <strong>scrape-reviews.ps1</strong> 腳本檔案。以後要執行時，只要在終端機輸入：</p>
+                <div class="code-block-wrapper">
+                    <button class="copy-btn" data-copy-target="#runScript"></button>
+                    <div class="code-block"><pre id="runScript">./scrape-reviews.ps1</pre></div>
+                </div>
+                <p style="margin-top: 12px;">就能自動跑完整個流程，而且完全不花費 Token。</p>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- ====== Section 6: 問卷 ====== -->
+        <section id="survey">
+            <span class="badge">課後問卷</span>
+            <h1>📝 請幫我們填寫課後問卷</h1>
+            <p class="subtitle">花一分鐘讓我們知道你的想法，幫助我們把課程做得更好</p>
+
+            <div class="card" style="text-align: center;">
+                <h2><span class="icon">📱</span> 掃描 QR Code 填寫問卷</h2>
+                <div class="screenshot" style="margin-top: 24px;">
+                    <img id="survey-qr" alt="課後問卷 QR Code" style="max-width: 360px; width: 100%;">
+                </div>
+                <p style="margin-top: 20px; font-size: 1rem;">
+                    💻 用電腦上課的同學，<a id="survey-link" href="#" target="_blank" rel="noopener noreferrer">直接點我填問卷</a>
+                </p>
+            </div>
+        </section>
+
+    </div><!-- end .container -->
+
+    <script>
+        // ===== Section 3: API Key 互動 =====
+        var apiKeyInput = document.getElementById('apiKeyInput');
+        var configOutput = document.getElementById('configOutput');
+        var defaultKey = 'tvly-xxxxxxxxxx 每個用戶自己的密鑰';
+
+        function getConfigText(key) {
+            return '{\n  "mcpServers": {\n    "tavily": {\n      "command": "npx",\n      "args": ["-y", "tavily-mcp@latest"],\n      "disabled": false,\n      "autoApprove": [\n        "tavily-search",\n        "tavily-extract",\n        "tavily-map",\n        "tavily-crawl"\n      ],\n      "env": {\n        "TAVILY_API_KEY": "' + key + '"\n      }\n    }\n  }\n}';
+        }
+
+        apiKeyInput.addEventListener('input', function () {
+            var val = this.value.trim();
+            configOutput.textContent = getConfigText(val || defaultKey);
+        });
+
+        // ===== Section 3: 品牌分析互動 =====
+        var brandName = document.getElementById('brandName');
+        var brandCategory = document.getElementById('brandCategory');
+        var brandMarkets = document.getElementById('brandMarkets');
+        var promptOutput = document.getElementById('promptOutput');
+
+        function getPromptText(name, category, markets) {
+            return '請幫我針對「' + (name || '___') + '」這個品牌做一份分析報告。\n\n品牌資訊：\n- 品牌名稱：' + (name || '___') + '\n- 主營品類：' + (category || '___') + '\n- 目前銷售國家：' + (markets || '___') + '\n\n搜尋原則：每個主題最多搜尋 1-2 次就好，不用反覆追查，把時間留給分析。\n\n請涵蓋以下三個主題，並針對搜到的資料做深入解讀：\n\n1. 品牌概況：公司背景、主要產品線、品牌定位\n2. Amazon 表現：熱賣產品、定價策略、評價中看到的優缺點\n3. 近期動態與機會：近期新聞、市場趨勢，並給出你的觀察與建議\n\n請著重在「分析與洞察」，不要只是把搜到的資料條列出來，多加入你的推論與串聯。\n完成後把報告存成 report.html，用繁體中文撰寫，排版清楚好讀。';
+        }
+
+        function updatePrompt() {
+            promptOutput.textContent = getPromptText(brandName.value.trim(), brandCategory.value.trim(), brandMarkets.value.trim());
+        }
+
+        brandName.addEventListener('input', updatePrompt);
+        brandCategory.addEventListener('input', updatePrompt);
+        brandMarkets.addEventListener('input', updatePrompt);
+
+        // ===== Section 4: Skill 選項互動 =====
+        function makeSingleSelect(choices, containerId) {
+            var selected = '';
+            var container = document.getElementById(containerId);
+            var btns = [];
+            choices.forEach(function (item) {
+                var isObj = typeof item === 'object';
+                var label = isObj ? item.label : item;
+                var desc = isObj ? item.desc : null;
+                var value = isObj && item.value ? item.value : label;
+                var btn = document.createElement('button');
+                btn.className = 'chip';
+                if (desc) {
+                    btn.innerHTML = '<span class="chip-label">' + label + '</span><span class="chip-desc">' + desc + '</span>';
+                } else {
+                    btn.innerHTML = '<span class="chip-label">' + label + '</span>';
+                }
+                btn.addEventListener('click', function () {
+                    if (selected === value) { selected = ''; btn.classList.remove('active'); }
+                    else { selected = value; btns.forEach(function (b) { b.classList.remove('active'); }); btn.classList.add('active'); }
+                    updateOptimizePrompt();
+                });
+                btns.push(btn);
+                container.appendChild(btn);
+            });
+            return function () { return selected; };
+        }
+
+        var getAudience = makeSingleSelect(['老闆', '客戶', '投資人', '自己參考'], 'audienceOptions');
+        var getStyle = makeSingleSelect([
+            { label: '簡約留白', desc: 'Minimalism', value: 'Minimalism' },
+            { label: '毛玻璃透明', desc: 'Glassmorphism', value: 'Glassmorphism' },
+            { label: '方塊卡片', desc: 'Bento Grid', value: 'Bento Grid' },
+            { label: '深色質感', desc: 'Dark Mode', value: 'Dark Mode' },
+            { label: '扁平色塊', desc: 'Flat Design', value: 'Flat Design' }
+        ], 'styleOptions');
+
+        var optimizePromptOutput = document.getElementById('optimizePromptOutput');
+
+        function getOptimizePromptText(audience, style) {
+            return '使用 UI/UX PRO MAX Skill，對 report.html 進行以下優化：\n\n- 這份報告要給「' + (audience || '___') + '」看\n- 設計風格：' + (style || '___') + '\n- 加入清楚的資訊層級：標題、小標、重點數據要一眼就能看到\n- 數據部分用視覺化的方式呈現（例如卡片、標籤、色塊區分）\n- 整體排版要專業、好讀，像一份正式的商業報告\n\n直接修改 report.html，用繁體中文。';
+        }
+
+        function updateOptimizePrompt() {
+            optimizePromptOutput.textContent = getOptimizePromptText(getAudience(), getStyle());
+        }
+
+        // ===== Section 5: ASIN 互動 =====
+        var asinInput = document.getElementById('asinInput');
+        var reviewPromptOutput = document.getElementById('reviewPromptOutput');
+
+        function getReviewPromptText(asin) {
+            return '請用目前開著的瀏覽器，幫我做以下操作：\n1. 打開這個 Amazon 產品頁面：https://www.amazon.com/dp/' + (asin || '___') + '\n2. 找到評論區，抓取最新的 5 則評論（評分、標題、內容、日期）\n3. 把結果整理成一份表格給我看';
+        }
+
+        asinInput.addEventListener('input', function () {
+            reviewPromptOutput.textContent = getReviewPromptText(this.value.trim());
+        });
+
+        // ===== Section 6: 問卷 QR Code =====
+        (function () {
+            var now = new Date();
+            var y = now.getFullYear();
+            var m = String(now.getMonth() + 1).padStart(2, '0');
+            var d = String(now.getDate()).padStart(2, '0');
+            var dateStr = y + '' + m + '' + d;
+            var fullUrl = 'https://pulse.amazon/survey/IWDN6OM1?source=' + dateStr;
+            var qrApi = 'https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(fullUrl) + '&size=400x400&margin=0';
+            var img = document.getElementById('survey-qr');
+            var link = document.getElementById('survey-link');
+            if (img) img.src = qrApi;
+            if (link) link.href = fullUrl;
+        })();
+    </script>
+
+    <!-- Copy Button Script -->
+    <script>
+    (function () {
+        var COPY_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        var CHECK_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><polyline points="20 6 9 17 4 12"/></svg>';
+        function resetBtn(btn) { btn.innerHTML = COPY_ICON + '複製'; btn.classList.remove('copied'); }
+        function flashCopied(btn) { btn.innerHTML = CHECK_ICON + '已複製'; btn.classList.add('copied'); setTimeout(function () { resetBtn(btn); }, 1500); }
+        function handleClick(btn) {
+            var sel = btn.getAttribute('data-copy-target');
+            if (!sel) return;
+            var target = document.querySelector(sel);
+            if (!target) return;
+            var text = target.textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function () { flashCopied(btn); });
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = text; document.body.appendChild(ta); ta.select();
+                try { document.execCommand('copy'); flashCopied(btn); } catch (e) {}
+                document.body.removeChild(ta);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            var btns = document.querySelectorAll('.copy-btn[data-copy-target]');
+            for (var i = 0; i < btns.length; i++) {
+                (function (btn) { if (!btn.innerHTML.trim()) resetBtn(btn); btn.addEventListener('click', function () { handleClick(btn); }); })(btns[i]);
+            }
+        });
+    })();
+    </script>
+
+    <!-- Lightbox Script -->
+    <script>
+    (function () {
+        var overlay = document.createElement('div');
+        overlay.id = 'lightbox-overlay';
+        var img = document.createElement('img');
+        overlay.appendChild(img);
+        document.body.appendChild(overlay);
+        document.addEventListener('click', function (e) {
+            var target = e.target;
+            if (target.tagName === 'IMG' && target.closest('.screenshot')) {
+                img.src = target.src; img.alt = target.alt; overlay.classList.add('active');
+            }
+        });
+        overlay.addEventListener('click', function () { overlay.classList.remove('active'); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') overlay.classList.remove('active'); });
+    })();
+    </script>
+</body>
+</html>
