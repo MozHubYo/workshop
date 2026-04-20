@@ -323,7 +323,10 @@ iwr -useb https://raw.githubusercontent.com/MozHubYo/kiro-skills-installer/main/
 macOS：
 curl -fsSL https://raw.githubusercontent.com/MozHubYo/kiro-skills-installer/main/install-ui-ux-pro-max.sh | bash
 
-執行完畢後，請確認 ~/.kiro/skills/ui-ux-pro-max 已存在，並告訴我結果。</pre></div>
+執行完畢後，請：
+1. 確認 ~/.kiro/skills/ui-ux-pro-max/SKILL.md 存在
+2. 確認 SKILL.md 開頭有 YAML front-matter（--- 開頭、包含 name: 和 description:）
+3. 提醒我執行「Developer: Reload Window」讓 Kiro 重新掃描 Skills，然後在左側面板 AGENT STEERING & SKILLS > Global 確認有出現 ui-ux-pro-max</pre></div>
                 </div>
                 <p style="margin-top: 16px;">安裝成功後，在左側面板的 <strong>AGENT STEERING & SKILLS</strong> 下方，Global 區域會出現 ui-ux-pro-max 這個 Skill：</p>
                 <div class="screenshot">
@@ -412,7 +415,11 @@ iwr -useb https://raw.githubusercontent.com/MozHubYo/kiro-skills-installer/main/
 macOS：
 curl -fsSL https://raw.githubusercontent.com/MozHubYo/kiro-skills-installer/main/install-playwright-cli.sh | bash
 
-執行完畢後，請確認 ~/.kiro/skills/playwright-cli 已存在，並執行 playwright-cli --version 告訴我版本號。</pre></div>
+執行完畢後，請：
+1. 確認 ~/.kiro/skills/playwright-cli/SKILL.md 存在
+2. 確認 SKILL.md 開頭有 YAML front-matter（--- 開頭、包含 name: 和 description:）
+3. 執行 playwright-cli --version 告訴我版本號
+4. 提醒我執行「Developer: Reload Window」讓 Kiro 重新掃描 Skills，然後在左側面板 AGENT STEERING & SKILLS > Global 確認有出現 playwright-cli</pre></div>
                 </div>
                 <p style="margin-top: 12px;">安裝成功後，可以在左側面板的 <strong>AGENT STEERING & SKILLS</strong> 看到 playwright-cli 這個 Skill。</p>
             </div>
