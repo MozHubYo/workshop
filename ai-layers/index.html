@@ -8,171 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
     <style>
-        :root {
-            --bg-light: #ffffff;
-            --bg-dark: #0d1117;
-            --text-light: #24292f;
-            --text-dark: #e6edf3;
-            --border-light: #d0d7de;
-            --border-dark: #30363d;
-            --code-bg-light: #f6f8fa;
-            --code-bg-dark: #161b22;
-            --link-light: #0969da;
-            --link-dark: #58a6ff;
-            --accent-grad: linear-gradient(90deg, rgba(138, 43, 226, 1) 0%, rgba(255, 0, 150, 1) 50%, rgba(255, 140, 0, 1) 100%);
-            --tip-bg: #fff8dc;
-            --tip-border: #ffd700;
-            --warning-bg: #fff3cd;
-            --warning-border: #ffc107;
-            --success-bg: #d4edda;
-            --success-border: #28a745;
-            --error-bg: #f8d7da;
-            --error-border: #dc3545;
-        }
-
-        body {
-            font-family: 'Huninn', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            margin: 0;
-            background-color: var(--bg-light);
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
-        main {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 80px 20px;
-            background: var(--bg-dark);
-            color: var(--text-dark);
-            border-bottom: 5px solid;
-            border-image: var(--accent-grad) 1;
-        }
-
-        header h1 {
-            font-family: 'Huninn', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            font-size: 2.2em;
-            margin: 0;
-            background: var(--accent-grad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        h2 {
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 0.3em;
-            margin-top: 50px;
-            font-size: 1.5em;
-        }
-
-        h3 {
-            margin-top: 30px;
-            color: var(--link-light);
-        }
-
-        h4 {
-            margin-top: 25px;
-            font-size: 1.1em;
-        }
-
-        a {
-            color: var(--link-light);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        ul,
-        ol {
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        pre {
-            background-color: var(--code-bg-light);
-            padding: 16px;
-            border-radius: 6px;
-            overflow-x: auto;
-            border: 1px solid var(--border-light);
-            margin: 16px 0;
-            font-size: 0.85em;
-            line-height: 1.4;
-        }
-
-        code {
-            font-family: "SF Mono", "Consolas", "Liberation Mono", Menlo, Courier, monospace;
-            font-size: 0.9em;
-            background-color: var(--code-bg-light);
-            padding: 2px 4px;
-            border-radius: 3px;
-        }
-
-        pre code {
-            background-color: transparent;
-            padding: 0;
-        }
-
-        .tip-box {
-            background-color: var(--tip-bg);
-            border-left: 4px solid var(--tip-border);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 6px 6px 0;
-        }
-
-        .warning-box {
-            background-color: var(--warning-bg);
-            border-left: 4px solid var(--warning-border);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 6px 6px 0;
-        }
-
-        .success-box {
-            background-color: var(--success-bg);
-            border-left: 4px solid var(--success-border);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 6px 6px 0;
-        }
-
-        .error-box {
-            background-color: var(--error-bg);
-            border-left: 4px solid var(--error-border);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 6px 6px 0;
-        }
-
-        .tip-box strong,
-        .warning-box strong,
-        .success-box strong,
-        .error-box strong {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 1.1em;
-        }
-
-        .section-icon {
-            font-size: 1.2em;
-            margin-right: 8px;
-        }
-
-        .key-point {
-            font-weight: bold;
-            color: #8a2be2;
-        }
+        /* ai-layers 獨有樣式（通用樣式在 ../shared.css） */
 
         .important-tip {
             background: linear-gradient(135deg, #fff8dc 0%, #ffeaa7 100%);
@@ -201,29 +39,6 @@
             overflow-x: auto;
             white-space: pre;
             line-height: 1.3;
-        }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        .comparison-table th {
-            background-color: var(--code-bg-light);
-            padding: 12px;
-            text-align: left;
-            border: 1px solid var(--border-light);
-        }
-
-        .comparison-table td {
-            padding: 12px;
-            border: 1px solid var(--border-light);
-            vertical-align: top;
-        }
-
-        .comparison-table tr:nth-child(even) {
-            background-color: #f8f9fa;
         }
 
         .tool-card {
@@ -295,15 +110,6 @@
             background-color: #f8f9fa;
         }
 
-        .footer {
-            margin-top: 60px;
-            padding: 30px 0;
-            border-top: 1px solid var(--border-light);
-            text-align: center;
-            color: #666;
-            font-size: 0.9em;
-        }
-
         .principle-list {
             background-color: #f8f9fa;
             border-radius: 8px;
@@ -324,19 +130,6 @@
         }
 
         /* ========== 黑金配色圖表樣式 ========== */
-
-        /* 黑金色變數 */
-        :root {
-            --diagram-bg: #1a1a2e;
-            --diagram-bg-alt: #16213e;
-            --gold-primary: #d4af37;
-            --gold-light: #f4e4ba;
-            --gold-dark: #b8960c;
-            --gold-border: #c9a227;
-            --text-on-dark: #e8e8e8;
-            --box-bg: rgba(212, 175, 55, 0.1);
-            --box-border: rgba(212, 175, 55, 0.4);
-        }
 
         /* 主架構圖樣式 */
         .arch-diagram {

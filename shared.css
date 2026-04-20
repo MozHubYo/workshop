@@ -1,0 +1,317 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Workshop Shared Styles
+   適用於：ai-layers / llm / api / kiro-rules / kiro-cli
+   不適用於：kiro-ide（外部教材，保留獨立樣式）/ 首頁
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+    /* 底色與文字 */
+    --bg-light: #ffffff;
+    --bg-dark: #0d1117;
+    --text-light: #24292f;
+    --text-dark: #e6edf3;
+    --text-on-dark: #e8e8e8;
+
+    /* 邊框與分隔線 */
+    --border-light: #d0d7de;
+
+    /* 程式碼區塊 */
+    --code-bg-light: #f6f8fa;
+
+    /* 連結 */
+    --link-light: #0969da;
+
+    /* 強調色：標題彩虹漸層 */
+    --accent-grad: linear-gradient(90deg, rgba(138, 43, 226, 1) 0%, rgba(255, 0, 150, 1) 50%, rgba(255, 140, 0, 1) 100%);
+
+    /* 提示框配色 */
+    --tip-bg: #fff8dc;
+    --tip-border: #ffd700;
+    --warning-bg: #fff3cd;
+    --warning-border: #ffc107;
+    --success-bg: #d4edda;
+    --success-border: #28a745;
+
+    /* 黑金圖示配色 */
+    --diagram-bg: #1a1a2e;
+    --diagram-bg-alt: #16213e;
+    --gold-primary: #d4af37;
+    --gold-light: #f4e4ba;
+    --gold-dark: #b8960c;
+    --gold-border: #c9a227;
+}
+
+/* ─── Reset & Base ────────────────────────────────────── */
+
+body {
+    font-family: 'Huninn', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    line-height: 1.75;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 60px 20px;
+}
+
+a {
+    color: var(--link-light);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul,
+ol {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+/* ─── Header（深色背景 + 漸層標題 + 彩虹底線） ──────────── */
+/* 採用 ai-layers 的對稱比例與簡潔字體 */
+
+header {
+    text-align: center;
+    padding: 80px 20px;
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    border-bottom: 5px solid;
+    border-image: var(--accent-grad) 1;
+}
+
+header h1 {
+    font-family: 'Huninn', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 2.2em;
+    margin: 0;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header .subtitle {
+    margin-top: 20px;
+    font-size: 1.1em;
+    color: var(--text-dark);
+    opacity: 0.9;
+}
+
+header .meta {
+    font-size: 0.85em;
+    color: var(--text-dark);
+    opacity: 0.5;
+    margin-top: 20px;
+}
+
+/* ─── 標題階層 ─────────────────────────────────────────── */
+
+h2 {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--gold-border);
+    padding-bottom: 15px;
+    margin-top: 60px;
+    margin-bottom: 25px;
+    font-size: 1.5em;
+}
+
+h3 {
+    margin-top: 35px;
+    font-size: 1.15em;
+    color: #444;
+    border-left: 4px solid var(--gold-dark);
+    padding-left: 15px;
+}
+
+h4 {
+    margin-top: 25px;
+    font-size: 1.1em;
+}
+
+/* h2 旁邊的圓形圖示（金色邊框） */
+.section-icon {
+    font-size: 1em;
+    margin-right: 15px;
+    background: var(--bg-dark);
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid var(--gold-primary);
+    flex-shrink: 0;
+}
+
+/* ─── 強調與標記 ─────────────────────────────────────── */
+
+.key-point {
+    font-weight: bold;
+    color: #8a2be2;
+}
+
+.highlight {
+    background: linear-gradient(120deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.0) 100%);
+    border-bottom: 2px solid var(--gold-primary);
+    padding: 0 4px;
+    font-weight: bold;
+}
+
+/* ─── 程式碼 ────────────────────────────────────────── */
+
+pre {
+    background-color: var(--code-bg-light);
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    border: 1px solid var(--border-light);
+    margin: 16px 0;
+    font-size: 0.85em;
+    line-height: 1.4;
+}
+
+code {
+    font-family: "SF Mono", "Consolas", "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9em;
+    background-color: var(--code-bg-light);
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* ─── 提示框（tip / warning / success） ────────────── */
+
+.tip-box {
+    background-color: var(--tip-bg);
+    border-left: 4px solid var(--tip-border);
+    padding: 15px 20px;
+    margin: 25px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.warning-box {
+    background-color: var(--warning-bg);
+    border-left: 4px solid var(--warning-border);
+    padding: 15px 20px;
+    margin: 25px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.success-box {
+    background-color: var(--success-bg);
+    border-left: 4px solid var(--success-border);
+    padding: 15px 20px;
+    margin: 25px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.tip-box strong,
+.warning-box strong,
+.success-box strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.05em;
+}
+
+/* 金色洞見框（從 llm 教材遷移） */
+.insight-box {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.03) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-left: 4px solid var(--gold-primary);
+    border-radius: 0 10px 10px 0;
+    padding: 25px;
+    margin: 30px 0;
+}
+
+.insight-box h4 {
+    margin-top: 0;
+    color: var(--gold-dark);
+}
+
+/* ─── 表格（統一黑金風格） ────────────────────────── */
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.comparison-table th {
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--gold-light);
+    padding: 14px 12px;
+    text-align: center;
+    border-bottom: 2px solid var(--gold-border);
+    font-size: 0.95em;
+}
+
+.comparison-table td {
+    padding: 16px 12px;
+    color: var(--text-on-dark);
+    vertical-align: top;
+    line-height: 1.6;
+}
+
+.comparison-table td strong {
+    color: var(--gold-light);
+}
+
+/* ─── 頁尾 ───────────────────────────────────────── */
+
+.footer {
+    margin-top: 80px;
+    text-align: center;
+    color: #888;
+    font-size: 0.9em;
+    padding-top: 40px;
+    border-top: 1px solid #eee;
+}
+
+/* ─── 響應式 ─────────────────────────────────────── */
+
+@media (max-width: 640px) {
+    header {
+        padding: 60px 20px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    header .subtitle {
+        font-size: 1em;
+    }
+
+    h2 {
+        font-size: 1.3em;
+        margin-top: 40px;
+    }
+
+    .section-icon {
+        width: 36px;
+        height: 36px;
+        margin-right: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
