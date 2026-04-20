@@ -3,74 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiro 工作坊</title>
+    <title>Kiro Workshop</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Noto Sans TC',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#2d3436;line-height:1.8;padding:60px 20px}
-        .container{max-width:720px;margin:0 auto;text-align:center}
-        h1{font-size:2.2rem;margin-bottom:8px}
-        .subtitle{color:#636e72;font-size:1rem;margin-bottom:48px}
-        .course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;text-align:left}
-        .course-card{background:#fff;border-radius:16px;padding:32px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:2px solid transparent;transition:all 0.2s;text-decoration:none;color:inherit;display:block}
-        .course-card:hover{border-color:#6c5ce7;box-shadow:0 4px 20px rgba(108,92,231,0.15);transform:translateY(-2px)}
-        .course-icon{font-size:2.5rem;margin-bottom:12px}
-        .course-card h2{font-size:1.2rem;margin-bottom:8px;color:#2d3436}
-        .course-card p{font-size:0.9rem;color:#636e72}
-        .course-badge{display:inline-block;background:#6c5ce7;color:#fff;padding:3px 12px;border-radius:20px;font-size:0.75rem;margin-top:12px}
-        .footer{margin-top:60px;font-size:0.85rem;color:#b2bec3}
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --ink: #171717;
+            --ink-muted: #525252;
+            --ink-faint: #a3a3a3;
+            --rule: #e5e5e5;
+            --accent: #B8935E;
+            --bg: #fafaf9;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            font-feature-settings: "kern", "liga", "calt";
+        }
+
+        .wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 96px 32px 80px;
+        }
+
+        /* Header */
+        .site-head {
+            margin-bottom: 72px;
+        }
+
+        .mark {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            font-size: 44px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .lede {
+            font-size: 17px;
+            color: var(--ink-muted);
+            max-width: 560px;
+            line-height: 1.65;
+        }
+
+        /* Index heading */
+        .index-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .index-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+
+        .index-count {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: var(--ink-faint);
+            letter-spacing: 0.1em;
+        }
+
+        /* Course list */
+        .course-list { list-style: none; }
+
+        .course-row {
+            display: grid;
+            grid-template-columns: 56px 1fr auto;
+            gap: 20px;
+            padding: 28px 0;
+            border-bottom: 1px solid var(--rule);
+            align-items: baseline;
+        }
+
+        .course-row:last-child { border-bottom: none; }
+
+        .num {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink-faint);
+            letter-spacing: 0.05em;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .meat h2 {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+            color: var(--ink);
+        }
+
+        .meat p {
+            font-size: 15px;
+            color: var(--ink-muted);
+            line-height: 1.6;
+            max-width: 520px;
+        }
+
+        .tag {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            white-space: nowrap;
+            padding-top: 4px;
+        }
+
+        /* Footer */
+        .site-foot {
+            margin-top: 96px;
+            padding-top: 32px;
+            border-top: 1px solid var(--rule);
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: var(--ink-faint);
+            letter-spacing: 0.05em;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .wrap { padding: 64px 24px 56px; }
+            h1 { font-size: 32px; }
+            .lede { font-size: 16px; }
+            .site-head { margin-bottom: 56px; }
+            .course-row {
+                grid-template-columns: 40px 1fr;
+                gap: 16px;
+                padding: 24px 0;
+            }
+            .tag { grid-column: 2; padding-top: 0; margin-top: 8px; }
+            .meat h2 { font-size: 18px; }
+            .meat p { font-size: 14px; }
+            .site-foot { flex-direction: column; gap: 8px; margin-top: 64px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 Kiro 工作坊</h1>
-        <p class="subtitle">用 AI 提升工作效率，從零開始學會使用 Kiro IDE</p>
+    <main class="wrap">
+        <header class="site-head">
+            <div class="mark">Kiro · Workshop</div>
+            <h1>把重複的事情<br>交給 AI 做。</h1>
+            <p class="lede">一系列關於 Kiro、AI 工作流與自動化的實戰課程。從零開始設置，到把日常工作交給腳本完成。</p>
+        </header>
 
-        <div class="course-grid">
-            <div class="course-card">
-                <div class="course-icon">🖥️</div>
-                <h2>Kiro IDE 入門</h2>
-                <p>從安裝到實戰，學會用 Kiro IDE 搭配 MCP 搜尋工具、Skill 和瀏覽器自動化，完成品牌分析報告。</p>
-                <span class="course-badge">6 個單元</span>
-            </div>
-
-            <div class="course-card">
-                <div class="course-icon">⌨️</div>
-                <h2>Kiro CLI 自動化</h2>
-                <p>用 Kiro 的 CLI 模式打造自動化工作流，從詩詞生成到排程執行，體驗 Headless AI 的威力。</p>
-                <span class="course-badge">實戰課程</span>
-            </div>
-
-            <div class="course-card">
-                <div class="course-icon">🪝</div>
-                <h2>Hook 與 Steering</h2>
-                <p>Kiro IDE 的進階技巧。用 Steering 訂定規則，用 Hook 自動觸發，把工作流固化成可重複執行的流程。</p>
-                <span class="course-badge">進階技巧</span>
-            </div>
-
-            <div class="course-card">
-                <div class="course-icon">🧭</div>
-                <h2>從「會用」到「懂用」</h2>
-                <p>搞懂 LLM、CLI、IDE、Web 的差異。理解工具與 LLM 的分層關係，才知道什麼情境該用什麼工具。</p>
-                <span class="course-badge">觀念釐清</span>
-            </div>
-
-            <div class="course-card">
-                <div class="course-icon">🧠</div>
-                <h2>LLM 底層邏輯</h2>
-                <p>拓展認知疆界。搞懂 LLM 的底層運作機制、為什麼 AI 表現不穩定，以及人類該扮演什麼角色。</p>
-                <span class="course-badge">深入理解</span>
-            </div>
-
-            <div class="course-card">
-                <div class="course-icon">🔌</div>
-                <h2>從 HTML 到 API</h2>
-                <p>不用再按下載按鈕，不用再等別人傳 Excel。API 才是最優雅的拿資料方式，三個實戰題帶你上手。</p>
-                <span class="course-badge">實作練習</span>
-            </div>
+        <div class="index-head">
+            <span class="index-title">Contents · 課程目錄</span>
+            <span class="index-count">06</span>
         </div>
 
-        <p class="footer">© 2026 Kiro Workshop</p>
-    </div>
+        <ol class="course-list">
+            <li class="course-row">
+                <span class="num">01</span>
+                <div class="meat">
+                    <h2>Kiro IDE 入門</h2>
+                    <p>從安裝到實戰。搭配 MCP 搜尋工具、Skill 和瀏覽器自動化，完成一份品牌分析報告。</p>
+                </div>
+                <span class="tag">入門</span>
+            </li>
+
+            <li class="course-row">
+                <span class="num">02</span>
+                <div class="meat">
+                    <h2>Kiro CLI 自動化</h2>
+                    <p>用 Kiro 的 CLI 模式打造自動化工作流，從詩詞生成到排程執行，體驗 Headless AI 的威力。</p>
+                </div>
+                <span class="tag">實戰</span>
+            </li>
+
+            <li class="course-row">
+                <span class="num">03</span>
+                <div class="meat">
+                    <h2>Hook 與 Steering</h2>
+                    <p>Kiro IDE 的進階技巧。用 Steering 訂定規則，用 Hook 自動觸發，把工作流固化成可重複執行的流程。</p>
+                </div>
+                <span class="tag">進階</span>
+            </li>
+
+            <li class="course-row">
+                <span class="num">04</span>
+                <div class="meat">
+                    <h2>從「會用」到「懂用」</h2>
+                    <p>搞懂 LLM、CLI、IDE、Web 的差異。理解工具與 LLM 的分層關係，才知道什麼情境該用什麼工具。</p>
+                </div>
+                <span class="tag">觀念</span>
+            </li>
+
+            <li class="course-row">
+                <span class="num">05</span>
+                <div class="meat">
+                    <h2>LLM 底層邏輯</h2>
+                    <p>拓展認知疆界。搞懂 LLM 的底層運作機制、為什麼 AI 表現不穩定，以及人類該扮演什麼角色。</p>
+                </div>
+                <span class="tag">理論</span>
+            </li>
+
+            <li class="course-row">
+                <span class="num">06</span>
+                <div class="meat">
+                    <h2>從 HTML 到 API</h2>
+                    <p>不用再按下載按鈕，不用再等別人傳 Excel。API 才是最優雅的拿資料方式，三個實戰題帶你上手。</p>
+                </div>
+                <span class="tag">實作</span>
+            </li>
+        </ol>
+
+        <footer class="site-foot">
+            <span>© 2026 Moz</span>
+            <span>Last updated · Apr 2026</span>
+        </footer>
+    </main>
 </body>
 </html>
