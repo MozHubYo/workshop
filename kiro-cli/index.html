@@ -1531,7 +1531,7 @@ while True:
 <pre><code>subprocess.run([
     "kiro-cli", "chat",
     "--no-interactive",
-    "--trust-tools=read,write",
+    "--trust-all-tools",
     "--agent", "sp-expo-analyst",   # ← Agent 名稱，對應 .kiro/agents/sp-expo-analyst.md
     prompt,
 ], cwd=str(ROOT_DIR))</code></pre>
