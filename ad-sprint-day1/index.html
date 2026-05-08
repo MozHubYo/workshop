@@ -1,0 +1,2344 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>為什麼一個廣泛單字，勝過十個短語｜廣告關鍵詞拓展深度講義</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Serif+TC:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #faf8f3;
+    --paper-tint: #f3eee2;
+    --dark: #1a1a1a;
+    --ink: #1a1a1a;
+    --ink-soft: #3a3a3a;
+    --ink-mute: #6b6b6b;
+    --ink-faint: #8a8a8a;
+    --rule: #d8d2c4;
+    --rule-soft: #e6e1d4;
+    --accent: #c45a2e;
+    --accent-deep: #9c4420;
+    --deepblue: #0f3d5f;
+    --good: #2e5d3e;
+    --bad: #9c4420;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif TC', 'Cormorant Garamond', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(196, 90, 46, 0.3);
+    transition: border-color .2s;
+  }
+  a:hover { border-bottom-color: var(--accent); }
+
+  .col {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .bleed { width: 100%; }
+
+  /* ───────── Masthead ───────── */
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    padding-top: 28px;
+    padding-bottom: 18px;
+  }
+  .masthead-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .masthead-title {
+    font-family: 'Playfair Display', 'Noto Serif TC', serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .masthead-meta {
+    font-family: 'Inter', 'Noto Serif TC', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .masthead-meta span + span::before {
+    content: "·";
+    margin: 0 10px;
+    color: var(--rule);
+  }
+
+  /* ───────── Hero ───────── */
+  .hero { padding-top: 72px; padding-bottom: 56px; }
+  .kicker {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif TC', 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1.18;
+    letter-spacing: -1.5px;
+    margin: 0 0 28px;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .deck {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 21px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    font-weight: 400;
+    margin: 0 0 40px;
+    max-width: 660px;
+  }
+  .byline {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+  }
+  .byline strong { color: var(--ink); font-weight: 600; }
+
+  /* ───────── Section heads ───────── */
+  .section-mark {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    margin: 0 0 28px;
+    color: var(--ink);
+  }
+  h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.4;
+    margin: 48px 0 16px;
+    color: var(--ink);
+  }
+  h4 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+
+  /* ───────── Body text ───────── */
+  p { margin: 0 0 22px; }
+  .lede p {
+    font-size: 19px;
+    line-height: 1.78;
+    color: var(--ink-soft);
+  }
+  .lede p:first-child::first-letter {
+    font-family: 'Playfair Display', 'Noto Serif TC', serif;
+    font-size: 72px;
+    float: left;
+    line-height: 0.85;
+    padding: 6px 10px 0 0;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .body p strong, .body strong { color: var(--ink); font-weight: 600; }
+  code, .mono {
+    font-family: 'JetBrains Mono', 'Cormorant Garamond', monospace;
+    font-size: 0.92em;
+    background: var(--paper-tint);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--ink);
+  }
+
+  section { padding-top: 72px; padding-bottom: 16px; }
+  section.tight { padding-top: 48px; }
+
+  /* ───────── Pull quote ───────── */
+  .pull {
+    border-left: 3px solid var(--accent);
+    padding: 6px 0 6px 24px;
+    margin: 32px 0;
+    font-family: 'Noto Serif TC', serif;
+    font-style: italic;
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .pull cite {
+    display: block;
+    margin-top: 14px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  /* ───────── Match-type matrix ───────── */
+  .matrix {
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+  .matrix table { width: 100%; border-collapse: collapse; font-family: 'Noto Serif TC', serif; }
+  .matrix th {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 600;
+    text-align: left;
+    padding: 14px 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .matrix td {
+    padding: 16px 8px;
+    border-bottom: 1px solid var(--rule-soft);
+    font-size: 15px;
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+  .matrix td.first { color: var(--ink); font-weight: 600; font-size: 16px; }
+  .matrix td.first .en {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--ink-mute);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .matrix tr:last-child td { border-bottom: none; }
+
+  /* ───────── Eligibility list (kids unicorn toys) ───────── */
+  .elig {
+    margin: 28px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .elig .row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: baseline;
+  }
+  .elig .row:last-child { border-bottom: none; }
+  .elig .term {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .elig .term .gloss { color: var(--ink-mute); font-family: 'Noto Serif TC', serif; font-size: 13px; margin-left: 10px; }
+  .elig .yes { color: var(--good); font-weight: 600; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; }
+  .elig .no  { color: var(--accent-deep); font-weight: 600; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ───────── Asymmetry / Venn-style two-column ───────── */
+  .venn {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+  }
+  .venn .col-card {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .venn .col-card:last-child { border-bottom: none; }
+  .venn .col-card .lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .venn .col-card h4 { margin-bottom: 6px; }
+  .venn .col-card .sub { color: var(--ink-mute); font-size: 14px; margin-bottom: 12px; }
+  .venn .col-card ul { padding-left: 18px; margin: 0; font-size: 15px; color: var(--ink-soft); line-height: 1.85; }
+  .venn .col-card .item-mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ink); }
+
+  /* ───────── When-2gram cases ───────── */
+  .cases {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 32px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .case {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .case .head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+  .case .head .badge {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .case.no .badge { color: var(--accent-deep); }
+  .case.yes .badge { color: var(--good); }
+  .case h4 { margin: 0; }
+  .case p { font-size: 15.5px; color: var(--ink-soft); margin: 0 0 10px; }
+  .case .ex { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ink-mute); padding-left: 14px; border-left: 2px solid var(--rule); display: block; margin-top: 8px; }
+
+  /* ───────── Inline SVG diagrams ───────── */
+  .diagram {
+    margin: 36px 0;
+    padding: 24px 0 20px;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+  .diagram svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+  .diagram-cap {
+    margin: 18px 0 0;
+    font-family: 'Noto Serif TC', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-mute);
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  /* ───────── Filter / loss bars (legacy, no longer used) ───────── */
+  .filter {
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+  }
+  .filter .step {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 60px 110px 1fr;
+    gap: 18px;
+    align-items: baseline;
+  }
+  .filter .step:last-child { border-bottom: none; }
+  .filter .num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .filter .bar {
+    height: 8px;
+    background: var(--accent);
+    border-radius: 4px;
+  }
+  .filter .step.s1 .bar { width: 100%; opacity: 1; }
+  .filter .step.s2 .bar { width: 60%; opacity: .8; }
+  .filter .step.s3 .bar { width: 28%; opacity: .55; }
+  .filter .step.s4 .bar { width: 10%; opacity: .35; }
+  .filter h4 { margin: 0 0 4px; font-size: 17px; }
+  .filter p { font-size: 14.5px; color: var(--ink-soft); margin: 0; line-height: 1.6; }
+
+  /* ───────── Cost variables (statbar style) ───────── */
+  .costbar {
+    background: var(--ink);
+    color: #f5f0e4;
+    padding: 56px 0;
+    margin: 48px 0;
+  }
+  .costbar-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(245, 240, 228, 0.55);
+    margin-bottom: 28px;
+  }
+  .costbar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 24px;
+  }
+  .cost-item { border-top: 1px solid rgba(245, 240, 228, 0.2); padding-top: 14px; }
+  .cost-item .var {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: rgba(245, 240, 228, 0.55);
+    margin-bottom: 4px;
+  }
+  .cost-item h4 {
+    font-family: 'Noto Serif TC', serif;
+    color: #fff;
+    font-size: 18px;
+    margin: 0 0 8px;
+  }
+  .cost-item .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: rgba(245, 240, 228, 0.6);
+    font-size: 14px;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .cost-item p {
+    font-size: 14px;
+    color: rgba(245, 240, 228, 0.78);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .cost-item .verdict {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 12px;
+    display: block;
+  }
+  .cost-item.note { background: rgba(196, 90, 46, 0.08); padding: 14px; margin: -14px; border-top: 1px solid var(--accent); }
+
+  /* ───────── Pillars (consumer / platform / product) ───────── */
+  .pillars {
+    margin: 24px 0;
+  }
+  .pillar {
+    padding: 28px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .pillar:last-child { border-bottom: 1px solid var(--rule); }
+  .pillar-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .pillar-num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+  .pillar h4 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -0.3px;
+  }
+  .pillar h4 .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ink-mute);
+    font-size: 17px;
+    margin-left: 8px;
+  }
+  .pillar p {
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin: 0 0 10px;
+  }
+  .pillar ul {
+    padding-left: 18px;
+    margin: 8px 0 0;
+    font-size: 14.5px;
+    line-height: 1.85;
+    color: var(--ink-mute);
+  }
+  .pillar ul .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--ink-faint);
+    margin-left: 6px;
+  }
+
+  /* ───────── Listing vs review (two-up) ───────── */
+  .copy-vs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+  }
+  .copy-vs .side {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .copy-vs .side:last-child { border-bottom: none; }
+  .copy-vs .side .lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .copy-vs .side.bad .lbl { color: var(--ink-mute); }
+  .copy-vs .side.good .lbl { color: var(--accent); }
+  .copy-vs ul { margin: 0; padding-left: 18px; font-size: 15px; line-height: 1.95; color: var(--ink-soft); }
+  .copy-vs ul li { margin-bottom: 4px; }
+  .copy-vs ul .en { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; color: var(--ink); }
+  .copy-vs ul .gloss { color: var(--ink-mute); font-size: 14px; margin-left: 8px; font-style: italic; }
+  .copy-vs .footnote { font-size: 14px; color: var(--ink-mute); font-style: italic; margin: 12px 0 0; }
+
+  /* ───────── Pipeline (4 stages) ───────── */
+  .pipeline {
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+  }
+  .pipeline .stage {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 110px 1fr 130px;
+    gap: 24px;
+    align-items: baseline;
+  }
+  .pipeline .stage:last-child { border-bottom: none; }
+  .pipeline .stage-mark {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+  .pipeline h4 { margin: 0 0 6px; font-size: 17px; }
+  .pipeline p { margin: 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.65; }
+  .pipeline .src {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    text-align: right;
+  }
+
+  /* ───────── Campaign structure (good vs bad tree) ───────── */
+  .struct {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+  }
+  .struct .box {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .struct .box:last-child { border-bottom: none; }
+  .struct .box .lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .struct .box.bad .lbl { color: var(--accent-deep); }
+  .struct .box.good .lbl { color: var(--good); }
+  .struct .box h4 { margin-bottom: 8px; font-size: 18px; }
+  .struct .box p { font-size: 15px; color: var(--ink-soft); margin: 0 0 10px; }
+  .struct .tree {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--ink);
+    margin: 12px 0;
+    padding: 14px 16px;
+    background: var(--paper-tint);
+    border-radius: 4px;
+  }
+  .struct .tree .note {
+    color: var(--ink-mute);
+    font-family: 'Noto Serif TC', serif;
+    font-style: italic;
+    font-size: 13px;
+  }
+  .struct .verdict {
+    font-size: 14px;
+    color: var(--ink);
+    font-style: italic;
+    margin: 0;
+  }
+  .struct .verdict.bad { color: var(--accent-deep); }
+  .struct .verdict.good { color: var(--good); }
+
+  /* ───────── Funnel (3 stages) ───────── */
+  .funnel {
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+  }
+  .funnel .stage {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .funnel .stage:last-child { border-bottom: none; }
+  .funnel-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+  .funnel-num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+  .funnel h4 {
+    font-size: 22px;
+    margin: 0;
+  }
+  .funnel h4 .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ink-mute);
+    font-size: 17px;
+    margin-left: 8px;
+  }
+  .funnel p { font-size: 15.5px; color: var(--ink-soft); margin: 0 0 10px; }
+  .funnel .match {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ───────── Investing analogy (2 col) ───────── */
+  .invest {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+  }
+  .invest .col-card {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .invest .col-card:last-child { border-bottom: none; }
+  .invest .col-card .lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .invest .col-card h4 { margin-bottom: 12px; font-size: 19px; }
+  .invest .col-card p { font-size: 15.5px; color: var(--ink-soft); margin: 0 0 10px; }
+  .invest .equation {
+    font-family: 'Noto Serif TC', serif;
+    font-style: italic;
+    font-size: 19px;
+    color: var(--ink);
+    text-align: center;
+    padding: 24px 0;
+    margin: 24px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .invest .equation b { color: var(--accent); font-style: normal; font-weight: 700; }
+
+  /* ───────── Action steps ───────── */
+  .actions {
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+  }
+  .actions .a {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 18px;
+  }
+  .actions .a:last-child { border-bottom: none; }
+  .actions .week {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+  .actions h4 { margin: 0 0 10px; font-size: 18px; }
+  .actions p { font-size: 15px; color: var(--ink-soft); margin: 0 0 6px; line-height: 1.7; }
+
+  /* ───────── Glossary ───────── */
+  .glossary { margin: 32px 0; }
+  .glossary dl { margin: 0; border-top: 1px solid var(--rule); }
+  .glossary div {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .glossary dt {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .glossary dd {
+    margin: 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .glossary dd .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--ink-mute);
+  }
+
+  /* ───────── Coda dark block ───────── */
+  .coda {
+    background: var(--ink);
+    color: #f5f0e4;
+    padding: 72px 0 56px;
+    margin-top: 96px;
+  }
+  .coda .section-mark {
+    color: rgba(245, 240, 228, 0.5);
+    border-bottom-color: rgba(245, 240, 228, 0.15);
+  }
+  .coda h2 { color: #fff; }
+  .coda p { color: rgba(245, 240, 228, 0.78); }
+  .coda .pull { color: rgba(245, 240, 228, 0.92); border-left-color: var(--accent); }
+  .coda .pull cite { color: rgba(245, 240, 228, 0.5); }
+  .coda .colophon {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(245, 240, 228, 0.15);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245, 240, 228, 0.45);
+  }
+
+  /* ───────── Toolkit / Bookmarklet card ───────── */
+  .bookmarklet-card {
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding: 36px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .bookmarklet-card .bm-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .bookmarklet-card .bm-button {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: 22px 28px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-bottom: none;
+    border-radius: 4px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: grab;
+    user-select: none;
+    transition: background .2s, transform .2s;
+    box-shadow: 0 2px 0 var(--accent-deep);
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .bookmarklet-card .bm-button:hover {
+    background: var(--accent);
+    border-bottom: none;
+    transform: translateY(-1px);
+  }
+  .bookmarklet-card .bm-button:active {
+    cursor: grabbing;
+    transform: translateY(0);
+  }
+  .bookmarklet-card .bm-hint {
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: var(--paper-tint);
+    border-left: 2px solid var(--accent);
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    color: var(--ink-mute);
+    line-height: 1.65;
+    font-style: italic;
+  }
+  .bookmarklet-card .bm-pwd {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 14px;
+    align-items: baseline;
+  }
+  .bookmarklet-card .bm-pwd-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 700;
+  }
+  .bookmarklet-card .bm-pwd-toggle {
+    background: var(--paper-tint);
+    border: 1px dashed var(--rule);
+    border-bottom: 1px dashed var(--rule);
+    padding: 8px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .2s;
+    border-radius: 3px;
+    min-width: 140px;
+    text-align: center;
+  }
+  .bookmarklet-card .bm-pwd-toggle:hover {
+    background: var(--accent);
+    color: var(--paper);
+    border-color: var(--accent);
+  }
+  .bookmarklet-card .bm-pwd-real { display: none; }
+  .bookmarklet-card .bm-pwd-toggle.is-revealed .bm-pwd-mask { display: none; }
+  .bookmarklet-card .bm-pwd-toggle.is-revealed .bm-pwd-real { display: inline; }
+  .bookmarklet-card .bm-pwd-toggle.is-copied {
+    background: var(--good);
+    color: #fff;
+    border-color: var(--good);
+  }
+  .bookmarklet-card .bm-pwd-hint {
+    grid-column: 1 / -1;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-style: italic;
+    margin-top: 4px;
+    transition: color .2s;
+  }
+  .bookmarklet-card .bm-meta { padding-top: 6px; }
+  .bookmarklet-card .bm-step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 14px;
+    padding: 12px 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .bookmarklet-card .bm-step:first-child { border-top: none; padding-top: 4px; }
+  .bookmarklet-card .bm-step-num {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .bookmarklet-card .bm-step-h {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .bookmarklet-card .bm-step-p {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    color: var(--ink-mute);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ───────── Survey (QR) ───────── */
+  .survey {
+    margin: 32px 0;
+    padding: 36px 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 36px;
+    align-items: center;
+  }
+  .survey .qr-frame {
+    background: #fff;
+    border: 1px solid var(--rule);
+    padding: 14px;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .survey .qr-frame img { max-width: 100%; height: auto; display: block; }
+  .survey .qr-meta { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-mute); margin-top: 8px; text-align: center; }
+  .survey h4 { margin: 0 0 12px; font-size: 20px; }
+  .survey p { font-size: 15px; color: var(--ink-soft); margin: 0 0 10px; }
+  .survey .survey-btn {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 12px 28px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-bottom: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    transition: background .2s;
+  }
+  .survey .survey-btn:hover {
+    background: var(--accent);
+    border-bottom: none;
+  }
+
+  /* ───────── Ornament ───────── */
+  .ornament {
+    text-align: center;
+    margin: 56px 0;
+    color: var(--rule);
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    letter-spacing: 8px;
+  }
+
+  /* ───────── Responsive ───────── */
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .hero h1 { font-size: 36px; letter-spacing: -0.8px; }
+    .deck { font-size: 18px; }
+    h2 { font-size: 26px; }
+    .costbar-grid { grid-template-columns: 1fr; }
+    .filter .step { grid-template-columns: 40px 80px 1fr; gap: 12px; }
+    .pipeline .stage { grid-template-columns: 1fr; gap: 8px; }
+    .pipeline .src { text-align: left; }
+    .actions .a { grid-template-columns: 1fr; gap: 6px; }
+    .survey { grid-template-columns: 1fr; gap: 24px; }
+    .survey .qr-frame { margin: 0 auto; }
+    .glossary div { grid-template-columns: 90px 1fr; gap: 12px; }
+    .bookmarklet-card { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ───────── Masthead ───────── -->
+<header class="bleed masthead">
+  <div class="col">
+    <div class="masthead-inner">
+      <div class="masthead-title">廣告衝刺班</div>
+      <div class="masthead-meta">
+        <span>Day 1</span>
+        <span>關鍵詞拓展</span>
+        <span>官方培訓講義</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ───────── Hero ───────── -->
+<section class="bleed hero">
+  <div class="col">
+    <div class="kicker">Day 1 · 第一講</div>
+    <h1>為什麼一個廣泛單字，<br><em>勝過十個短語</em></h1>
+    <p class="deck">
+      多數新手賣家把廣告預算花在錯的地方：花在追求精度，而不是放大投放量。本篇從亞馬遜後台的匹配規則出發，重新校準你的直覺，也說明你拿到的關鍵詞報告為什麼長這個樣子。
+    </p>
+    <div class="byline">
+      亞馬遜官方培訓團隊　|　廣告衝刺班 Day 1　|　關鍵詞拓展課
+    </div>
+  </div>
+</section>
+
+<!-- ───────── Lede ───────── -->
+<section class="tight">
+  <div class="col lede">
+    <p>
+      過去一年，我們替數百位台灣賣家跑過關鍵詞報告，發現幾乎每位新手在投放階段都遭遇相同的兩道心牆。一是怕詞投得太多，預算會被燒光；二是相信投得「越精準越好」，於是把心力花在挑短語、做排除，把該打開的水龍頭反而關小。
+    </p>
+    <p>
+      這兩個直覺，在亞馬遜廣告的規則裡同時是錯的。決定每日花費的，是預算上限與每次點擊出價，與投放詞數沒有直接關係；亞馬遜的競價機制與個人化推薦，本來就會替賣家過濾大半的流量。賣家真正能掌握的，只有漏斗最上層的水量。
+    </p>
+    <p>
+      本文從亞馬遜的匹配機制出發，推到投放結構與績效追蹤，最後回到行動清單。這不是一份操作手冊，而是一張你在每次後台改設定前，可以拿出來校準直覺的地圖。
+    </p>
+  </div>
+</section>
+
+<div class="col"><div class="ornament">◆ ◆ ◆</div></div>
+
+<!-- ───────── Line · 領取報告入口 ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">領取報告 · 第一步</div>
+    <h2>先加官方 Line，才能拿到關鍵詞報告</h2>
+    <div class="body">
+      <p>
+        我們會把你的兩千個關鍵詞 CSV，透過官方 Line 帳號傳給你。在開始閱讀本文之前，請先掃下面的 QR Code 加入好友；如果你已經加過了，可直接往下看內容。
+      </p>
+
+      <div class="survey">
+        <div>
+          <div class="qr-frame"><img src="Line.jpg" alt="官方 Line QR Code"></div>
+          <div class="qr-meta">Scan to add · 掃碼加好友</div>
+        </div>
+        <div>
+          <h4>掃 QR Code 加入官方 Line</h4>
+          <p>
+            打開 Line App，從右上角的「加入好友 → 行動條碼」進入掃描器，對準左方 QR Code 即可加入。
+          </p>
+          <p>
+            加好友後依指示登記資訊，1–2 個工作天內你會收到專屬於你 ASIN 的關鍵詞報告。後續上課內容、新工具上線、課後問答也都會透過 Line 發布。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="col"><div class="ornament">◆ ◆ ◆</div></div>
+
+<!-- ───────── 01 · The Mechanism ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">01 · The Mechanism</div>
+    <h2>三種匹配，三種觸發</h2>
+    <div class="body">
+      <p>
+        亞馬遜廣告後台，每個關鍵詞都必須選一種匹配方式：<strong>廣泛匹配（Broad Match）、詞組匹配（Phrase Match）、精準匹配（Exact Match）</strong>。三者的差別不在出價，也不在規模，而在「亞馬遜怎麼判定一個消費者搜尋詞算不算打中你」。
+      </p>
+      <p>
+        把這條判定規則弄清楚，後面所有的投放策略才有基礎。把它弄錯，再多的關鍵詞與預算都只是猜測。
+      </p>
+
+      <figure class="diagram diagram-match">
+        <svg viewBox="0 0 760 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="廣泛、詞組、精準三種匹配方式對比">
+          <defs>
+            <style>
+              .mt-row-h { font-family: 'Noto Serif TC', serif; font-size: 18px; font-weight: 600; fill: #1a1a1a; }
+              .mt-row-en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; fill: #8a8a8a; }
+              .mt-kw-tag { font-family: 'Inter', sans-serif; font-size: 9px; fill: #c45a2e; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
+              .mt-kw { font-family: 'JetBrains Mono', monospace; font-size: 13px; fill: #1a1a1a; }
+              .mt-search-tag { font-family: 'Inter', sans-serif; font-size: 9px; fill: #6b6b6b; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
+              .mt-search { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; fill: #1a1a1a; }
+              .mt-result-yes { font-family: 'Inter', sans-serif; font-size: 10px; fill: #2e5d3e; font-weight: 700; letter-spacing: 1px; }
+              .mt-result-no { font-family: 'Inter', sans-serif; font-size: 10px; fill: #9c4420; font-weight: 700; letter-spacing: 1px; }
+              .mt-rule-line { stroke: #d8d2c4; stroke-width: 1; }
+              .mt-divider { stroke: #1a1a1a; stroke-width: 1.5; }
+              .mt-soft { stroke: #e6e1d4; stroke-width: 1; }
+              .mt-scale-tag { font-family: 'Inter', sans-serif; font-size: 9px; fill: #8a8a8a; letter-spacing: 1.5px; text-transform: uppercase; }
+              .mt-bar-broad { fill: #c45a2e; }
+              .mt-bar-phrase { fill: #c45a2e; opacity: 0.55; }
+              .mt-bar-exact { fill: #c45a2e; opacity: 0.22; }
+              .mt-rule { font-family: 'Noto Serif TC', serif; font-size: 12.5px; fill: #6b6b6b; }
+            </style>
+          </defs>
+
+          <!-- header row -->
+          <text x="20" y="22" class="mt-search-tag">匹配方式</text>
+          <text x="200" y="22" class="mt-search-tag">關鍵詞 = "coffee grinder"</text>
+          <text x="200" y="38" class="mt-search-tag">→ 哪些搜尋會被觸發？</text>
+          <text x="660" y="22" class="mt-search-tag" text-anchor="middle">流量規模</text>
+          <line x1="20" y1="48" x2="740" y2="48" class="mt-divider"/>
+
+          <!-- ===== Row 1: BROAD ===== -->
+          <g transform="translate(0, 70)">
+            <text x="20" y="20" class="mt-row-h">廣泛匹配</text>
+            <text x="20" y="38" class="mt-row-en">Broad</text>
+            <text x="20" y="62" class="mt-rule">所有字都要在</text>
+            <text x="20" y="80" class="mt-rule">順序可任意</text>
+            <text x="20" y="98" class="mt-rule">中間可加字</text>
+
+            <!-- search examples -->
+            <g transform="translate(180, 0)">
+              <text x="0" y="14" class="mt-kw">"coffee grinder"</text>
+              <text x="0" y="32" class="mt-kw-tag">會觸發</text>
+
+              <text x="0" y="56" class="mt-search">manual coffee grinder</text>
+              <text x="380" y="56" class="mt-result-yes" text-anchor="end">✓</text>
+
+              <text x="0" y="76" class="mt-search">coffee burr grinder for espresso</text>
+              <text x="380" y="76" class="mt-result-yes" text-anchor="end">✓</text>
+
+              <text x="0" y="96" class="mt-search">grinder coffee（順序顛倒也行）</text>
+              <text x="380" y="96" class="mt-result-yes" text-anchor="end">✓</text>
+
+              <text x="0" y="116" class="mt-search">coffee bean mill（同義詞展開）</text>
+              <text x="380" y="116" class="mt-result-yes" text-anchor="end">✓</text>
+            </g>
+
+            <!-- volume bar -->
+            <rect x="600" y="40" width="120" height="20" class="mt-bar-broad"/>
+            <text x="660" y="80" text-anchor="middle" class="mt-scale-tag">最大</text>
+          </g>
+
+          <line x1="20" y1="200" x2="740" y2="200" class="mt-rule-line"/>
+
+          <!-- ===== Row 2: PHRASE ===== -->
+          <g transform="translate(0, 220)">
+            <text x="20" y="20" class="mt-row-h">詞組匹配</text>
+            <text x="20" y="38" class="mt-row-en">Phrase</text>
+            <text x="20" y="62" class="mt-rule">按字面順序</text>
+            <text x="20" y="80" class="mt-rule">前後可加字</text>
+            <text x="20" y="98" class="mt-rule">中間不可插字</text>
+
+            <g transform="translate(180, 0)">
+              <text x="0" y="14" class="mt-kw">"coffee grinder"</text>
+              <text x="0" y="32" class="mt-kw-tag">會觸發</text>
+
+              <text x="0" y="56" class="mt-search">best coffee grinder 2026</text>
+              <text x="380" y="56" class="mt-result-yes" text-anchor="end">✓</text>
+
+              <text x="0" y="76" class="mt-search">coffee grinder for home</text>
+              <text x="380" y="76" class="mt-result-yes" text-anchor="end">✓</text>
+
+              <text x="0" y="96" class="mt-search">coffee burr grinder（中間插字）</text>
+              <text x="380" y="96" class="mt-result-no" text-anchor="end">✗</text>
+
+              <text x="0" y="116" class="mt-search">grinder for coffee（順序錯）</text>
+              <text x="380" y="116" class="mt-result-no" text-anchor="end">✗</text>
+            </g>
+
+            <rect x="630" y="40" width="60" height="20" class="mt-bar-phrase"/>
+            <text x="660" y="80" text-anchor="middle" class="mt-scale-tag">中</text>
+          </g>
+
+          <line x1="20" y1="350" x2="740" y2="350" class="mt-rule-line"/>
+
+          <!-- ===== Row 3: EXACT ===== -->
+          <g transform="translate(0, 370)">
+            <text x="20" y="20" class="mt-row-h">精準匹配</text>
+            <text x="20" y="38" class="mt-row-en">Exact</text>
+            <text x="20" y="62" class="mt-rule">完全相同</text>
+            <text x="20" y="80" class="mt-rule">前後不可加字</text>
+            <text x="20" y="98" class="mt-rule">只接受單複數</text>
+
+            <g transform="translate(180, 0)">
+              <text x="0" y="14" class="mt-kw">"coffee grinder"</text>
+              <text x="0" y="32" class="mt-kw-tag">會觸發</text>
+
+              <text x="0" y="56" class="mt-search">coffee grinder</text>
+              <text x="380" y="56" class="mt-result-yes" text-anchor="end">✓</text>
+
+              <text x="0" y="76" class="mt-search">coffee grinders（複數）</text>
+              <text x="380" y="76" class="mt-result-yes" text-anchor="end">✓</text>
+
+              <text x="0" y="96" class="mt-search">best coffee grinder（前面加字）</text>
+              <text x="380" y="96" class="mt-result-no" text-anchor="end">✗</text>
+
+              <text x="0" y="116" class="mt-search">manual coffee grinder</text>
+              <text x="380" y="116" class="mt-result-no" text-anchor="end">✗</text>
+            </g>
+
+            <rect x="650" y="40" width="20" height="20" class="mt-bar-exact"/>
+            <text x="660" y="80" text-anchor="middle" class="mt-scale-tag">最小</text>
+          </g>
+        </svg>
+        <figcaption class="diagram-cap">由廣到精的順序：每嚴一層，能命中的搜尋空間就縮小一截。</figcaption>
+      </figure>
+
+      <p>亞馬遜廣告的官方說法是這樣寫的：</p>
+
+      <blockquote class="pull">
+        廣泛匹配可獲得最廣的觸及範圍，會展示你的廣告給<strong>任何順序</strong>包含相關搜尋詞的消費者，並涵蓋<strong>變體、同義詞、相關詞</strong>。
+        <cite>Amazon Advertising · advertising.amazon.com</cite>
+      </blockquote>
+
+      <p>
+        重點在「任何順序」與「相關詞」這兩個動詞。它們把廣泛匹配的邊界推得，比多數賣家想像中寬得多。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 02 · The Asymmetry ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">02 · The Asymmetry</div>
+    <h2>廣泛不是「任一字命中」</h2>
+    <div class="body">
+      <p>
+        廣泛匹配最常見的誤解，是把它讀成「只要有一個字打中就行」。事實正好相反。亞馬遜把你的關鍵詞，當成一張<strong>「且」條件清單</strong>，三個字代表三個都得在的條件，缺一不可。
+      </p>
+      <p>
+        舉一個業界最常被引用的範例：你用廣泛匹配投了關鍵詞 <code>kids unicorn toys</code>（兒童獨角獸玩具）。下面五種消費者搜尋，會分別發生什麼事：
+      </p>
+
+      <div class="elig">
+        <div class="row">
+          <span class="term">unicorn toys for kids<span class="gloss">給兒童的獨角獸玩具</span></span>
+          <span class="yes">✓ 觸發</span>
+        </div>
+        <div class="row">
+          <span class="term">kids plush unicorn toy<span class="gloss">兒童絨毛獨角獸玩具</span></span>
+          <span class="yes">✓ 觸發</span>
+        </div>
+        <div class="row">
+          <span class="term">my little pony unicorn for kids<span class="gloss">同義詞展開後仍命中</span></span>
+          <span class="yes">✓ 觸發</span>
+        </div>
+        <div class="row">
+          <span class="term">kids toys<span class="gloss">少了 unicorn</span></span>
+          <span class="no">✗ 不觸發</span>
+        </div>
+        <div class="row">
+          <span class="term">unicorn toys<span class="gloss">少了 kids</span></span>
+          <span class="no">✗ 不觸發</span>
+        </div>
+      </div>
+
+      <p>
+        順著這條規則往下推，會得出一個違反多數賣家直覺的結論：<strong>關鍵詞越短，能命中的搜尋空間越大</strong>。同樣是廣泛匹配，「coffee」和「coffee grinder」這兩個關鍵詞的覆蓋差異是這樣的：
+      </p>
+
+      <figure class="diagram diagram-set">
+        <svg viewBox="0 0 760 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="1-Gram 與 2-Gram 守備範圍對比">
+          <defs>
+            <style>
+              .sd-outer { fill: rgba(196, 90, 46, 0.12); stroke: #c45a2e; stroke-width: 1.5; }
+              .sd-inner { fill: rgba(196, 90, 46, 0.30); stroke: #c45a2e; stroke-width: 1.5; }
+              .sd-tag-outer { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; fill: #c45a2e; font-weight: 700; }
+              .sd-name-outer { font-family: 'JetBrains Mono', monospace; font-size: 16px; fill: #1a1a1a; font-weight: 500; }
+              .sd-name-inner { font-family: 'JetBrains Mono', monospace; font-size: 14px; fill: #1a1a1a; font-weight: 500; }
+              .sd-cond { font-family: 'Noto Serif TC', serif; font-size: 12px; fill: #6b6b6b; font-style: italic; }
+              .sd-item { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; fill: #1a1a1a; }
+              .sd-item-out { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; fill: #3a3a3a; }
+              .sd-axis { stroke: #d8d2c4; stroke-width: 1; }
+              .sd-callout { font-family: 'Noto Serif TC', serif; font-size: 13px; fill: #1a1a1a; font-style: italic; }
+              .sd-arrow { stroke: #c45a2e; stroke-width: 1.2; fill: none; }
+              .sd-num-tag { font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; fill: #8a8a8a; font-weight: 600; }
+            </style>
+          </defs>
+
+          <!-- ===== Outer set: ALL searches containing "coffee" ===== -->
+          <ellipse cx="280" cy="240" rx="270" ry="210" class="sd-outer"/>
+
+          <!-- header for outer -->
+          <text x="20" y="32" class="sd-tag-outer">1-Gram · 廣泛單字</text>
+          <text x="20" y="56" class="sd-name-outer">"coffee"</text>
+          <text x="20" y="76" class="sd-cond">一個條件，命中所有含 coffee 的搜尋。</text>
+
+          <!-- search items inside outer set, outside inner -->
+          <text x="60" y="120" class="sd-item-out">coffee maker</text>
+          <text x="60" y="140" class="sd-item-out">coffee filter</text>
+          <text x="60" y="160" class="sd-item-out">cold brew coffee</text>
+          <text x="60" y="180" class="sd-item-out">organic coffee beans</text>
+          <text x="60" y="200" class="sd-item-out">coffee for camping</text>
+          <text x="60" y="220" class="sd-item-out">iced coffee</text>
+          <text x="60" y="370" class="sd-item-out">coffee shop near me</text>
+          <text x="60" y="390" class="sd-item-out">decaf coffee pods</text>
+          <text x="60" y="410" class="sd-item-out">flavored coffee syrup</text>
+
+          <!-- ===== Inner set: must contain coffee AND grinder ===== -->
+          <ellipse cx="380" cy="280" rx="140" ry="110" class="sd-inner"/>
+
+          <!-- header for inner -->
+          <text x="290" y="180" class="sd-tag-outer" style="opacity:0.9">2-Gram · 兩字短語</text>
+          <text x="290" y="200" class="sd-name-inner">"coffee grinder"</text>
+
+          <!-- search items inside inner -->
+          <text x="290" y="240" class="sd-item">coffee grinder</text>
+          <text x="290" y="258" class="sd-item">manual coffee grinder</text>
+          <text x="290" y="276" class="sd-item">burr coffee grinder</text>
+          <text x="290" y="294" class="sd-item">coffee grinder for espresso</text>
+          <text x="290" y="312" class="sd-item">commercial coffee grinder</text>
+
+          <!-- ===== Right-side annotations ===== -->
+          <line x1="555" y1="60" x2="600" y2="60" class="sd-axis"/>
+          <text x="610" y="40" class="sd-num-tag">Outer set</text>
+          <text x="610" y="60" font-family="Noto Serif TC" font-size="14" font-weight="600" fill="#1a1a1a">投廣泛 coffee</text>
+          <text x="610" y="80" class="sd-cond">守備整個圈，全部觸發。</text>
+
+          <!-- arrow pointing into inner set -->
+          <line x1="555" y1="280" x2="525" y2="280" class="sd-arrow"/>
+          <polygon points="520,280 530,275 530,285" fill="#c45a2e"/>
+          <text x="565" y="260" class="sd-num-tag">Inner set</text>
+          <text x="565" y="280" font-family="Noto Serif TC" font-size="14" font-weight="600" fill="#1a1a1a">投廣泛 coffee grinder</text>
+          <text x="565" y="300" class="sd-cond">只守內圈，外圈詞無法觸發。</text>
+
+          <!-- ===== Bottom verdict ===== -->
+          <line x1="20" y1="450" x2="740" y2="450" class="sd-axis"/>
+          <text x="20" y="473" class="sd-callout">內圈 ⊂ 外圈：投廣泛單字 coffee，coffee grinder 守備的詞都已經涵蓋。</text>
+        </svg>
+        <figcaption class="diagram-cap">同時投這兩個關鍵詞，第二個能命中的，第一個早就命中過。這是匹配規則的直接推論。</figcaption>
+      </figure>
+
+      <p>
+        在數學上，<strong>「coffee grinder」廣泛的守備範圍，是「coffee」廣泛守備範圍的子集合</strong>。同時投這兩個關鍵詞，第二個能命中的，第一個早就命中過。這不是經驗法則，是匹配規則的直接推論。
+      </p>
+      <p>
+        N-Gram（N 個字組成的詞）這個術語，後面會反覆出現。你只需要記得：1-Gram 是單字，2-Gram 是兩字短語。<strong>1-Gram 廣泛的守備範圍，嚴格大於同字組成的 2-Gram 廣泛</strong>。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 03 · When 2-gram matters ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">03 · When Two-Word Matters</div>
+    <h2>那短語什麼時候才該出場</h2>
+    <div class="body">
+      <p>
+        把上面這條邏輯倒過來推，賣家可以得到一條判斷：如果你還在拓量階段、想替廣告組蒐集數據，沒理由投兩字短語的廣泛匹配；如果你已經有資料、要把好詞放大，短語才開始有意義。
+      </p>
+
+      <div class="cases">
+        <div class="case no">
+          <div class="head"><span class="badge">不必要</span><h4>當你還在廣泛匹配的拓量階段</h4></div>
+          <p>單字廣泛已經涵蓋全部空間。多投兩字短語，只是把同一份曝光花兩次預算，還會讓兩個關鍵詞互搶出價。</p>
+          <span class="ex">已投廣泛 coffee → 再投廣泛 coffee grinder ✗</span>
+        </div>
+        <div class="case yes">
+          <div class="head"><span class="badge">有必要</span><h4>升級到詞組或精準匹配做收割時</h4></div>
+          <p>從搜尋詞報告找出真正高轉換的兩三字短語，用詞組匹配鎖順序、用精準匹配鎖完整。這時短語的「精度」，才換得到「轉換率」。</p>
+          <span class="ex">phrase: "manual coffee grinder" / exact: [burr coffee grinder]</span>
+        </div>
+        <div class="case yes">
+          <div class="head"><span class="badge">有必要</span><h4>需要做組合排除時</h4></div>
+          <p>例如你不想吃到「instant coffee（即溶咖啡）」流量。用詞組否定加 "instant coffee"，比單字否定 "instant" 更精準。後者會誤殺 instant pot 之類的合理流量。</p>
+          <span class="ex">negative phrase: "instant coffee" ✓</span>
+        </div>
+        <div class="case yes">
+          <div class="head"><span class="badge">有必要</span><h4>搜尋詞順序有意義時</h4></div>
+          <p>"dog food bowl" 跟 "food bowl for dog" 是同個產品，但 "bowl food dog" 不是合理搜尋。投詞組 "dog food bowl" 比廣泛更乾淨，避免吃到語意混亂的長尾。</p>
+          <span class="ex">phrase: "dog food bowl" → 順序固定，效率高</span>
+        </div>
+      </div>
+
+      <p>
+        記法簡單：拓量用單字廣泛，驗證後用短語精準。新手最常犯的錯，是一上來就投短語當廣泛用，結果「拓不開、又收不到」。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="col"><div class="ornament">◆ ◆ ◆</div></div>
+
+<!-- ───────── 04 · The Filter ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">04 · The Filter</div>
+    <h2>投出去之後，平台還會再篩一輪</h2>
+    <div class="body">
+      <p>
+        賣家擔心「投太多會曝光太多無效流量」的另一個原因，是高估了自己的關鍵詞，對最終曝光的決定權。事實是，從你的關鍵詞投放，到一位消費者真的看見你的廣告，中間還隔著至少四道過濾。
+      </p>
+
+      <figure class="diagram diagram-funnel">
+        <svg viewBox="0 0 760 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="四層篩選漏斗">
+          <defs>
+            <style>
+              .dg-roman { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 16px; fill: #c45a2e; font-weight: 500; }
+              .dg-h4 { font-family: 'Noto Serif TC', serif; font-size: 16px; font-weight: 600; fill: #1a1a1a; }
+              .dg-p { font-family: 'Noto Serif TC', serif; font-size: 12.5px; fill: #6b6b6b; }
+              .dg-pct { font-family: 'Inter', sans-serif; font-size: 11px; fill: #fff; font-weight: 600; letter-spacing: 1px; }
+              .dg-pct-dark { font-family: 'Inter', sans-serif; font-size: 11px; fill: #1a1a1a; font-weight: 600; letter-spacing: 1px; }
+              .dg-axis { stroke: #d8d2c4; stroke-width: 1; }
+              .dg-axis-label { font-family: 'Inter', sans-serif; font-size: 9px; fill: #8a8a8a; letter-spacing: 1.5px; text-transform: uppercase; }
+              .dg-control { font-family: 'Inter', sans-serif; font-size: 9px; fill: #c45a2e; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
+              .dg-control-dim { font-family: 'Inter', sans-serif; font-size: 9px; fill: #8a8a8a; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
+              .dg-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #c45a2e; }
+            </style>
+          </defs>
+
+          <!-- ====== Funnel layers (continuous trapezoid stack, no gaps) ====== -->
+          <!-- center axis cx = 170, total height 320, layers continuous -->
+
+          <!-- Layer 1: width 280 → 220, y 30 → 110 -->
+          <polygon points="30,30 310,30 280,110 60,110" fill="#c45a2e"/>
+          <text x="170" y="65" text-anchor="middle" font-family="Noto Serif TC" font-size="22" font-weight="700" fill="#fff">100%</text>
+          <text x="170" y="86" text-anchor="middle" class="dg-pct">投放關鍵詞</text>
+
+          <!-- Layer 2: width 220 → 160, y 110 → 190 -->
+          <polygon points="60,110 280,110 250,190 90,190" fill="#c45a2e" opacity="0.78"/>
+          <text x="170" y="145" text-anchor="middle" font-family="Noto Serif TC" font-size="20" font-weight="700" fill="#fff">~ 60%</text>
+          <text x="170" y="166" text-anchor="middle" class="dg-pct">買家會打的字</text>
+
+          <!-- Layer 3: width 160 → 100, y 190 → 270 -->
+          <polygon points="90,190 250,190 220,270 120,270" fill="#c45a2e" opacity="0.5"/>
+          <text x="170" y="225" text-anchor="middle" font-family="Noto Serif TC" font-size="18" font-weight="700" fill="#1a1a1a">~ 25%</text>
+          <text x="170" y="245" text-anchor="middle" class="dg-pct-dark">競價勝出</text>
+
+          <!-- Layer 4: width 100 → 60, y 270 → 350 -->
+          <polygon points="120,270 220,270 200,350 140,350" fill="#c45a2e" opacity="0.26"/>
+          <text x="170" y="305" text-anchor="middle" font-family="Noto Serif TC" font-size="16" font-weight="700" fill="#1a1a1a">~ 8%</text>
+          <text x="170" y="324" text-anchor="middle" class="dg-pct-dark">推薦命中</text>
+
+          <!-- Bottom outflow label -->
+          <line x1="170" y1="354" x2="170" y2="395" stroke="#c45a2e" stroke-width="1.5"/>
+          <polygon points="170,402 165,392 175,392" fill="#c45a2e"/>
+          <text x="170" y="425" text-anchor="middle" class="dg-tag">真正被看到的曝光</text>
+
+          <!-- ====== LEFT bracket: who controls this layer ====== -->
+          <!-- bracket spans Layer 1 only (賣家可控) -->
+          <line x1="22" y1="30" x2="14" y2="30" class="dg-axis" stroke="#c45a2e"/>
+          <line x1="14" y1="30" x2="14" y2="110" class="dg-axis" stroke="#c45a2e"/>
+          <line x1="14" y1="110" x2="22" y2="110" class="dg-axis" stroke="#c45a2e"/>
+          <text x="10" y="74" text-anchor="end" class="dg-control" transform="rotate(-90 10 74)">賣家可控</text>
+
+          <!-- bracket spans Layer 2-4 (亞馬遜決定) -->
+          <line x1="50" y1="120" x2="40" y2="120" class="dg-axis"/>
+          <line x1="40" y1="120" x2="40" y2="350" class="dg-axis"/>
+          <line x1="40" y1="350" x2="138" y2="350" class="dg-axis"/>
+          <text x="36" y="235" text-anchor="end" class="dg-control-dim" transform="rotate(-90 36 235)">亞馬遜決定</text>
+
+          <!-- ====== RIGHT side: per-layer labels ====== -->
+          <!-- Layer 1 label -->
+          <line x1="310" y1="50" x2="350" y2="50" class="dg-axis"/>
+          <text x="358" y="40" class="dg-roman">i.</text>
+          <text x="378" y="40" class="dg-h4">你投放的關鍵詞</text>
+          <text x="378" y="58" class="dg-p">兩千個廣泛單字，每個都是一個</text>
+          <text x="378" y="74" class="dg-p">獨立的守備範圍。</text>
+
+          <!-- Layer 2 label -->
+          <line x1="270" y1="150" x2="350" y2="150" class="dg-axis"/>
+          <text x="358" y="140" class="dg-roman">ii.</text>
+          <text x="378" y="140" class="dg-h4">消費者真的搜尋</text>
+          <text x="378" y="158" class="dg-p">有些詞沒人打、有的有季節性，</text>
+          <text x="378" y="174" class="dg-p">投了不代表有人搜。</text>
+
+          <!-- Layer 3 label -->
+          <line x1="235" y1="230" x2="350" y2="230" class="dg-axis"/>
+          <text x="358" y="220" class="dg-roman">iii.</text>
+          <text x="383" y="220" class="dg-h4">亞馬遜競價排序</text>
+          <text x="378" y="238" class="dg-p">幾百個賣家競價，廣告位就那幾</text>
+          <text x="378" y="254" class="dg-p">格，價低或質量差的會被擠掉。</text>
+
+          <!-- Layer 4 label -->
+          <line x1="210" y1="310" x2="350" y2="310" class="dg-axis"/>
+          <text x="358" y="300" class="dg-roman">iv.</text>
+          <text x="383" y="300" class="dg-h4">個人化推薦過濾</text>
+          <text x="378" y="318" class="dg-p">亞馬遜按用戶歷史再篩一次，A 和</text>
+          <text x="378" y="334" class="dg-p">B 用戶看到的廣告位完全不同。</text>
+
+          <!-- Top corner labels -->
+          <text x="30" y="20" class="dg-axis-label">FROM SELLER</text>
+          <text x="170" y="450" text-anchor="middle" class="dg-axis-label">TO BUYER</text>
+        </svg>
+        <figcaption class="diagram-cap">第一層之外，賣家全部交給平台。能做的，是把最上層的水量做大。</figcaption>
+      </figure>
+
+      <p>
+        結論違反多數賣家的直覺：<strong>該花精力做的，是把第一層的水量做大，而不是替平台代勞做篩選</strong>。理由有兩個。
+      </p>
+      <p>
+        第一，亞馬遜本來就會替你篩。你越精準，它後面剩給你的反而越少；你預先丟掉的 80% 詞裡，有不少是它的個人化模型本來會幫你找對人的詞。第二，消費者下一次會打什麼字，賣家事前永遠猜不準；與其賭幾個短語，不如鋪開幾千個獨立守備範圍，把猜測這一步交給平台。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 05 · The Cost Myth ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">05 · The Cost Myth</div>
+    <h2>投得多，會不會把錢燒光</h2>
+    <div class="body">
+      <p>
+        緊接著的問題是：「投兩千個關鍵詞，每天廣告費會不會爆掉？」答案是，不會。原因藏在後台的三個變數彼此獨立，多數賣家把它們混為一談，才產生這個誤解。
+      </p>
+    </div>
+  </div>
+
+  <div class="bleed costbar">
+    <div class="col">
+      <div class="costbar-label">廣告花費的三個變數 · 各管各的</div>
+      <div class="costbar-grid">
+        <div class="cost-item">
+          <div class="var">變數 A</div>
+          <h4>每日預算</h4>
+          <span class="en">Daily Budget</span>
+          <p>你在後台設定的每日花費上限。預算到了，廣告自動停。</p>
+          <span class="verdict">→ 控制總量</span>
+        </div>
+        <div class="cost-item">
+          <div class="var">變數 B</div>
+          <h4>每次點擊出價</h4>
+          <span class="en">Cost Per Click · CPC</span>
+          <p>每次點擊你願意付的最高金額。出價越高，預算越早花完，廣告當天停得越早。</p>
+          <span class="verdict">→ 控制速度</span>
+        </div>
+        <div class="cost-item">
+          <div class="var">變數 C</div>
+          <h4>投放的關鍵詞數量</h4>
+          <span class="en">Keyword Volume</span>
+          <p>你開了多少關鍵詞、多少廣告活動。對總花費沒有直接影響，只決定你的曝光機會有多廣。</p>
+          <span class="verdict">→ 控制守備範圍</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="body">
+      <p>
+        把這三個變數想像成水龍頭、水管、儲水桶：<strong>預算是儲水桶大小、CPC 是水管粗細、投放量是水龍頭數量</strong>。多開幾個水龍頭，桶子裝的水沒變多，只是儲水的速度跟取水的位置變了。
+      </p>
+      <p>
+        怕投太多會燒錢，多半是把投放量誤當成 CPC 在看。把這三件事拆開思考之後，「兩千個廣泛詞會不會把預算花光」這個問題，就還原成「我預算設多少」這個你本來就在控制的單一變數。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="col"><div class="ornament">◆ ◆ ◆</div></div>
+
+<!-- ───────── 06 · Where keywords come from ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">06 · Where Keywords Come From</div>
+    <h2>真正能投放的詞，藏在三個地方</h2>
+    <div class="body">
+      <p>
+        把投放量提高到兩千個關鍵詞，下一個問題是這兩千個詞要從哪裡來。賣家可以挖詞的源頭，分為三個互不替代的維度。
+      </p>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-head">
+          <span class="pillar-num">i.</span>
+          <h4>消費者 <span class="en">Consumer</span></h4>
+        </div>
+        <p>真實買家的語言、使用情境、抱怨與讚美。這些詞通常跟賣家自己寫文案的角度完全不同，因為買家不會用技術規格描述自己想要什麼。</p>
+        <ul>
+          <li>商品評論逐字句 <span class="en">Review verbatims</span></li>
+          <li>問與答 <span class="en">Q&amp;A</span></li>
+          <li>顧客之聲報告 <span class="en">Voice of the Customer</span></li>
+          <li>客服紀錄與退貨理由</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pillar-head">
+          <span class="pillar-num">ii.</span>
+          <h4>平台 <span class="en">Platform</span></h4>
+        </div>
+        <p>亞馬遜自己已經知道的事：真實搜尋量、點擊分配、轉換率。這些不是 SEO 工具的估算，是平台第一手的事實。</p>
+        <ul>
+          <li>品牌分析熱搜詞 <span class="en">Brand Analytics · Top Search Terms</span></li>
+          <li>搜尋詞績效報告 <span class="en">Search Query Performance</span></li>
+          <li>商機探測器 <span class="en">Product Opportunity Explorer</span></li>
+          <li>類目熱搜詞與趨勢詞</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pillar-head">
+          <span class="pillar-num">iii.</span>
+          <h4>產品 <span class="en">Product</span></h4>
+        </div>
+        <p>產品本身與競品的描述語料：技術屬性、品類心智、品牌詞。這層是最容易自己挖的，但也最容易陷在自己的視角裡。</p>
+        <ul>
+          <li>自家商品頁的標題、五點描述、A+ 內容</li>
+          <li>競品文案的集體共識</li>
+          <li>類目麵包屑 <span class="en">Breadcrumb</span></li>
+          <li>產品屬性表（材質、尺寸、用途）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="body">
+      <p style="margin-top: 28px">
+        三者互不替代。<strong>消費者維度給你「使用情境詞」、平台維度給你「真實有量的詞」、產品維度給你「精準品類詞」</strong>。
+        只挖其中一個維度，會得到嚴重偏向某一視角的詞表。例如只看自家文案，所有詞都是 304 不鏽鋼這種規格詞，跟買家實際搜尋的語言隔了一層。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 07 · Review verbatims ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">07 · Customer Language</div>
+    <h2>評論裡的詞，比你自家文案更值得投廣告</h2>
+    <div class="body">
+      <p>
+        三個維度裡最常被忽略、卻最有廣告價值的是消費者維度。賣家寫商品頁，習慣用技術規格詞，例如 304 不鏽鋼、人體工學握把、錐形磨盤。這些詞做商品搜尋排名（SEO）很有用，但絕大多數買家在搜尋框打字時，不會這樣描述自己想要的東西。
+      </p>
+      <p>
+        把同一支咖啡磨豆機的商品頁文案，與該商品下方的買家評論放在一起對照，差別會非常明顯：
+      </p>
+
+      <figure class="diagram diagram-vs">
+        <svg viewBox="0 0 760 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="商品頁文案 vs 評論逐字句">
+          <defs>
+            <style>
+              .vs-lbl { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
+              .vs-lbl-bad { fill: #6b6b6b; }
+              .vs-lbl-good { fill: #c45a2e; }
+              .vs-name { font-family: 'Noto Serif TC', serif; font-size: 16px; font-weight: 600; fill: #1a1a1a; }
+              .vs-tag { font-family: 'Noto Serif TC', serif; font-size: 11px; fill: #8a8a8a; font-style: italic; }
+              .vs-quote { font-family: 'JetBrains Mono', monospace; font-size: 13px; fill: #1a1a1a; }
+              .vs-search { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #6b6b6b; }
+              .vs-foot { font-family: 'Noto Serif TC', serif; font-size: 12px; fill: #6b6b6b; font-style: italic; }
+              .vs-axis { stroke: #d8d2c4; stroke-width: 1; }
+              .vs-divider { stroke: #d8d2c4; stroke-width: 1; }
+              .vs-no { stroke: #9c4420; stroke-width: 1.5; fill: none; }
+              .vs-yes { stroke: #2e5d3e; stroke-width: 1.5; fill: none; }
+              .vs-search-box { fill: #f3eee2; stroke: #d8d2c4; stroke-width: 1; }
+            </style>
+          </defs>
+
+          <!-- vertical divider -->
+          <line x1="380" y1="20" x2="380" y2="460" class="vs-divider" stroke-dasharray="3,4"/>
+
+          <!-- left column header -->
+          <text x="20" y="32" class="vs-lbl vs-lbl-bad">SELLER WRITES</text>
+          <text x="20" y="56" class="vs-name">商品頁文案</text>
+          <text x="20" y="74" class="vs-tag">標題、五點描述、A+ 內容</text>
+
+          <!-- right column header -->
+          <text x="400" y="32" class="vs-lbl vs-lbl-good">BUYER WRITES</text>
+          <text x="400" y="56" class="vs-name">商品評論</text>
+          <text x="400" y="74" class="vs-tag">真實使用情境的逐字句</text>
+
+          <!-- left: tech spec phrases -->
+          <g transform="translate(20, 110)">
+            <text class="vs-quote" y="0">"Stainless steel 304 grade construction"</text>
+            <text class="vs-tag" y="18">304 不鏽鋼結構</text>
+
+            <text class="vs-quote" y="50">"Ergonomic handle with anti-slip grip"</text>
+            <text class="vs-tag" y="68">人體工學防滑握把</text>
+
+            <text class="vs-quote" y="100">"Conical burr grinding mechanism"</text>
+            <text class="vs-tag" y="118">錐形磨盤研磨機構</text>
+
+            <text class="vs-quote" y="150">"Adjustable from 0.4mm to 1.2mm"</text>
+            <text class="vs-tag" y="168">研磨度可調</text>
+          </g>
+
+          <!-- right: buyer phrases -->
+          <g transform="translate(400, 110)">
+            <text class="vs-quote" y="0">"perfect for camping"</text>
+            <text class="vs-tag" y="18">露營很適合 — 用途</text>
+
+            <text class="vs-quote" y="44">"easy to clean"</text>
+            <text class="vs-tag" y="62">好清洗 — 痛點</text>
+
+            <text class="vs-quote" y="88">"gift for my dad"</text>
+            <text class="vs-tag" y="106">送爸爸的禮物 — 場景</text>
+
+            <text class="vs-quote" y="132">"quieter than my old one"</text>
+            <text class="vs-tag" y="150">比舊的安靜 — 對比</text>
+
+            <text class="vs-quote" y="176">"holds enough for two cups"</text>
+            <text class="vs-tag" y="194">容量夠兩杯 — 量級</text>
+          </g>
+
+          <!-- bottom divider -->
+          <line x1="20" y1="340" x2="740" y2="340" class="vs-axis"/>
+
+          <!-- search box mock-up (left): typed by buyer "stainless steel 304" → ✗ -->
+          <text x="20" y="365" class="vs-lbl vs-lbl-bad">DO BUYERS SEARCH FOR THIS?</text>
+
+          <rect x="20" y="380" width="290" height="36" rx="3" class="vs-search-box"/>
+          <text x="32" y="403" class="vs-search">stainless steel 304 burr...</text>
+          <text x="296" y="403" text-anchor="end" font-family="Inter" font-size="14" font-weight="700" fill="#9c4420">✗</text>
+          <text x="20" y="438" class="vs-foot">技術規格詞，適合做商品搜尋排名，</text>
+          <text x="20" y="456" class="vs-foot">但買家很少在搜尋框這樣打字。</text>
+
+          <!-- search box mock-up (right): typed "easy to clean coffee grinder" → ✓ -->
+          <text x="400" y="365" class="vs-lbl vs-lbl-good">DO BUYERS SEARCH FOR THIS?</text>
+
+          <rect x="400" y="380" width="290" height="36" rx="3" class="vs-search-box"/>
+          <text x="412" y="403" class="vs-search">easy to clean coffee grinder</text>
+          <text x="676" y="403" text-anchor="end" font-family="Inter" font-size="14" font-weight="700" fill="#2e5d3e">✓</text>
+          <text x="400" y="438" class="vs-foot">真實買家語彙，這才是他們在</text>
+          <text x="400" y="456" class="vs-foot">搜尋框裡會打的字。</text>
+        </svg>
+        <figcaption class="diagram-cap">同一支咖啡磨豆機，賣家寫的字跟買家搜尋框裡打的字，幾乎沒有交集。</figcaption>
+      </figure>
+
+      <p>
+        更關鍵的是，買家的評論會自然帶出「跨品類橋詞」。<strong>賣線香的賣家，評論裡可能出現一句 <code>perfect for my new iPhone setup desk</code></strong>，這條線把香味品類連到了 iPhone 周邊買家。當這個詞用廣泛匹配低出價投放時，意外的曝光就是淨賺。
+      </p>
+      <p>
+        我們在報告裡保留這類看起來不太相關的詞，是有意而非疏漏。看到 CSV 裡有「iphone」之類跨界詞時，請把它當成 feature，不是 bug。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 08 · Pipeline ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">08 · How Our Tool Works</div>
+    <h2>四階段，把三個維度蓋齊</h2>
+    <div class="body">
+      <p>
+        了解了詞的三個來源，再回頭看我們替你跑的關鍵詞報告，就比較容易理解每一階段在做什麼。整套流程跑一次大約 2–4 分鐘。
+      </p>
+
+      <div class="pipeline">
+        <div class="stage">
+          <div class="stage-mark">階段 A</div>
+          <div>
+            <h4>識別產品本質</h4>
+            <p>用爬蟲抓你 ASIN 的商品頁，包含標題、五點描述、麵包屑、相關商品。先看清楚這是什麼產品。</p>
+          </div>
+          <div class="src">產品維度</div>
+        </div>
+        <div class="stage">
+          <div class="stage-mark">階段 A.5</div>
+          <div>
+            <h4>用 AI 拆面向</h4>
+            <p>同個產品在不同買家心智裡是不同類目。一支「嬰兒足球玩具」可以同時被歸進「母嬰」「玩具」「戶外」三個面向。每個面向後續走獨立的詞挖路徑。</p>
+          </div>
+          <div class="src">產品 + 消費者</div>
+        </div>
+        <div class="stage">
+          <div class="stage-mark">階段 B</div>
+          <div>
+            <h4>商機探測器與競品文案並行</h4>
+            <p>從亞馬遜的商機探測器取真實搜尋量、品類網絡、評論逐字句；同時爬取同面向 30 個以上競品的標題與五點描述。兩條路徑同時跑，互不阻塞。</p>
+          </div>
+          <div class="src">消費者 + 平台 + 產品</div>
+        </div>
+        <div class="stage">
+          <div class="stage-mark">階段 D</div>
+          <div>
+            <h4>合併、切詞、排序</h4>
+            <p>所有詞經 1-Gram 切詞、跨來源去重，再按「強詞 / 橋詞 / 長尾」三層排序輸出 CSV。最終給你 2,000 個獨立守備範圍的單字。</p>
+          </div>
+          <div class="src">輸出給你</div>
+        </div>
+      </div>
+
+      <p>
+        商機探測器（Product Opportunity Explorer）是亞馬遜後台給品牌賣家用的市場研究工具，它的數據來自平台第一手紀錄，包含真實搜尋量、點擊份額、轉換率。市面上多數第三方關鍵詞工具，看到的只是反推估算。直接接上商機探測器，是這份報告跟坊間關鍵詞表最不一樣的地方。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="col"><div class="ornament">◆ ◆ ◆</div></div>
+
+<!-- ───────── 09 · Campaign Structure ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">09 · Campaign Structure</div>
+    <h2>一個 ASIN，一個獨立廣告活動</h2>
+    <div class="body">
+      <p>
+        收到關鍵詞報告之後，建廣告活動的第一條規則是：<strong>不要把多個 ASIN 塞進同一個廣告活動</strong>。這不是軟性建議，是後台報告的硬性限制逼出來的。
+      </p>
+      <p>
+        亞馬遜的「<strong>關鍵詞報告</strong>（Keyword Report）」顆粒度只到「<strong>廣告活動</strong>（Ad Campaign）」這一層，無法分到 ASIN。當你在一個活動裡裝了三個 ASIN，搜尋詞 <code>coffee grinder</code> 帶來的銷售究竟貢獻給哪一支，後台不會告訴你。
+      </p>
+
+      <figure class="diagram diagram-struct">
+        <svg viewBox="0 0 760 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="廣告活動結構：錯誤 vs 正確">
+          <defs>
+            <style>
+              .st-lbl { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
+              .st-lbl-bad { fill: #9c4420; }
+              .st-lbl-good { fill: #2e5d3e; }
+              .st-h { font-family: 'Noto Serif TC', serif; font-size: 16px; font-weight: 600; fill: #1a1a1a; }
+              .st-p { font-family: 'Noto Serif TC', serif; font-size: 12.5px; fill: #6b6b6b; }
+              .st-node-camp { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500; fill: #1a1a1a; }
+              .st-node-asin { font-family: 'JetBrains Mono', monospace; font-size: 12px; fill: #3a3a3a; }
+              .st-node-kw { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #c45a2e; }
+              .st-edge { stroke: #d8d2c4; stroke-width: 1.2; fill: none; }
+              .st-edge-good { stroke: #2e5d3e; stroke-width: 1.2; fill: none; }
+              .st-edge-bad { stroke: #9c4420; stroke-width: 1.2; fill: none; stroke-dasharray: 3,3; }
+              .st-box-camp { fill: #faf8f3; stroke: #1a1a1a; stroke-width: 1.5; }
+              .st-box-asin { fill: #fff; stroke: #d8d2c4; stroke-width: 1; }
+              .st-box-report { fill: #f3eee2; stroke: #d8d2c4; stroke-width: 1; }
+              .st-divider { stroke: #d8d2c4; stroke-width: 1; }
+              .st-callout { font-family: 'Noto Serif TC', serif; font-style: italic; font-size: 12px; fill: #9c4420; }
+              .st-callout-good { font-family: 'Noto Serif TC', serif; font-style: italic; font-size: 12px; fill: #2e5d3e; }
+              .st-question { font-family: 'Noto Serif TC', serif; font-size: 12px; fill: #6b6b6b; font-style: italic; }
+            </style>
+          </defs>
+
+          <!-- ===== LEFT: WRONG ===== -->
+          <text x="20" y="28" class="st-lbl st-lbl-bad">✗ 錯誤做法</text>
+          <text x="20" y="50" class="st-h">一個廣告活動裝多個 ASIN</text>
+
+          <!-- Campaign box (top, centered over ASIN row) -->
+          <rect x="80" y="80" width="180" height="36" rx="4" class="st-box-camp"/>
+          <text x="170" y="103" text-anchor="middle" class="st-node-camp">Campaign A</text>
+
+          <!-- 3 ASINs branching down (well-spaced) -->
+          <line x1="170" y1="116" x2="170" y2="140" class="st-edge"/>
+          <line x1="100" y1="140" x2="240" y2="140" class="st-edge"/>
+          <line x1="100" y1="140" x2="100" y2="160" class="st-edge"/>
+          <line x1="170" y1="140" x2="170" y2="160" class="st-edge"/>
+          <line x1="240" y1="140" x2="240" y2="160" class="st-edge"/>
+
+          <rect x="70" y="160" width="60" height="30" rx="3" class="st-box-asin"/>
+          <text x="100" y="180" text-anchor="middle" class="st-node-asin">ASIN 1</text>
+
+          <rect x="140" y="160" width="60" height="30" rx="3" class="st-box-asin"/>
+          <text x="170" y="180" text-anchor="middle" class="st-node-asin">ASIN 2</text>
+
+          <rect x="210" y="160" width="60" height="30" rx="3" class="st-box-asin"/>
+          <text x="240" y="180" text-anchor="middle" class="st-node-asin">ASIN 3</text>
+
+          <!-- Search term flows up: keyword "coffee grinder" -->
+          <text x="170" y="220" text-anchor="middle" class="st-node-kw">"coffee grinder"</text>
+          <line x1="170" y1="226" x2="170" y2="248" class="st-edge"/>
+          <polygon points="170,254 166,246 174,246" fill="#c45a2e"/>
+
+          <!-- Report shows aggregated number -->
+          <rect x="20" y="265" width="320" height="64" rx="3" class="st-box-report"/>
+          <text x="32" y="285" class="st-lbl st-lbl-bad">關鍵詞報告</text>
+          <text x="32" y="307" class="st-node-kw">coffee grinder</text>
+          <text x="200" y="307" class="st-node-kw">3 銷售</text>
+          <text x="32" y="322" class="st-question">→ 哪一個 ASIN 帶來的？</text>
+
+          <!-- conclusion -->
+          <text x="20" y="365" class="st-callout">無法歸因到 ASIN，</text>
+          <text x="20" y="382" class="st-callout">後續優化決策只能憑感覺。</text>
+
+          <!-- ===== Vertical divider ===== -->
+          <line x1="380" y1="20" x2="380" y2="500" class="st-divider" stroke-dasharray="2,4"/>
+
+          <!-- ===== RIGHT: CORRECT ===== -->
+          <text x="400" y="28" class="st-lbl st-lbl-good">✓ 正確做法</text>
+          <text x="400" y="50" class="st-h">每個 ASIN 一個獨立廣告活動</text>
+
+          <!-- 3 campaign->asin pairs in parallel -->
+          <g transform="translate(400, 80)">
+            <rect x="0" y="0" width="100" height="30" rx="4" class="st-box-camp"/>
+            <text x="50" y="20" text-anchor="middle" class="st-node-camp" font-size="11">Campaign A</text>
+            <line x1="50" y1="30" x2="50" y2="46" class="st-edge-good"/>
+            <polygon points="50,52 46,44 54,44" fill="#2e5d3e"/>
+            <rect x="20" y="56" width="60" height="30" rx="3" class="st-box-asin"/>
+            <text x="50" y="76" text-anchor="middle" class="st-node-asin">ASIN 1</text>
+          </g>
+
+          <g transform="translate(520, 80)">
+            <rect x="0" y="0" width="100" height="30" rx="4" class="st-box-camp"/>
+            <text x="50" y="20" text-anchor="middle" class="st-node-camp" font-size="11">Campaign B</text>
+            <line x1="50" y1="30" x2="50" y2="46" class="st-edge-good"/>
+            <polygon points="50,52 46,44 54,44" fill="#2e5d3e"/>
+            <rect x="20" y="56" width="60" height="30" rx="3" class="st-box-asin"/>
+            <text x="50" y="76" text-anchor="middle" class="st-node-asin">ASIN 2</text>
+          </g>
+
+          <g transform="translate(640, 80)">
+            <rect x="0" y="0" width="100" height="30" rx="4" class="st-box-camp"/>
+            <text x="50" y="20" text-anchor="middle" class="st-node-camp" font-size="11">Campaign C</text>
+            <line x1="50" y1="30" x2="50" y2="46" class="st-edge-good"/>
+            <polygon points="50,52 46,44 54,44" fill="#2e5d3e"/>
+            <rect x="20" y="56" width="60" height="30" rx="3" class="st-box-asin"/>
+            <text x="50" y="76" text-anchor="middle" class="st-node-asin">ASIN 3</text>
+          </g>
+
+          <!-- Three reports come back, each tied to one ASIN -->
+          <text x="450" y="220" text-anchor="middle" class="st-node-kw">"coffee grinder"</text>
+          <line x1="450" y1="226" x2="450" y2="245" class="st-edge-good"/>
+          <polygon points="450,250 446,242 454,242" fill="#2e5d3e"/>
+
+          <text x="570" y="220" text-anchor="middle" class="st-node-kw">"manual grinder"</text>
+          <line x1="570" y1="226" x2="570" y2="245" class="st-edge-good"/>
+          <polygon points="570,250 566,242 574,242" fill="#2e5d3e"/>
+
+          <text x="690" y="220" text-anchor="middle" class="st-node-kw">"burr grinder"</text>
+          <line x1="690" y1="226" x2="690" y2="245" class="st-edge-good"/>
+          <polygon points="690,250 686,242 694,242" fill="#2e5d3e"/>
+
+          <!-- 3 reports, each saying which ASIN -->
+          <rect x="400" y="265" width="100" height="60" rx="3" class="st-box-report"/>
+          <text x="412" y="282" class="st-lbl st-lbl-good">關鍵詞報告</text>
+          <text x="412" y="300" class="st-node-kw" font-size="10">coffee grinder</text>
+          <text x="412" y="316" class="st-node-asin" font-size="11">→ ASIN 1</text>
+
+          <rect x="520" y="265" width="100" height="60" rx="3" class="st-box-report"/>
+          <text x="532" y="282" class="st-lbl st-lbl-good">關鍵詞報告</text>
+          <text x="532" y="300" class="st-node-kw" font-size="10">manual grinder</text>
+          <text x="532" y="316" class="st-node-asin" font-size="11">→ ASIN 2</text>
+
+          <rect x="640" y="265" width="100" height="60" rx="3" class="st-box-report"/>
+          <text x="652" y="282" class="st-lbl st-lbl-good">關鍵詞報告</text>
+          <text x="652" y="300" class="st-node-kw" font-size="10">burr grinder</text>
+          <text x="652" y="316" class="st-node-asin" font-size="11">→ ASIN 3</text>
+
+          <!-- conclusion -->
+          <text x="400" y="365" class="st-callout-good">每個關鍵詞都能歸因到具體 ASIN，</text>
+          <text x="400" y="382" class="st-callout-good">哪支對哪個詞反應好，一目了然。</text>
+
+          <!-- ===== Bottom band: report granularity rule ===== -->
+          <line x1="20" y1="430" x2="740" y2="430" class="st-divider"/>
+          <text x="20" y="455" class="st-lbl">REPORT GRANULARITY · 關鍵詞報告的顆粒度</text>
+          <text x="20" y="478" class="st-p">亞馬遜後台導出的「關鍵詞報告」最小顆粒度只到「廣告活動」這一層，無法再切到 ASIN。</text>
+          <text x="20" y="495" class="st-p">所以一個活動裡裝幾個 ASIN，就會有幾個 ASIN 的數據被合併成一筆，失去歸因。</text>
+        </svg>
+        <figcaption class="diagram-cap">這也是申請規範要求一次只填一個 ASIN 的原因，不是行政規定，是後台限制。</figcaption>
+      </figure>
+
+      <p>
+        這也是關鍵詞報告申請規範要求<strong>一次只填一個 ASIN</strong> 的原因。不是行政規定，是因為每個 ASIN 應該獨立跑一份報告、獨立開一個廣告活動。把三個 ASIN 用同一份報告通投，回頭後台數據將讀不出有意義的訊息。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 10 · The Funnel ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">10 · The Funnel</div>
+    <h2>同一份關鍵詞，分三個階段使用</h2>
+    <div class="body">
+      <p>
+        兩千個單字拿在手上，<strong>不是「全部開出去等出單」</strong>，而是依不同階段，配不同匹配方式。業界主流投放代理（Trellis、Adbrew、Perpetua、SellerSprite）的策略一致，分三段：
+      </p>
+
+      <div class="funnel">
+        <div class="stage">
+          <div class="funnel-head">
+            <span class="funnel-num">階段 1.</span>
+            <h4>探索拓量 <span class="en">Discovery</span></h4>
+          </div>
+          <p>把 CSV 兩千個單字全部開廣泛匹配、低出價通投。這個階段不為廣告銷售比好看，<strong>為的是搜尋詞報告</strong>，讓亞馬遜替你跑出哪些搜尋詞真的會點、會轉。</p>
+          <p class="match">match: BROAD</p>
+        </div>
+        <div class="stage">
+          <div class="funnel-head">
+            <span class="funnel-num">階段 2.</span>
+            <h4>收斂優化 <span class="en">Refinement</span></h4>
+          </div>
+          <p>從搜尋詞報告把「點擊但不轉換」的詞做否定關鍵詞；把「點擊且有轉換」的詞抽出來，投到一支新的詞組匹配廣告。這是詞組匹配第一次有意義的時刻：你已經有資料判斷哪個短語值得鎖順序。</p>
+          <p class="match">match: PHRASE + negatives</p>
+        </div>
+        <div class="stage">
+          <div class="funnel-head">
+            <span class="funnel-num">階段 3.</span>
+            <h4>規模收割 <span class="en">Profit</span></h4>
+          </div>
+          <p>把詞組階段表現最好的詞升級成精準匹配，提高出價守住排名，主廣告活動的預算砸在這裡。這時廣告銷售比（ACoS）會明顯下降。業界數據顯示，完整跑這個流程的賣家平均 ACoS 降 23%。</p>
+          <p class="match">match: EXACT · top bid</p>
+        </div>
+      </div>
+
+      <p>
+        新手最常犯的錯，是跳過階段 1，直接投詞組或精準匹配。沒跑過階段 1 的賣家，沒有資料能回答「哪個詞值得收割」這個問題。等於放棄了亞馬遜替你做的那份免費關鍵詞研究。
+      </p>
+      <blockquote class="pull">
+        同一個詞，在不同階段該用不同的匹配方式。<br>
+        而不是「廣泛比較差，所以早點換成精準」。
+        <cite>關鍵詞拓展課 · 第一講</cite>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 11 · What to track ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">11 · What to Track</div>
+    <h2>該盯的第一個指標，是曝光量</h2>
+    <div class="body">
+      <p>
+        廣告活動上線之後，多數賣家會直覺去看廣告銷售比（Advertising Cost of Sales, ACoS）。這個直覺要修正。
+      </p>
+      <p>
+        漏斗的順序是：<strong>曝光量 → 點擊量 → 轉換量</strong>。下游所有的指標（點擊率、轉換率、ACoS），都是上游曝光量的衍生數字。當曝光量太小，下游的數字統計上根本不顯著：今天的轉換率 5%、明天 15%，可能只是樣本太少的隨機波動，談不上「廣告做得好不好」。
+      </p>
+
+      <div class="invest">
+        <div class="col-card">
+          <div class="lbl">廣告漏斗</div>
+          <h4>曝光量是漏斗最上層</h4>
+          <p>整個廣告漏斗的順序是：曝光量（看到幾次）→ 點擊量（點進來幾次）→ 轉換量（下單幾次）。下游每一步都依賴上游的水量。</p>
+          <p>當每天曝光量只有兩三百，所有下游指標都還在統計噪音的範圍內，任何優化動作都像在抓漂浮的影子。</p>
+          <p style="color:var(--accent);font-style:italic">課程目標：單一 ASIN 每日穩定 8,000 曝光量。</p>
+        </div>
+        <div class="col-card">
+          <div class="lbl">投資理財類比</div>
+          <h4>曝光量等於投資的本金</h4>
+          <p>初期該做的，是把本金做大。本金一萬乘以報酬率 30%，賺三千；本金一千乘以 30%，只賺三百，連日常開銷都不夠。</p>
+          <p>廣告也一樣：曝光量 100 乘以轉換率 5%，等於 5 單，這個樣本太小、波動劇烈。曝光量做到 8,000 之後再回頭看 ACoS，每一個百分點才反映真實趨勢。</p>
+          <p style="color:var(--accent);font-style:italic">量變才會產生質變。</p>
+        </div>
+      </div>
+
+      <div class="equation">
+        把<b>曝光量</b>做大　→　下游每一個指標<b>才有意義</b>
+      </div>
+
+      <blockquote class="pull">
+        廣告沒有好不好，只有快不快。<br>
+        要學的是找流量的能力，不是買流量的勇氣。
+        <cite>廣告衝刺班 · Day 1</cite>
+      </blockquote>
+
+      <p>
+        每天打開後台，第一眼盯的就是曝光量。沒到 3,000 就要開更多廣告活動、把投放量再撐大；穩定到 8,000 之後，再回頭看點擊率、轉換率、ACoS。那時的數字，才反映真正的趨勢。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 12 · Toolkit ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">12 · Toolkit</div>
+    <h2>動手前，先把工具箱掛上</h2>
+    <div class="body">
+      <p>
+        接下來你會進到亞馬遜後台，把兩千個關鍵詞貼進廣告活動。為了讓這個過程不那麼痛苦，我們做了一個瀏覽器小工具：把它<strong>拖到書籤列</strong>之後，下次打開亞馬遜任何頁面、點一下這個書籤，就會跳出工具面板，包含關鍵詞批量貼入、競品文案抽取等常用動作。
+      </p>
+
+      <div class="bookmarklet-card">
+        <div class="bm-side">
+          <div class="bm-tag">小書籤工具</div>
+          <a id="moz-bookmarklet" class="bm-button" draggable="true" href="#" onclick="return false;">工具箱 5.1 →</a>
+          <div class="bm-hint">點擊不會生效，請按住按鈕拖曳到瀏覽器的「書籤列」上鬆開，即完成安裝。</div>
+
+          <div class="bm-pwd">
+            <span class="bm-pwd-label">本月密碼</span>
+            <button type="button" id="bm-pwd-toggle" class="bm-pwd-toggle" aria-label="顯示密碼">
+              <span class="bm-pwd-mask">點此顯示</span>
+              <span class="bm-pwd-real">ZE2752</span>
+            </button>
+            <div class="bm-pwd-hint" id="bm-pwd-hint">點一下複製，密碼會貼到剪貼簿</div>
+          </div>
+        </div>
+        <div class="bm-side bm-meta">
+          <div class="bm-step">
+            <div class="bm-step-num">01</div>
+            <div class="bm-step-body">
+              <div class="bm-step-h">把按鈕拖到書籤列</div>
+              <p class="bm-step-p">確認瀏覽器書籤列已開啟（Chrome：Ctrl/⌘ + Shift + B）。</p>
+            </div>
+          </div>
+          <div class="bm-step">
+            <div class="bm-step-num">02</div>
+            <div class="bm-step-body">
+              <div class="bm-step-h">打開亞馬遜後台</div>
+              <p class="bm-step-p">進到 Seller Central 任何頁面，例如廣告活動的關鍵詞輸入頁。</p>
+            </div>
+          </div>
+          <div class="bm-step">
+            <div class="bm-step-num">03</div>
+            <div class="bm-step-body">
+              <div class="bm-step-h">點書籤呼叫工具面板</div>
+              <p class="bm-step-p">右側跳出 Moz 工具箱，輸入上方密碼後選你要的工具即可。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 13 · Action ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">13 · Action</div>
+    <h2>一個月的行動清單</h2>
+    <div class="body">
+      <p>
+        把整篇講義收成一份可以直接照做的清單。每一週對應一個動作。
+      </p>
+
+      <div class="actions">
+        <div class="a">
+          <div class="week">第 1 週</div>
+          <div>
+            <h4>建廣告活動，全部廣泛匹配</h4>
+            <p>每個 ASIN 一個獨立廣告活動。把 CSV 兩千個單字全部丟進去，匹配方式選 <strong>BROAD（廣泛）</strong>。</p>
+            <p>每個關鍵詞的 CPC 設在類目平均的 50–70%；每日預算先 USD $20–30。</p>
+          </div>
+        </div>
+        <div class="a">
+          <div class="week">第 2–3 週</div>
+          <div>
+            <h4>從搜尋詞報告抽金詞</h4>
+            <p>每週把搜尋詞報告裡「<strong>點擊 ≥ 5 且轉換 ≥ 1</strong>」的搜尋詞拉出來，投到一支新的 <strong>PHRASE（詞組）</strong>廣告活動。</p>
+            <p>把「<strong>點擊 ≥ 10 且轉換 = 0</strong>」的搜尋詞，加為詞組否定關鍵詞。</p>
+          </div>
+        </div>
+        <div class="a">
+          <div class="week">第 4 週起</div>
+          <div>
+            <h4>升級到精準匹配</h4>
+            <p>詞組階段表現最好的前 20 個詞，建一支 <strong>EXACT（精準）</strong>廣告，CPC 提到類目平均的 120–150%。</p>
+            <p>主預算移到這支。這時 ACoS 會穩定下來，是回報率開始有意義的時刻。</p>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        三件事千萬別跳：第 1 週不要省、不要直接跳到精準。第 2–3 週要養成每週看搜尋詞報告的習慣。第 4 週的精準廣告才是回報率最高的那支，但前面兩個禮拜的廣泛探索是它的本錢。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── Coda ───────── -->
+<div class="bleed coda">
+  <div class="col">
+    <div class="section-mark">14 · Coda</div>
+    <h2>把直覺翻過來</h2>
+    <p>
+      把心力從「精度」轉到「投放量」，是這堂課要傳遞的核心觀念。亞馬遜的個人化推薦與競價篩選機制，會替你做精度；你能掌握的，只有漏斗最上層的水量。預算控制總量、CPC 控制速度、投放量控制守備範圍，三件事各管各的；怕投太多燒錢，是把投放量誤當成 CPC 在看。
+    </p>
+    <p>
+      兩千個單字的廣泛匹配，給的不是兩千個冗餘關鍵詞，是兩千個獨立的守備範圍。配上一個 ASIN 一個獨立廣告活動的結構，能在第一個月內跑出每日 8,000 曝光量的穩定水位。下游所有的優化動作（詞組收斂、精準收割）都建立在這個水位之上。
+    </p>
+    <blockquote class="pull">
+      冷啟動 = 穩定曝光量。<br>
+      把上層的水做滿之前，下游的每一個小數點都不真實。
+      <cite>廣告衝刺班 · Day 1</cite>
+    </blockquote>
+    <p>
+      接下來幾天，你會開始拿到我們的關鍵詞 CSV。打開的第一件事，不是先挑短語，是把單字全部丟進廣泛匹配。
+    </p>
+    <div class="colophon">
+      亞馬遜官方培訓 · 廣告衝刺班 Day 1 · 關鍵詞拓展
+    </div>
+  </div>
+</div>
+
+<!-- ───────── Glossary ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">附錄 · Glossary</div>
+    <h2>術語表</h2>
+    <div class="body">
+      <p style="color:var(--ink-mute); font-size:15px">亞馬遜廣告的英文簡寫眾多，以下為文中出現過的主要詞彙對照，供回查。</p>
+    </div>
+
+    <div class="glossary">
+      <dl>
+        <div>
+          <dt>BROAD</dt>
+          <dd><span class="en">Broad Match</span>　廣泛匹配。搜尋詞需含關鍵詞所有單字，順序可任意，可加其他字。流量最大。</dd>
+        </div>
+        <div>
+          <dt>PHRASE</dt>
+          <dd><span class="en">Phrase Match</span>　詞組匹配。搜尋詞需按字面順序含關鍵詞，前後可加字，中間不可插字。</dd>
+        </div>
+        <div>
+          <dt>EXACT</dt>
+          <dd><span class="en">Exact Match</span>　精準匹配。搜尋詞需與關鍵詞完全相同，前後不可加字。</dd>
+        </div>
+        <div>
+          <dt>N-GRAM</dt>
+          <dd><span class="en">N-gram</span>　N 個字組成的詞。1-Gram 是單字，2-Gram 是兩字短語，依此類推。</dd>
+        </div>
+        <div>
+          <dt>CPC</dt>
+          <dd><span class="en">Cost Per Click</span>　每次點擊出價。每次點擊你願意付的最高金額。</dd>
+        </div>
+        <div>
+          <dt>ACOS</dt>
+          <dd><span class="en">Advertising Cost of Sales</span>　廣告銷售比。廣告花費除以廣告帶來的銷售額，越低越好。</dd>
+        </div>
+        <div>
+          <dt>ASIN</dt>
+          <dd><span class="en">Amazon Standard Identification Number</span>　亞馬遜商品識別碼，10 碼英數字。</dd>
+        </div>
+        <div>
+          <dt>CAMPAIGN</dt>
+          <dd><span class="en">Ad Campaign</span>　廣告活動。亞馬遜廣告報告的最小顆粒度層級。</dd>
+        </div>
+        <div>
+          <dt>商機探測器</dt>
+          <dd><span class="en">Product Opportunity Explorer</span>　亞馬遜後台給品牌賣家的市場研究工具，提供真實搜尋量、點擊份額、轉換率。</dd>
+        </div>
+        <div>
+          <dt>ABA</dt>
+          <dd><span class="en">Amazon Brand Analytics</span>　亞馬遜品牌分析。提供熱搜詞報告（Top Search Terms）、搜尋詞績效（SQP）等資料。</dd>
+        </div>
+        <div>
+          <dt>SQP</dt>
+          <dd><span class="en">Search Query Performance</span>　搜尋詞績效報告。每個關鍵詞下你的品牌的曝光、點擊、加購、購買漏斗。</dd>
+        </div>
+        <div>
+          <dt>STR</dt>
+          <dd><span class="en">Search Term Report</span>　搜尋詞報告。亞馬遜廣告後台導出，顯示哪些消費者搜尋詞觸發了你的關鍵詞。</dd>
+        </div>
+        <div>
+          <dt>VOC</dt>
+          <dd><span class="en">Voice of the Customer</span>　顧客之聲。賣家中心的儀表板，聚合顧客評論的關鍵問題與正向回饋。</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── Survey ───────── -->
+<section>
+  <div class="col">
+    <div class="section-mark">附錄 · 課後問卷</div>
+    <h2>請花一分鐘填寫課後問卷</h2>
+    <div class="body">
+      <p>
+        我們會根據你的回饋，調整後面幾天的課程深度與節奏。哪一段太快、哪一個觀念希望多講一些、哪些操作沒講清楚，都歡迎告訴我們。
+      </p>
+
+      <div class="survey">
+        <div>
+          <div class="qr-frame"><img id="survey-qr" alt="課後問卷 QR Code"></div>
+          <div class="qr-meta">Scan to open · 掃碼填寫</div>
+        </div>
+        <div>
+          <h4>掃碼或點按鈕，皆可</h4>
+          <p>
+            手機掃左邊的 QR Code，會帶你到亞馬遜內部問卷頁。用電腦上課的同學，也可以直接點下方按鈕：
+          </p>
+          <a id="survey-link" class="survey-btn" href="#" target="_blank" rel="noopener noreferrer">前往填寫問卷 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="height: 80px"></div>
+
+<script>
+  // ===== Survey QR =====
+  (function () {
+    var now = new Date();
+    var y = now.getFullYear();
+    var m = String(now.getMonth() + 1).padStart(2, '0');
+    var d = String(now.getDate()).padStart(2, '0');
+    var dateStr = y + m + d;
+    var fullUrl = 'https://pulse.amazon/survey/IWDN6OM1?source=' + dateStr;
+    var qrApi = 'https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(fullUrl) + '&size=400x400&margin=0';
+    var img = document.getElementById('survey-qr');
+    var link = document.getElementById('survey-link');
+    if (img) img.src = qrApi;
+    if (link) {
+      link.href = fullUrl;
+    }
+  })();
+
+  // ===== Bookmarklet · inject href via setAttribute =====
+  // The bookmarklet body is stored as a normal JS string and assigned at runtime,
+  // which avoids any HTML attribute escaping issues.
+  (function () {
+    var bookmarkletSource = 'javascript:!function(){const e="https://script.google.com/macros/s/AKfycbwkusAp7tQJt9QVVz5xfng0X3Pvi_lD4HFmCxmnMNkwhgAEjlS6PDXX-S0ssrTyduc99Q/exec",t="moz-bm-pwd",n="moz-bookmarklet-manager",o="moz-bookmarklet-styles",s="moz-bookmarklet-font";function c(c,d){const r=document.getElementById("moz-bm-header");for(;c.firstChild;)c.removeChild(c.firstChild);if("admin"===d.role){const e=document.createElement("p");e.innerText="以管理員身份登入 (🔑 點此複製密碼)",e.title="點擊複製本月密碼",e.style.cssText="color:#7D8B6D;font-weight:bold;text-align:center;margin:0 0 15px 0;font-size:0.8em;white-space:nowrap;cursor:pointer;text-decoration:underline;",e.onclick=function(){navigator.clipboard.writeText(d.monthlyPassword).then(()=>{const t=e.innerText;e.innerText="✅ 密碼已複製！",setTimeout(()=>{e.innerText=t},2e3)}).catch(t=>{alert("複製失敗，密碼為: "+d.monthlyPassword)})},r.after(e)}d.tools.forEach(e=>{const t=document.createElement("a");t.className="moz-bookmarklet-button",t.href="javascript:void(0);",t.innerText=e.name,t.title=e.description||"",t.addEventListener("click",function(t){t.preventDefault(),new Function(e.code.replace("javascript:",""))(),a()}),c.appendChild(t)})}function i(i,a){fetch(e+"?p="+encodeURIComponent(i)).then(e=>e.json()).then(e=>{"success"===e.status?a(!0,e):a(!1,e)}).catch(e=>a(!1,{message:`網路請求失敗: ${e.message}`}))}function a(){const e=document.getElementById(n);e&&(e.querySelector("div").style.transform="translateX(100%)",setTimeout(()=>e.remove(),400))}if(document.getElementById(n))return a();if(!document.getElementById(s)){const e=document.createElement("link");e.id=s,e.href="https://fonts.googleapis.com/css2?family=Huninn&display=swap",e.rel="stylesheet",document.head.appendChild(e)}if(!document.getElementById(o)){const e=document.createElement("style");e.id=o,e.innerText=`\\n            #${n} .moz-bookmarklet-button {\\n                display: block; padding: 12px 20px; margin-bottom: 12px;\\n                background-color: #E0A82E; color: #2D4F2B;\\n                text-decoration: none; border-radius: 8px; text-align: center;\\n                font-weight: bold; transition: all 0.2s ease-in-out;\\n                box-shadow: 0 2px 4px rgba(0,0,0,0.1);\\n            }\\n            #${n} .moz-bookmarklet-button:hover {\\n                background-color: #7D8B6D; color: #F5F1DE;\\n                transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15);\\n            }\\n        `,document.head.appendChild(e)}const d=document.createElement("div");d.id=n,d.style.cssText="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4); z-index:2147483647;";const r=document.createElement("div");r.style.cssText="\\n        position: fixed; top: 0; right: 0; width: 100%; max-width: 320px; height: 100%;\\n        padding: 25px; background-color: #F5F1DE; box-shadow: -5px 0 20px rgba(0,0,0,0.1);\\n        font-family: \\'Huninn\\', \\'Noto Sans TC\\', sans-serif; color: #2D4F2B; overflow-y: auto;\\n        transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);\\n        box-sizing: border-box; display: flex; flex-direction: column;\\n        font-size: 16px; \\n    ";const m=document.createElement("div");m.id="moz-bm-header",m.style.borderBottom="1px solid #7D8B6D",m.style.paddingBottom="15px",m.style.marginBottom="15px";const p=document.createElement("h2");p.innerText="Moz 工具箱",p.style.cssText="margin: 0; padding: 0; font-size: 1.5em; line-height: 1.2;",m.appendChild(p);const u=document.createElement("div");u.style.flex="1",r.appendChild(m),r.appendChild(u),d.appendChild(r),document.body.appendChild(d),requestAnimationFrame(()=>{r.style.transform="translateX(0)"}),d.addEventListener("click",e=>{e.target===d&&a()});const h=sessionStorage.getItem(t);h?i(h,(e,t)=>{e?c(u,t):sessionStorage.removeItem("moz-bm-pwd",renderLogin(u))}):function(e){for(;e.firstChild;)e.removeChild(e.firstChild);const t=document.createElement("form"),n=document.createElement("p");n.innerText="請輸入密碼：",n.style.cssText="margin: 10px 0 10px; text-align: center;";const o=document.createElement("input");o.type="password",o.style.cssText="width: 100%; padding: 10px; border: 1px solid #7D8B6D; border-radius: 6px; background-color: white; color: #2D4F2B; font-family: inherit; margin-bottom: 15px; box-sizing: border-box;",o.oninput=()=>d.style.display="none";const s=document.createElement("button");s.type="submit",s.innerText="登入",s.className="moz-bookmarklet-button";const d=document.createElement("p");d.style.cssText="color: #c0392b; text-align: center; display: none; margin-top: 10px;",t.appendChild(n),t.appendChild(o),t.appendChild(s),e.appendChild(t),e.appendChild(d),o.focus(),t.onsubmit=t=>{t.preventDefault();const n=o.value;n&&(s.innerText="驗證中...",s.disabled=!0,i(n,(t,n)=>{t?(sessionStorage.setItem("moz-bm-pwd",o.value),c(e,n)):(d.innerText=n.message||"驗證失敗",d.style.display="block",s.innerText="登入",s.disabled=!1)}))}}(u)}();';
+    var btn = document.getElementById('moz-bookmarklet');
+    if (btn) {
+      btn.setAttribute('href', bookmarkletSource);
+    }
+  })();
+
+  // ===== Toolkit password reveal + copy =====
+  (function () {
+    var toggle = document.getElementById('bm-pwd-toggle');
+    var hint = document.getElementById('bm-pwd-hint');
+    if (!toggle) return;
+    var revealed = false;
+    toggle.addEventListener('click', function () {
+      if (!revealed) {
+        toggle.classList.add('is-revealed');
+        revealed = true;
+        return;
+      }
+      // already revealed → click again to copy
+      var pwd = 'ZE2752';
+      var done = function () {
+        toggle.classList.add('is-copied');
+        if (hint) hint.textContent = '已複製到剪貼簿';
+        setTimeout(function () {
+          toggle.classList.remove('is-copied');
+          if (hint) hint.textContent = '點一下複製，密碼會貼到剪貼簿';
+        }, 2000);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(pwd).then(done).catch(function () {
+          if (hint) hint.textContent = '複製失敗，請手動記下：' + pwd;
+        });
+      } else {
+        if (hint) hint.textContent = '請手動記下：' + pwd;
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
