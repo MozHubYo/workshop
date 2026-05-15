@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Claude Code 工作坊</title>
+        <link rel="stylesheet" href="shared.css" />
+        <style>
+            .toc {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                margin: -40px -20px 20px;
+                padding: 10px 20px;
+                background: rgba(250, 248, 243, 0.92);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                border-bottom: 1px solid var(--rule-soft);
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px 2px;
+                align-items: center;
+            }
+            .toc a {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                padding: 3px 8px 3px 3px;
+                border-radius: 14px;
+                font-size: 0.72rem;
+                text-decoration: none;
+                transition: background 0.15s;
+                color: var(--ink-mute);
+            }
+            .toc a:hover {
+                background: var(--accent-tint);
+                color: var(--accent);
+                text-decoration: none;
+            }
+            .toc .toc-num {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                font-size: 0.62rem;
+                font-weight: 700;
+                flex-shrink: 0;
+                background: var(--paper-tint);
+                color: var(--ink-faint);
+            }
+            .toc .toc-sep {
+                color: var(--rule);
+                font-size: 0.65rem;
+                margin: 0 1px;
+            }
+            section {
+                scroll-margin-top: 50px;
+            }
+            .section-divider {
+                border: none;
+                border-top: 2px solid var(--rule-soft);
+                margin: 48px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- 目錄導航 -->
+            <nav class="toc" aria-label="課程目錄">
+                <a href="#setup"><span class="toc-num">1</span>環境設置</a>
+                <span class="toc-sep">›</span>
+                <a href="#kiro-ui"
+                    ><span class="toc-num">2</span>啟動上手</a
+                >
+                <span class="toc-sep">›</span>
+                <a href="#mcp"><span class="toc-num">3</span>工具體驗·Tavily</a>
+                <span class="toc-sep">›</span>
+                <a href="#skill"><span class="toc-num">4</span>工具體驗·Skill</a>
+                <span class="toc-sep">›</span>
+                <a href="#playwright"
+                    ><span class="toc-num">5</span>綜合實戰·Chrome</a
+                >
+                <span class="toc-sep">›</span>
+                <a href="#survey"><span class="toc-num">6</span>問卷</a>
+            </nav>
+
+            <!-- ====== Section 1: 環境設置 ====== -->
+            <section id="setup">
+                <span class="badge">前置準備</span>
+                <h1>🛠️ 環境設置：安裝所有需要的工具</h1>
+
+                <div class="card">
+                    <h2>
+                        <span class="icon">📥</span> 第一步：安裝 Claude Code
+                    </h2>
+                    <p style="margin-top: 12px">
+                        <strong>Windows（PowerShell）：</strong>
+                    </p>
+                    <div class="code-block-wrapper">
+                        <button
+                            class="copy-btn"
+                            data-copy-target="#installClaudeWin"
+                        ></button>
+                        <div class="code-block">
+                            <pre id="installClaudeWin">
+irm https://claude.ai/install.ps1 | iex</pre
+                            >
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px">
+                        <strong>macOS / Linux：</strong>
+                    </p>
+                    <div class="code-block-wrapper">
+                        <button
+                            class="copy-btn"
+                            data-copy-target="#installClaudeMac"
+                        ></button>
+                        <div class="code-block">
+                            <pre id="installClaudeMac">
+curl -fsSL https://claude.ai/install.sh | bash</pre
+                            >
+                        </div>
+                    </div>
+                    <ol class="step-list" style="margin-top: 16px">
+                        <li>
+                            安裝完成後，<strong
+                                >關掉 PowerShell / Terminal
+                                再重新開啟一次</strong
+                            >，讓 PATH 生效。
+                        </li>
+                        <li>
+                            輸入
+                            <code>claude --version</code
+                            >，看到版本號就代表裝好了。
+                        </li>
+                        <li>
+                            如果安裝或使用過程中遇到問題，可以參考
+                            <a
+                                href="https://docs.claude.com/en/docs/claude-code/quickstart"
+                                target="_blank"
+                                ><strong>Claude Code 官方文件</strong></a
+                            >。
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🟢</span> 第二步：安裝 Node.js</h2>
+                    <p style="margin-top: 12px">
+                        前往
+                        <a
+                            href="https://nodejs.org/zh-tw/download"
+                            target="_blank"
+                            >nodejs.org</a
+                        >，點擊下方的安裝程式，下載後安裝即可。
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="img/02-Node-JS.png"
+                            alt="Node.js 官網下載 LTS 版本"
+                        />
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🐍</span> 第三步：安裝 Python</h2>
+                    <p>
+                        前往
+                        <a
+                            href="https://www.python.org/downloads/"
+                            target="_blank"
+                            >python.org/downloads</a
+                        >，點擊頁面上最新的
+                        <strong>Python 3.14.x</strong> 安裝檔下載安裝。
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="img/03-Python.png"
+                            alt="Python 安裝時勾選 Add to PATH"
+                        />
+                    </div>
+                    <p style="margin-top: 12px">
+                        安裝時記得把最下面的
+                        <strong>Add python.exe to PATH</strong> 打勾，這樣
+                        Claude Code 才能找到 Python。
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="img/07-PATH.png"
+                            alt="Python 安裝時勾選 Add python.exe to PATH"
+                        />
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>
+                        <span class="icon">🔑</span> 第四步：申請 Tavily API Key 並裝上 MCP
+                    </h2>
+                    <p>
+                        Tavily 是給 AI 用的搜尋服務，免費帳號每月有
+                        <strong>1,000 次</strong>搜尋額度，不用綁信用卡。裝上之後，Claude Code 才有比較好的網路搜尋能力。
+                    </p>
+
+                    <p class="sub-step-title"><strong>申請 API Key</strong></p>
+                    <ol class="step-list">
+                        <li>
+                            打開
+                            <a
+                                href="https://app.tavily.com/home"
+                                target="_blank"
+                                >app.tavily.com</a
+                            >，點 <strong>Sign Up</strong> 註冊帳號（可以用
+                            Google 帳號直接登入）。
+                        </li>
+                        <li>
+                            登入後會看到你的 API Key。在
+                            <strong>OPTIONS</strong>
+                            中，點左邊第二個圖示就能複製 API Key。
+                        </li>
+                        <li style="color: #9c4420">
+                            <strong style="color: #9c4420"
+                                >API Key
+                                是你的帳號密碼，不要分享給別人，也不要貼在公開的地方。</strong
+                            >
+                        </li>
+                    </ol>
+                    <div class="screenshot">
+                        <img
+                            src="img/05-Tavily-MCP.png"
+                            alt="Tavily 後台，顯示 API Key 的位置"
+                        />
+                    </div>
+
+                    <p class="sub-step-title"><strong>裝上 MCP</strong></p>
+                    <p>
+                        貼上你的 API Key，下方指令會自動帶入。複製整段到終端機（PowerShell / Terminal）執行：
+                    </p>
+                    <div style="margin: 16px 0">
+                        <label for="apiKeyInput" class="text-input-label">你的 Tavily API Key</label>
+                        <input
+                            type="text"
+                            id="apiKeyInput"
+                            class="text-input"
+                            placeholder="tvly-xxxxxxxxxx"
+                        />
+                    </div>
+                    <div class="code-block-wrapper">
+                        <button class="copy-btn" data-copy-target="#installMcpCmd"></button>
+                        <div class="code-block">
+                            <pre id="installMcpCmd">claude mcp add tavily --scope user --env TAVILY_API_KEY=tvly-xxxxxxxxxx -- npx -y tavily-mcp@latest</pre>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px">
+                        看到 <strong>Added stdio MCP server tavily</strong> 就成功了。
+                    </p>
+                </div>
+            </section>
+
+            <hr class="section-divider" />
+
+            <!-- ====== Section 2: Claude Code 介面 ====== -->
+            <section id="kiro-ui">
+                <span class="badge">新手上路</span>
+                <h1>🖥️ 打開 Claude Code，認識你的工作環境</h1>
+                <p class="subtitle">
+                    在資料夾裡開終端機、看懂對話介面、動手試一次就上手
+                </p>
+
+                <div class="card">
+                    <h2><span class="icon">📂</span> 怎麼打開 Claude Code？</h2>
+                    <p>
+                        Claude Code
+                        是命令列工具，必須在<strong>資料夾裡的終端機</strong>啟動。在電腦上新建一個空白資料夾（名字隨便取，但避免中文與空白）。
+                    </p>
+                    <p style="margin-top: 12px">
+                        <strong>Windows：</strong>打開資料夾後，按住
+                        <strong>Shift</strong> 同時點滑鼠右鍵，選
+                        <strong>「在這裡開啟 PowerShell 視窗」</strong>。
+                    </p>
+                    <p style="margin-top: 12px">
+                        <strong>macOS：</strong>打開 Terminal，輸入
+                        <code>cd </code>後把資料夾拖進去，按 Enter
+                        切換到該資料夾。
+                    </p>
+                    <p style="margin-top: 12px">
+                        確認終端機目前的位置是這個資料夾後，輸入：
+                    </p>
+                    <div class="code-block-wrapper">
+                        <button
+                            class="copy-btn"
+                            data-copy-target="#claudeStart"
+                        ></button>
+                        <div class="code-block">
+                            <pre id="claudeStart">claude</pre>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px">
+                        畫面會切換成 Claude Code 的對話介面，最下面就是輸入框。
+                    </p>
+                    <div class="highlight-box" style="margin-top: 16px">
+                        <p><strong>💡 每個專案用一個獨立的資料夾</strong></p>
+                        <p>
+                            Claude Code
+                            會根據你啟動時所在資料夾的內容理解任務，如果把所有東西混在同一個資料夾，AI
+                            容易搞混。
+                        </p>
+                        <p>
+                            為了讓 AI
+                            專注於當前任務，建議每個新專案都要開一個新資料夾進行維護。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🔐</span> 第一次啟動會要求登入</h2>
+                    <p>
+                        Claude Code 會問你要怎麼登入。選 <strong>「Claude account with subscription」</strong>，瀏覽器會自動打開 claude.ai 登入頁面，用你訂閱 Pro / Max 的帳號登入即可。
+                    </p>
+                    <p style="margin-top: 12px">
+                        看到 <strong>Login successful</strong> 就成功了。回到終端機會看到對話介面，輸入 <code>/help</code> 可以看所有可用的指令。
+                    </p>
+                </div>
+            </section>
+
+            <hr class="section-divider" />
+
+            <!-- ====== Section 3: 品牌分析報告 ====== -->
+            <section id="mcp">
+                <span class="badge">工具體驗 1/2</span>
+                <h1>📋 體驗：做一份品牌分析報告</h1>
+                <p class="subtitle">填三個欄位，把 prompt 丟給 Claude Code，它會用 Tavily 上網找資料、整理成 HTML</p>
+
+                <div class="card">
+                    <h2>
+                        <span class="icon">✏️</span>
+                        填上你想分析的品牌
+                    </h2>
+                    <div
+                        style="
+                            margin: 20px 0;
+                            display: grid;
+                            grid-template-columns: 1fr 1fr 1fr;
+                            gap: 12px;
+                        "
+                    >
+                        <div>
+                            <label for="brandName" class="text-input-label-sm"
+                                >品牌名稱</label
+                            >
+                            <input
+                                type="text"
+                                id="brandName"
+                                class="text-input text-input-sm"
+                                placeholder="Anker"
+                            />
+                        </div>
+                        <div>
+                            <label
+                                for="brandCategory"
+                                class="text-input-label-sm"
+                                >主營品類</label
+                            >
+                            <input
+                                type="text"
+                                id="brandCategory"
+                                class="text-input text-input-sm"
+                                placeholder="行動電源、充電器"
+                            />
+                        </div>
+                        <div>
+                            <label
+                                for="brandMarkets"
+                                class="text-input-label-sm"
+                                >銷售國家 / 站點</label
+                            >
+                            <input
+                                type="text"
+                                id="brandMarkets"
+                                class="text-input text-input-sm"
+                                placeholder="美國、日本、德國"
+                            />
+                        </div>
+                    </div>
+                    <div class="code-block-wrapper">
+                        <button
+                            class="copy-btn"
+                            data-copy-target="#promptOutput"
+                        ></button>
+                        <div class="code-block">
+                            <pre id="promptOutput">
+請用 Tavily MCP 幫我針對「___」這個品牌做一份分析報告。
+
+品牌資訊：
+- 品牌名稱：___
+- 主營品類：___
+- 目前銷售國家：___
+
+搜尋原則：每個主題最多搜尋 1-2 次就好，不用反覆追查，把時間留給分析。
+
+請涵蓋以下三個主題，並針對搜到的資料做深入解讀：
+
+1. 品牌概況：公司背景、主要產品線、品牌定位
+2. Amazon 表現：熱賣產品、定價策略、評價中看到的優缺點
+3. 近期動態與機會：近期新聞、市場趨勢，並給出你的觀察與建議
+
+請著重在「分析與洞察」，不要只是把搜到的資料條列出來，多加入你的推論與串聯。
+完成後把報告存成 report.html，用繁體中文撰寫，排版清楚好讀。</pre
+                            >
+                        </div>
+                    </div>
+                    <p style="margin-top: 16px">
+                        複製後貼到 Claude Code 輸入框，第一次用 Tavily 會跳權限確認，選 <strong>「Yes, and don't ask again for tavily」</strong>，之後就不會再問。完成後資料夾裡會多一份 <code>report.html</code>，雙擊打開看結果。
+                    </p>
+                </div>
+            </section>
+
+            <hr class="section-divider" />
+
+            <!-- ====== Section 4: Skill ====== -->
+            <section id="skill">
+                <span class="badge">工具體驗 2/2</span>
+                <h1>🧩 Skill：一鍵升級 AI 的專業能力</h1>
+                <p class="subtitle">
+                    不用寫程式、不用設定，裝上 Skill 就能讓 AI 變成各領域的專家
+                </p>
+
+                <div class="card">
+                    <h2><span class="icon">🤔</span> Skill 是什麼？</h2>
+                    <p>
+                        簡單來說，Skill 就是寫給 AI 看的專案說明書，讓 AI
+                        理解怎麼把一件事情做好，一種提煉於隱性智慧的顯性文檔。
+                    </p>
+                    <div class="zone-grid" style="margin-top: 20px">
+                        <div class="zone-card">
+                            <div class="zone-label">🙌 安裝零門檻</div>
+                            <p>不用寫程式、不用改設定檔，說一句話就能裝好。</p>
+                        </div>
+                        <div class="zone-card">
+                            <div class="zone-label">⚡ 即裝即用</div>
+                            <p>
+                                裝完直接生效，不需要累計或者沉澱更多使用記錄。
+                            </p>
+                        </div>
+                        <div class="zone-card">
+                            <div class="zone-label">📐 可被監督</div>
+                            <p>
+                                Skill
+                                是純文字檔，可以藉由人工完成監察，判斷內容。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>
+                        <span class="icon">🔎</span> 第一步：先裝一個會找 Skill 的 Skill
+                    </h2>
+                    <p>
+                        Skill 種類很多，與其自己去 GitHub 搜，不如裝一個 <strong>find-skills</strong>，之後想用什麼，請它去 Anthropic 官方 marketplace 找就好。把下面這段貼到 Claude Code 的輸入框：
+                    </p>
+                    <div class="code-block-wrapper">
+                        <button class="copy-btn" data-copy-target="#installFindSkillsPrompt"></button>
+                        <div class="code-block">
+                            <pre id="installFindSkillsPrompt">幫我安裝 Anthropic 官方的 find-skills plugin。
+步驟：
+1. 加入 Anthropic 官方 marketplace（如果還沒加的話）
+2. 安裝 find-skills 這個 plugin
+3. 安裝完 reload 一下，讓我可以直接在當前對話用</pre>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px">
+                        裝完後輸入 <code>/</code>，能在指令選單看到 find-skills 就成功了。
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h2>
+                        <span class="icon">🎨</span> 第二步：用 find-skills 找一個前端設計的 Skill
+                    </h2>
+                    <p>
+                        Anthropic 有一個 <strong>frontend-design</strong> 的 Skill，能讓 Claude 寫 HTML 時排版質感更好。但你不需要自己去找它的安裝指令，直接告訴 find-skills 你要什麼就好：
+                    </p>
+                    <div class="code-block-wrapper">
+                        <button class="copy-btn" data-copy-target="#installFrontendPrompt"></button>
+                        <div class="code-block">
+                            <pre id="installFrontendPrompt">用 find-skills 幫我找一個能讓前端設計變漂亮的 Skill，然後裝起來，
+裝完後 reload，讓我可以在當前對話直接用。</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>
+                        <span class="icon">📐</span> 第三步：用 frontend-design 重做品牌報告
+                    </h2>
+                    <p>
+                        裝好之後，回頭把 Section 3 那份 <code>report.html</code> 重做一次。選好對象與風格，下方 prompt 會自動帶入，貼到輸入框送出：
+                    </p>
+                    <div class="prompt-builder">
+                        <div class="prompt-builder-options">
+                            <div class="option-group">
+                                <label class="option-label">📋 報告對象</label>
+                                <div id="audienceOptions" class="chip-group"></div>
+                            </div>
+                            <div class="option-group">
+                                <label class="option-label">🎨 設計風格</label>
+                                <div id="styleOptions" class="chip-group"></div>
+                            </div>
+                        </div>
+                        <div class="code-block-wrapper">
+                            <button class="copy-btn" data-copy-target="#optimizePromptOutput"></button>
+                            <div class="code-block">
+                                <pre id="optimizePromptOutput">使用 frontend-design Skill，對 report.html 進行以下優化：
+
+- 這份報告要給「___」看
+- 設計風格：___
+- 加入清楚的資訊層級：標題、小標、重點數據要一眼就能看到
+- 數據部分用視覺化的方式呈現（例如卡片、標籤、色塊區分）
+- 整體排版要專業、好讀，像一份正式的商業報告
+
+直接修改 report.html，用繁體中文。</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🔍</span> 去哪裡找更多 Skill？</h2>
+                    <p>
+                        很多人會把自己做的 Skill 分享到 GitHub
+                        (開源社群，可以想像是工程師的 Thread) 上，直接去 GitHub
+                        逛是最快的。
+                    </p>
+                    <p>
+                        GitHub
+                        上的星星數（⭐）就像點讚，星星越多代表越多人覺得好用，剛開始挑
+                        Skill 的時候可以參考。
+                    </p>
+
+                    <p class="sub-step-title">
+                        <strong>🏢 官方出品：Anthropic Skills</strong>
+                    </p>
+                    <p>
+                        Anthropic 自己維護了一個
+                        <a
+                            href="https://github.com/anthropics/skills"
+                            target="_blank"
+                            >Skill 倉庫</a
+                        >，裡面有各種經過官方測試的 Skill
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="img/14-Anthropics-SKILL.png"
+                            style="width: 100%"
+                            alt="Anthropic 官方 Skills GitHub 頁面"
+                        />
+                    </div>
+
+                    <p class="sub-step-title"><strong>😂 同事 Skill</strong></p>
+                    <p>
+                        <a
+                            href="https://github.com/titanwings/colleague-skill"
+                            target="_blank"
+                            ><strong>同事 Skill</strong></a
+                        >
+                        則是最近 GitHub
+                        上爆紅的SKILL，他可以通過歷史文件，模擬出同事的表現。
+                    </p>
+                    <div class="screenshot">
+                        <img
+                            src="img/13-tong-shi-SKILL.png"
+                            style="width: 100%"
+                            alt="Colleague Skill GitHub 頁面"
+                        />
+                    </div>
+                </div>
+            </section>
+
+            <hr class="section-divider" />
+
+            <!-- ====== Section 5: 瀏覽器自動化 ====== -->
+            <section id="playwright">
+                <span class="badge">綜合實戰</span>
+                <h1>🌐 實戰：用 AI 自動操作瀏覽器</h1>
+                <p class="subtitle">
+                    讓 AI 幫你開網頁、點按鈕、抓資料，把重複的瀏覽器操作變成自動化流程
+                </p>
+
+                <div class="card">
+                    <h2>
+                        <span class="icon">🤔</span> Claude for Chrome 是什麼？
+                    </h2>
+                    <p>
+                        <a href="https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome" target="_blank">Claude for Chrome</a> 是 Anthropic 官方的 Chrome 擴充功能，可以讓 Claude Code <strong>直接操作你平常在用的那個 Chrome 瀏覽器</strong>：開分頁、點按鈕、填表單、抓資料。
+                    </p>
+                    <p style="margin-top: 12px">
+                        重點是它共用你 Chrome 的<strong>登入狀態</strong>，所以那些需要登入才看得到的網站（Amazon 賣家後台、Gmail、公司內網），它都能像你本人一樣進去操作。
+                    </p>
+                    <div class="zone-grid" style="margin-top: 20px">
+                        <div class="zone-card">
+                            <div class="zone-label">🔐 共用登入</div>
+                            <p>不用重新登入。你 Chrome 已經登入的網站，Claude 也可以直接進。</p>
+                        </div>
+                        <div class="zone-card">
+                            <div class="zone-label">👀 看得到畫面</div>
+                            <p>不是 headless 黑箱跑。整個操作過程在你眼前發生，可以隨時停下。</p>
+                        </div>
+                        <div class="zone-card">
+                            <div class="zone-label">🔁 跨網頁工作流</div>
+                            <p>在 A 網站抓資料、整理後丟到 B 網站，Claude 可以一條龍完成。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">📦</span> 安裝 Claude for Chrome 擴充功能</h2>
+                    <ol class="step-list">
+                        <li>
+                            前往
+                            <a href="https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn" target="_blank"
+                                ><strong>Chrome Web Store 的 Claude 頁面</strong></a
+                            >，點 <strong>「加入 Chrome」</strong> 安裝擴充功能。
+                        </li>
+                        <li>
+                            安裝後會出現在 Chrome 右上角，點開後用 <strong>同一個 Claude 帳號</strong>登入（就是你用 Claude Code 的那個帳號）。
+                        </li>
+                        <li>
+                            回到終端機，<strong>關掉現在的 Claude Code</strong>（輸入 <code>/exit</code>），然後重新啟動時加上 <code>--chrome</code> 參數：
+                        </li>
+                    </ol>
+                    <div class="code-block-wrapper">
+                        <button class="copy-btn" data-copy-target="#startChromeCmd"></button>
+                        <div class="code-block">
+                            <pre id="startChromeCmd">claude --chrome</pre>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px">
+                        如果已經在 Claude Code 裡面，也可以直接打 <code>/chrome</code> 啟用連線。連上之後，下方狀態列會多一個 Chrome 圖示，代表 Claude 現在能看到你的瀏覽器了。
+                    </p>
+                    <div class="highlight-box" style="margin-top: 16px">
+                        <p><strong>💡 只支援 Pro / Max / Team / Enterprise 訂閱</strong></p>
+                        <p>
+                            Claude for Chrome 目前是 Beta，需要付費訂閱帳號。Bedrock / Vertex AI 走 API 的學員暫時用不了。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>
+                        <span class="icon">🔍</span> 實戰：去 Amazon 看一下你的品牌
+                    </h2>
+                    <p>
+                        Section 3 的報告是 Tavily 在公開網路上找到的資料。Amazon 站內的價格、評論細節，要實際打開頁面才看得到。這一步用 Claude for Chrome 把這部分補上。
+                    </p>
+
+                    <p class="sub-step-title"><strong>Step 1：打開 Amazon 美國站、登入</strong></p>
+                    <p>
+                        在 Chrome 手動打開 <a href="https://www.amazon.com" target="_blank">amazon.com</a>，用你的帳號登入。Claude 會用這個分頁的登入狀態操作。
+                    </p>
+
+                    <p class="sub-step-title"><strong>Step 2：請 Claude 去抓品牌資料</strong></p>
+                    <p>
+                        品牌名稱會跟 Section 3 自動同步。下方 prompt 直接複製貼到輸入框：
+                    </p>
+                    <div style="margin: 16px 0">
+                        <label for="brandNameChrome" class="text-input-label">品牌名稱</label>
+                        <input
+                            type="text"
+                            id="brandNameChrome"
+                            class="text-input"
+                            placeholder="Anker"
+                        />
+                    </div>
+                    <div class="code-block-wrapper">
+                        <button class="copy-btn" data-copy-target="#chromeBrandPrompt"></button>
+                        <div class="code-block">
+                            <pre id="chromeBrandPrompt">用我目前開著的 Chrome 幫我做以下事情：
+
+1. 在 Amazon 搜尋「___」這個品牌
+2. 從搜尋結果裡挑出 5 個熱門 ASIN（標題、售價、星級、評論數）
+3. 點進其中評論最多的那一個產品頁，幫我抓最新 5 則評論（評分、標題、內文、日期）
+4. 整理成一份 markdown 表格，存成 amazon-snapshot.md
+
+過程中如果遇到驗證碼或登入要求，停下來告訴我，我會手動處理。</pre>
+                        </div>
+                    </div>
+                    <p style="margin-top: 12px">
+                        Claude 會在 Chrome 裡自己點頁面、抓資料，整個過程都看得到。如果它走錯方向，可以打斷它，告訴它「跳過這個」「再點下一頁」這類指令。
+                    </p>
+
+                    <p class="sub-step-title"><strong>Step 3：把 Amazon 資料併回報告</strong></p>
+                    <p>
+                        把剛剛抓到的內容整合進原本的 <code>report.html</code>：
+                    </p>
+                    <div class="code-block-wrapper">
+                        <button class="copy-btn" data-copy-target="#mergeReportPrompt"></button>
+                        <div class="code-block">
+                            <pre id="mergeReportPrompt">把 amazon-snapshot.md 的內容整合進 report.html 的「Amazon 表現」段落，
+重點放在：
+- 熱門 ASIN 的價格帶與評論密度
+- 評論裡反覆出現的優點和痛點
+- 跟原本報告結論對比，有沒有需要修正的判斷
+
+直接更新 report.html，保持 frontend-design Skill 的設計風格。</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="section-divider" />
+
+            <!-- ====== Section 6: 問卷 ====== -->
+            <section id="survey">
+                <span class="badge">課後問卷</span>
+                <h1>📝 請幫我們填寫課後問卷</h1>
+                <p class="subtitle">
+                    花一分鐘讓我們知道你的想法，幫助我們把課程做得更好
+                </p>
+
+                <div class="card" style="text-align: center">
+                    <h2><span class="icon">📱</span> 掃描 QR Code 填寫問卷</h2>
+                    <div class="screenshot" style="margin-top: 24px">
+                        <img
+                            id="survey-qr"
+                            alt="課後問卷 QR Code"
+                            style="max-width: 360px; width: 100%"
+                        />
+                    </div>
+                    <p style="margin-top: 20px; font-size: 1rem">
+                        💻 用電腦上課的同學，<a
+                            id="survey-link"
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >直接點我填問卷</a
+                        >
+                    </p>
+                </div>
+            </section>
+        </div>
+        <!-- end .container -->
+
+        <script>
+            // ===== Section 1: Tavily API Key 互動 =====
+            var apiKeyInput = document.getElementById("apiKeyInput");
+            var installMcpCmd = document.getElementById("installMcpCmd");
+            var defaultKey = "tvly-xxxxxxxxxx";
+
+            function getInstallMcpText(key) {
+                return (
+                    "claude mcp add tavily --scope user --env TAVILY_API_KEY=" +
+                    key +
+                    " -- npx -y tavily-mcp@latest"
+                );
+            }
+
+            if (apiKeyInput && installMcpCmd) {
+                apiKeyInput.addEventListener("input", function () {
+                    var val = this.value.trim();
+                    installMcpCmd.textContent = getInstallMcpText(val || defaultKey);
+                });
+            }
+
+            // ===== Section 3: 品牌分析互動 =====
+            var brandName = document.getElementById("brandName");
+            var brandCategory = document.getElementById("brandCategory");
+            var brandMarkets = document.getElementById("brandMarkets");
+            var promptOutput = document.getElementById("promptOutput");
+
+            function getPromptText(name, category, markets) {
+                return (
+                    "請用 Tavily MCP 幫我針對「" +
+                    (name || "___") +
+                    "」這個品牌做一份分析報告。\n\n品牌資訊：\n- 品牌名稱：" +
+                    (name || "___") +
+                    "\n- 主營品類：" +
+                    (category || "___") +
+                    "\n- 目前銷售國家：" +
+                    (markets || "___") +
+                    "\n\n搜尋原則：每個主題最多搜尋 1-2 次就好，不用反覆追查，把時間留給分析。\n\n請涵蓋以下三個主題，並針對搜到的資料做深入解讀：\n\n1. 品牌概況：公司背景、主要產品線、品牌定位\n2. Amazon 表現：熱賣產品、定價策略、評價中看到的優缺點\n3. 近期動態與機會：近期新聞、市場趨勢，並給出你的觀察與建議\n\n請著重在「分析與洞察」，不要只是把搜到的資料條列出來，多加入你的推論與串聯。\n完成後把報告存成 report.html，用繁體中文撰寫，排版清楚好讀。"
+                );
+            }
+
+            function updatePrompt() {
+                promptOutput.textContent = getPromptText(
+                    brandName.value.trim(),
+                    brandCategory.value.trim(),
+                    brandMarkets.value.trim(),
+                );
+            }
+
+            brandName.addEventListener("input", updatePrompt);
+            brandCategory.addEventListener("input", updatePrompt);
+            brandMarkets.addEventListener("input", updatePrompt);
+
+            // ===== Section 4: Skill 選項互動 =====
+            function makeSingleSelect(choices, containerId) {
+                var selected = "";
+                var container = document.getElementById(containerId);
+                var btns = [];
+                choices.forEach(function (item) {
+                    var isObj = typeof item === "object";
+                    var label = isObj ? item.label : item;
+                    var desc = isObj ? item.desc : null;
+                    var value = isObj && item.value ? item.value : label;
+                    var btn = document.createElement("button");
+                    btn.className = "chip";
+                    if (desc) {
+                        btn.innerHTML =
+                            '<span class="chip-label">' +
+                            label +
+                            '</span><span class="chip-desc">' +
+                            desc +
+                            "</span>";
+                    } else {
+                        btn.innerHTML =
+                            '<span class="chip-label">' + label + "</span>";
+                    }
+                    btn.addEventListener("click", function () {
+                        if (selected === value) {
+                            selected = "";
+                            btn.classList.remove("active");
+                        } else {
+                            selected = value;
+                            btns.forEach(function (b) {
+                                b.classList.remove("active");
+                            });
+                            btn.classList.add("active");
+                        }
+                        updateOptimizePrompt();
+                    });
+                    btns.push(btn);
+                    container.appendChild(btn);
+                });
+                return function () {
+                    return selected;
+                };
+            }
+
+            var getAudience = makeSingleSelect(
+                ["老闆", "客戶", "投資人", "自己參考"],
+                "audienceOptions",
+            );
+            var getStyle = makeSingleSelect(
+                [
+                    {
+                        label: "簡約留白",
+                        desc: "Minimalism",
+                        value: "Minimalism",
+                    },
+                    {
+                        label: "毛玻璃透明",
+                        desc: "Glassmorphism",
+                        value: "Glassmorphism",
+                    },
+                    {
+                        label: "方塊卡片",
+                        desc: "Bento Grid",
+                        value: "Bento Grid",
+                    },
+                    {
+                        label: "深色質感",
+                        desc: "Dark Mode",
+                        value: "Dark Mode",
+                    },
+                    {
+                        label: "扁平色塊",
+                        desc: "Flat Design",
+                        value: "Flat Design",
+                    },
+                ],
+                "styleOptions",
+            );
+
+            var optimizePromptOutput = document.getElementById(
+                "optimizePromptOutput",
+            );
+
+            function getOptimizePromptText(audience, style) {
+                return (
+                    "使用 frontend-design Skill，對 report.html 進行以下優化：\n\n- 這份報告要給「" +
+                    (audience || "___") +
+                    "」看\n- 設計風格：" +
+                    (style || "___") +
+                    "\n- 加入清楚的資訊層級：標題、小標、重點數據要一眼就能看到\n- 數據部分用視覺化的方式呈現（例如卡片、標籤、色塊區分）\n- 整體排版要專業、好讀，像一份正式的商業報告\n\n直接修改 report.html，用繁體中文。"
+                );
+            }
+
+            function updateOptimizePrompt() {
+                optimizePromptOutput.textContent = getOptimizePromptText(
+                    getAudience(),
+                    getStyle(),
+                );
+            }
+
+            // ===== Section 5: 品牌名稱互動（帶入 Chrome 操作 prompt）=====
+            var brandNameChrome = document.getElementById("brandNameChrome");
+            var chromeBrandPrompt = document.getElementById("chromeBrandPrompt");
+
+            function getChromeBrandPromptText(name) {
+                return (
+                    "用我目前開著的 Chrome 幫我做以下事情：\n\n1. 在 Amazon 搜尋「" +
+                    (name || "___") +
+                    "」這個品牌\n2. 從搜尋結果裡挑出 5 個熱門 ASIN（標題、售價、星級、評論數）\n3. 點進其中評論最多的那一個產品頁，幫我抓最新 5 則評論（評分、標題、內文、日期）\n4. 整理成一份 markdown 表格，存成 amazon-snapshot.md\n\n過程中如果遇到驗證碼或登入要求，停下來告訴我，我會手動處理。"
+                );
+            }
+
+            if (brandNameChrome && chromeBrandPrompt) {
+                brandNameChrome.addEventListener("input", function () {
+                    chromeBrandPrompt.textContent = getChromeBrandPromptText(
+                        this.value.trim(),
+                    );
+                });
+                // 跟 Section 3 的品牌名稱聯動：在 Section 3 改品牌時，Section 5 也跟著改
+                if (brandName) {
+                    brandName.addEventListener("input", function () {
+                        var val = this.value.trim();
+                        brandNameChrome.value = val;
+                        chromeBrandPrompt.textContent = getChromeBrandPromptText(val);
+                    });
+                }
+            }
+
+            // ===== Section 6: 問卷 QR Code =====
+            (function () {
+                var now = new Date();
+                var y = now.getFullYear();
+                var m = String(now.getMonth() + 1).padStart(2, "0");
+                var d = String(now.getDate()).padStart(2, "0");
+                var dateStr = y + "" + m + "" + d;
+                var fullUrl =
+                    "https://pulse.amazon/survey/IWDN6OM1?source=" + dateStr;
+                var qrApi =
+                    "https://api.qrserver.com/v1/create-qr-code/?data=" +
+                    encodeURIComponent(fullUrl) +
+                    "&size=400x400&margin=0";
+                var img = document.getElementById("survey-qr");
+                var link = document.getElementById("survey-link");
+                if (img) img.src = qrApi;
+                if (link) link.href = fullUrl;
+            })();
+        </script>
+
+        <!-- Copy Button Script -->
+        <script>
+            (function () {
+                var COPY_ICON =
+                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+                var CHECK_ICON =
+                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><polyline points="20 6 9 17 4 12"/></svg>';
+                function resetBtn(btn) {
+                    btn.innerHTML = COPY_ICON + "複製";
+                    btn.classList.remove("copied");
+                }
+                function flashCopied(btn) {
+                    btn.innerHTML = CHECK_ICON + "已複製";
+                    btn.classList.add("copied");
+                    setTimeout(function () {
+                        resetBtn(btn);
+                    }, 1500);
+                }
+                function handleClick(btn) {
+                    var sel = btn.getAttribute("data-copy-target");
+                    if (!sel) return;
+                    var target = document.querySelector(sel);
+                    if (!target) return;
+                    var text = target.textContent;
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(function () {
+                            flashCopied(btn);
+                        });
+                    } else {
+                        var ta = document.createElement("textarea");
+                        ta.value = text;
+                        document.body.appendChild(ta);
+                        ta.select();
+                        try {
+                            document.execCommand("copy");
+                            flashCopied(btn);
+                        } catch (e) {}
+                        document.body.removeChild(ta);
+                    }
+                }
+                document.addEventListener("DOMContentLoaded", function () {
+                    var btns = document.querySelectorAll(
+                        ".copy-btn[data-copy-target]",
+                    );
+                    for (var i = 0; i < btns.length; i++) {
+                        (function (btn) {
+                            if (!btn.innerHTML.trim()) resetBtn(btn);
+                            btn.addEventListener("click", function () {
+                                handleClick(btn);
+                            });
+                        })(btns[i]);
+                    }
+                });
+            })();
+        </script>
+
+        <!-- Lightbox Script -->
+        <script>
+            (function () {
+                var overlay = document.createElement("div");
+                overlay.id = "lightbox-overlay";
+                var img = document.createElement("img");
+                overlay.appendChild(img);
+                document.body.appendChild(overlay);
+                document.addEventListener("click", function (e) {
+                    var target = e.target;
+                    if (
+                        target.tagName === "IMG" &&
+                        target.closest(".screenshot")
+                    ) {
+                        img.src = target.src;
+                        img.alt = target.alt;
+                        overlay.classList.add("active");
+                    }
+                });
+                overlay.addEventListener("click", function () {
+                    overlay.classList.remove("active");
+                });
+                document.addEventListener("keydown", function (e) {
+                    if (e.key === "Escape") overlay.classList.remove("active");
+                });
+            })();
+        </script>
+    </body>
+</html>
