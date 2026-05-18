@@ -274,14 +274,25 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                             >，看到版本號就代表裝好了。
                         </li>
                         <li>
-                            如果重開後 Windows 還是找不到 <code>claude</code> 指令，可以在 PowerShell 執行下面這行強制刷新 PATH：
-                            <div class="code-block-wrapper" style="margin-top: 8px">
+                            如果重開後還是找不到 <code>claude</code> 指令，可以執行下面這行強制刷新 PATH：
+                            <p style="margin-top: 8px"><strong>Windows（PowerShell）：</strong></p>
+                            <div class="code-block-wrapper" style="margin-top: 4px">
                                 <button
                                     class="copy-btn"
                                     data-copy-target="#refreshPathWin"
                                 ></button>
                                 <div class="code-block">
                                     <pre id="refreshPathWin">[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$env:USERPROFILE\.local\bin", "User")</pre>
+                                </div>
+                            </div>
+                            <p style="margin-top: 8px"><strong>macOS / Linux（zsh）：</strong></p>
+                            <div class="code-block-wrapper" style="margin-top: 4px">
+                                <button
+                                    class="copy-btn"
+                                    data-copy-target="#refreshPathMac"
+                                ></button>
+                                <div class="code-block">
+                                    <pre id="refreshPathMac">echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc</pre>
                                 </div>
                             </div>
                         </li>
