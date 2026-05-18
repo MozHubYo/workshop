@@ -13,6 +13,8 @@
         .toc .toc-sep{color:#dfe6e9;font-size:0.65rem;margin:0 1px}
         section{scroll-margin-top:50px}
         .section-divider{border:none;border-top:2px solid #f0edff;margin:48px 0}
+        .line-cta{display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:center;margin-top:12px}
+        @media (max-width:600px){.line-cta{grid-template-columns:1fr;gap:20px;text-align:center}.line-cta .screenshot img{margin:0 auto}}
     </style>
 </head>
 <body>
@@ -490,6 +492,19 @@ curl -fsSL https://raw.githubusercontent.com/MozHubYo/kiro-skills-installer/main
                 <p style="margin-top: 20px; font-size: 1rem;">
                     💻 用電腦上課的同學，<a id="survey-link" href="#" target="_blank" rel="noopener noreferrer">直接點我填問卷</a>
                 </p>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">💬</span> 加入官方 Line，持續收到賣家專屬內容</h2>
+                <div class="line-cta">
+                    <div class="screenshot" style="margin: 0;">
+                        <img src="img/Line.jpg" alt="官方 Line QR Code" style="max-width: 200px; width: 100%;">
+                    </div>
+                    <div>
+                        <p>打開 Line App，從右上角的<strong>「加入好友 → 行動條碼」</strong>進入掃描器，對準左方 QR Code 即可加入。</p>
+                        <p style="margin-top: 12px;">加好友後，後續還會收到更多賣家專屬的訓練、工具與行業情報。</p>
+                    </div>
+                </div>
             </div>
         </section>
 
