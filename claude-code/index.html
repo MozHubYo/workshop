@@ -63,6 +63,62 @@
                 border-top: 2px solid var(--rule-soft);
                 margin: 48px 0;
             }
+
+            /* ── Line CTA：QR + 說明的兩欄版型 ── */
+            .line-cta-block {
+                margin: 24px 0 8px;
+                padding: 32px 0;
+                border-top: 2px solid var(--ink);
+                border-bottom: 1px solid var(--rule);
+                display: grid;
+                grid-template-columns: 200px 1fr;
+                gap: 32px;
+                align-items: center;
+            }
+            .line-cta-block .qr-frame {
+                background: #fff;
+                border: 1px solid var(--rule);
+                padding: 12px;
+                width: 200px;
+                height: 200px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .line-cta-block .qr-frame img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
+            .line-cta-block .qr-meta {
+                font-size: 10px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: var(--ink-mute);
+                margin-top: 8px;
+                text-align: center;
+            }
+            .line-cta-block h3 {
+                font-size: 1.25rem;
+                font-weight: 700;
+                margin: 0 0 12px;
+                color: var(--ink);
+            }
+            .line-cta-block p {
+                font-size: 0.95rem;
+                color: var(--ink-soft);
+                margin: 0 0 10px;
+                line-height: 1.7;
+            }
+            .line-cta-block p:last-child { margin-bottom: 0; }
+            @media (max-width: 768px) {
+                .line-cta-block {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                    text-align: center;
+                }
+                .line-cta-block .qr-frame { margin: 0 auto; }
+            }
         </style>
     </head>
     <body>
@@ -75,16 +131,98 @@
                     ><span class="toc-num">2</span>啟動上手</a
                 >
                 <span class="toc-sep">›</span>
-                <a href="#mcp"><span class="toc-num">3</span>工具體驗·Tavily</a>
+                <a href="#mcp"><span class="toc-num">3</span>製作報告</a>
                 <span class="toc-sep">›</span>
-                <a href="#skill"><span class="toc-num">4</span>工具體驗·Skill</a>
+                <a href="#local-files"><span class="toc-num">4</span>讀本地檔案</a>
+                <span class="toc-sep">›</span>
+                <a href="#skill"><span class="toc-num">5</span>排版升級</a>
                 <span class="toc-sep">›</span>
                 <a href="#playwright"
-                    ><span class="toc-num">5</span>綜合實戰·Chrome</a
+                    ><span class="toc-num">6</span>進到後台</a
                 >
                 <span class="toc-sep">›</span>
-                <a href="#survey"><span class="toc-num">6</span>問卷</a>
+                <a href="#survey"><span class="toc-num">7</span>問卷</a>
             </nav>
+
+            <!-- 開場 Hero（不入 TOC） -->
+            <section id="intro" style="margin-bottom: 32px">
+                <span class="badge">為什麼要學?</span>
+                <h1>為什麼 AI 用起來好像沒有別人說的那麼好用?</h1>
+                <p class="subtitle">
+                    本地端的 AI 跟網頁版或手機版的 AI 相比有什麼不同嗎?
+                </p>
+
+                <div class="card">
+                    <h2>重點不是模型，而是互動場景</h2>
+                    <p>很多用戶會問：我已經買了最貴的方案、用了最好的模型，為什麼還要學電腦端的 AI 工具？</p>
+                    <p>差別在工作流的整合度。網頁版或手機版的 AI，痛點在於每一個斷點都得靠人搬資料 — 每次對話都要重貼一次素材，每次改腳本都要把代碼複製來複製去。任務小、難度低的時候還能接受；任務一複雜，這種做法既撐不久、也擴不大。要做到真正的自動化，得讓 AI 直接接手電腦。今天的課就從安裝開始，一步一步感受電腦端的 AI 怎麼融入日常營運。</p>
+                    <table class="compare-table" style="margin-top: 16px">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>網頁版</th>
+                                <th>本地版</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>任務啟動</strong></td>
+                                <td>整份複製貼上，上下文空間緊張</td>
+                                <td>指定讀取的檔案與段落，可跨多檔案分析</td>
+                            </tr>
+                            <tr>
+                                <td><strong>任務完成</strong></td>
+                                <td>需要用戶下載、測試、反饋</td>
+                                <td>AI 直接接手更新、測試、修改</td>
+                            </tr>
+                            <tr>
+                                <td><strong>操作軟體</strong></td>
+                                <td>只能文字對答，無法操作軟體</td>
+                                <td>可控制電腦，進行跨軟硬體的操作</td>
+                            </tr>
+                            <tr>
+                                <td><strong>客製化</strong></td>
+                                <td>僅能調整對話風格，每次對話重置</td>
+                                <td>可調整單檔風格，並具備跨專案記憶</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h2>沒學過程式，能用 AI 寫代碼操作電腦嗎？</h2>
+                    <p>
+                        95% 的情況下，用自然語言把任務講清楚就夠了，不用學任何程式語言。需要會的，就是打字跟 AI 對話。
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h2>學習路徑圖</h2>
+                    <p>
+                        從基礎安裝開始，逐步體驗日常任務的自動化，再透過客製化把產出品質再往上拉一階。
+                    </p>
+                    <ol class="step-list" style="margin-top: 16px">
+                        <li>
+                            <strong>環境設置：</strong>把需要的軟體一次裝好
+                        </li>
+                        <li>
+                            <strong>啟動上手：</strong>開啟 AI、學會踩剎車
+                        </li>
+                        <li>
+                            <strong>製作報告：</strong>用 AI 上網查資料寫第一版品牌報告
+                        </li>
+                        <li>
+                            <strong>讀本地檔案：</strong>把自家後台數據加進報告
+                        </li>
+                        <li>
+                            <strong>排版升級：</strong>用設計模板讓報告變漂亮
+                        </li>
+                        <li>
+                            <strong>進到後台：</strong>讓 AI 直接登入後台抓庫存
+                        </li>
+                    </ol>
+                </div>
+            </section>
 
             <!-- ====== Section 1: 環境設置 ====== -->
             <section id="setup">
@@ -196,13 +334,8 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
 
                 <div class="card">
                     <h2>
-                        <span class="icon">🔑</span> 第四步：申請 Tavily API Key 並裝上 MCP
+                        <span class="icon">🔑</span> 第四步：安裝 Tavily 
                     </h2>
-                    <p>
-                        Tavily 是給 AI 用的搜尋服務，免費帳號每月有
-                        <strong>1,000 次</strong>搜尋額度，不用綁信用卡。裝上之後，Claude Code 才有比較好的網路搜尋能力。
-                    </p>
-
                     <p class="sub-step-title"><strong>申請 API Key</strong></p>
                     <ol class="step-list">
                         <li>
@@ -262,17 +395,14 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
 
             <!-- ====== Section 2: Claude Code 介面 ====== -->
             <section id="kiro-ui">
-                <span class="badge">新手上路</span>
-                <h1>🖥️ 打開 Claude Code，認識你的工作環境</h1>
-                <p class="subtitle">
-                    在資料夾裡開終端機、看懂對話介面、動手試一次就上手
-                </p>
+                <span class="badge">啟動上手</span>
+                <h1>🖥️ 啟動上手：打開 Claude Code</h1>
 
                 <div class="card">
                     <h2><span class="icon">📂</span> 怎麼打開 Claude Code？</h2>
                     <p>
-                        Claude Code
-                        是命令列工具，必須在<strong>資料夾裡的終端機</strong>啟動。在電腦上新建一個空白資料夾（名字隨便取，但避免中文與空白）。
+                        <strong>Claude Code</strong>
+                        是命令列工具，必須在<strong>資料夾裡的終端機</strong>啟動。先新建一個空白資料夾，然後接著做下面的說明
                     </p>
                     <p style="margin-top: 12px">
                         <strong>Windows：</strong>打開資料夾後，按住
@@ -299,22 +429,6 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                     <p style="margin-top: 12px">
                         畫面會切換成 Claude Code 的對話介面，最下面就是輸入框。
                     </p>
-                    <div class="highlight-box" style="margin-top: 16px">
-                        <p><strong>💡 每個專案用一個獨立的資料夾</strong></p>
-                        <p>
-                            Claude Code
-                            會根據你啟動時所在資料夾的內容理解任務，如果把所有東西混在同一個資料夾，AI
-                            容易搞混。
-                        </p>
-                        <p>
-                            為了讓 AI
-                            專注於當前任務，建議每個新專案都要開一個新資料夾進行維護。
-                        </p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2><span class="icon">🔐</span> 第一次啟動會要求登入</h2>
                     <p>
                         Claude Code 會問你要怎麼登入。選 <strong>「Claude account with subscription」</strong>，瀏覽器會自動打開 claude.ai 登入頁面，用你訂閱 Pro / Max 的帳號登入即可。
                     </p>
@@ -322,15 +436,44 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                         看到 <strong>Login successful</strong> 就成功了。回到終端機會看到對話介面，輸入 <code>/help</code> 可以看所有可用的指令。
                     </p>
                 </div>
+
+                <div class="card">
+                    <h2>最常做的三件事：中止、重來、還原</h2>
+                    <p>
+                        <strong>Claude Code</strong> 會直接動到資料夾裡的檔案，開始之前先把這三個操作放在手邊。
+                    </p>
+                    <div class="zone-grid" style="margin-top: 20px">
+                        <div class="zone-card">
+                            <div class="zone-label">中止 · Esc</div>
+                            <p>
+                                AI 跑歪了，按 <code>Esc</code> 立刻打斷。
+                            </p>
+                        </div>
+                        <div class="zone-card">
+                            <div class="zone-label">重來 · /clear</div>
+                            <p>
+                                任務完成後，輸入 <code>/clear</code> 清空對話，避免上一輪的脈絡影響下一輪。
+                            </p>
+                        </div>
+                        <div class="zone-card">
+                            <div class="zone-label">還原 · /resume /rewind</div>
+                            <p>
+                                任務中間斷掉，用 <code>/resume</code> 或 <code>/rewind</code> 回到上一個狀態，就像遊戲的存檔點。
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <hr class="section-divider" />
 
             <!-- ====== Section 3: 品牌分析報告 ====== -->
             <section id="mcp">
-                <span class="badge">工具體驗 1/2</span>
-                <h1>📋 體驗：做一份品牌分析報告</h1>
-                <p class="subtitle">填三個欄位，把 prompt 丟給 Claude Code，它會用 Tavily 上網找資料、整理成 HTML</p>
+                <span class="badge">製作報告</span>
+                <h1>📋 製作報告：做一份品牌分析報告</h1>
+                <p class="subtitle">
+                    這節做出<strong>第一版</strong>報告 — 用 AI 上網查資料，產出 <code>report.html</code>，後面三節會在這份檔案上一層一層加料
+                </p>
 
                 <div class="card">
                     <h2>
@@ -390,17 +533,14 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                         ></button>
                         <div class="code-block">
                             <pre id="promptOutput">
-請用 Tavily MCP 幫我針對「___」這個品牌做一份分析報告。
+用 Tavily 針對「___」做一份分析報告。
 
 品牌資訊：
 - 品牌名稱：___
 - 主營品類：___
 - 目前銷售國家：___
 
-搜尋原則：每個主題最多搜尋 1-2 次就好，不用反覆追查，把時間留給分析。
-
 請涵蓋以下三個主題，並針對搜到的資料做深入解讀：
-
 1. 品牌概況：公司背景、主要產品線、品牌定位
 2. Amazon 表現：熱賣產品、定價策略、評價中看到的優缺點
 3. 近期動態與機會：近期新聞、市場趨勢，並給出你的觀察與建議
@@ -411,43 +551,86 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                         </div>
                     </div>
                     <p style="margin-top: 16px">
-                        複製後貼到 Claude Code 輸入框，第一次用 Tavily 會跳權限確認，選 <strong>「Yes, and don't ask again for tavily」</strong>，之後就不會再問。完成後資料夾裡會多一份 <code>report.html</code>，雙擊打開看結果。
+                        工具第一次使用時會跳出權限確認，選 <strong>「Yes, and don't ask again for tavily」</strong>，之後就不會再問。
+                    </p>
+                    <p>
+                        完成後，資料夾裡會多一份 <code>report.html</code>，這就是<strong>第一版</strong>品牌報告。後面幾節會在這份檔案上一層一層加料，最後變成一份可以直接寄給老闆或客戶的完整文件。
                     </p>
                 </div>
             </section>
 
             <hr class="section-divider" />
 
-            <!-- ====== Section 4: Skill ====== -->
-            <section id="skill">
-                <span class="badge">工具體驗 2/2</span>
-                <h1>🧩 Skill：一鍵升級 AI 的專業能力</h1>
+            <!-- ====== Section 4: 讀本地檔案 ====== -->
+            <section id="local-files">
+                <span class="badge">讀本地檔案</span>
+                <h1>📁 讀本地檔案：把自家後台數據加進報告</h1>
                 <p class="subtitle">
-                    不用寫程式、不用設定，裝上 Skill 就能讓 AI 變成各領域的專家
+                    上一節做出第一版報告後，這節把後台 Business Report 疊進去，升級成<strong>第二版</strong>
+                </p>
+
+                <div class="card">
+                    <h2>讓 Business Report 走進品牌報告</h2>
+                    <p>
+                        剛剛那份 <code>report.html</code> 全部建立在公開資訊上，少了一塊只有賣家看得到的視角 — <strong>Business Report</strong>。這份後台報表記錄每個 ASIN 真實的銷售、流量、轉換表現。把它讀進來、跟前面的市場分析對照，報告才開始真正屬於自家品牌。
+                    </p>
+                    <p>
+                        這也是 <strong>Claude Code</strong> 比網頁版 AI 強的地方：CSV 不用複製貼上，丟進資料夾就能讀。
+                    </p>
+                    <p>
+                        先到 <strong>Seller Central</strong> 下載最近兩個月的 Business Report（按 Parent ASIN），命名為 <code>br-2026-04.csv</code> 與 <code>br-2026-05.csv</code>，放進當前資料夾。再把下面的提示詞貼進輸入框：
+                    </p>
+                    <div class="code-block-wrapper">
+                        <button class="copy-btn" data-copy-target="#csvAnalysisPrompt"></button>
+                        <div class="code-block">
+                            <pre id="csvAnalysisPrompt">資料夾裡有兩個 Business Report：br-2026-04.csv（4 月）跟 br-2026-05.csv（5 月）。
+
+請幫我做以下分析：
+1. 比較兩個月的 Ordered Product Sales，找出下滑最嚴重的 10 個 ASIN
+2. 看一下這 10 個 ASIN 的 Sessions 跟 Unit Session Percentage（轉換率）有沒有同步下滑
+3. 把結果整理成 markdown 表格，包含：ASIN、4 月 GMS、5 月 GMS、變化幅度、Sessions 變化、轉換率變化、你的初步推論（流量問題還是轉換問題）
+4. 把這份分析併進 report.html 的「Amazon 表現」段落，跟前面的市場觀察對照，看結論需不需要修正
+
+注意：CSV 可能很大，必要時請寫一個 Python script 處理，不要把整個檔案讀進對話。</pre>
+                        </div>
+                    </div>
+                    <p style="margin-top: 16px">
+                        重新打開 <code>report.html</code>，Amazon 表現段落多了真實的 ASIN 銷售數據，跟前面的市場分析互相補完。<strong>第二版</strong>報告完成。
+                    </p>
+                </div>
+
+            </section>
+
+            <hr class="section-divider" />
+
+            <!-- ====== Section 5: Skill ====== -->
+            <section id="skill">
+                <span class="badge">排版升級</span>
+                <h1>🧩 排版升級：讓報告變成專業文件</h1>
+                <p class="subtitle">
+                    第二版報告的內容已經夠扎實，但排版還是濃濃 AI 味。這節用 Skill 補上設計感，產出<strong>第三版</strong>
                 </p>
 
                 <div class="card">
                     <h2><span class="icon">🤔</span> Skill 是什麼？</h2>
                     <p>
-                        簡單來說，Skill 就是寫給 AI 看的專案說明書，讓 AI
-                        理解怎麼把一件事情做好，一種提煉於隱性智慧的顯性文檔。
+                        簡單講，<strong>Skill</strong> 是一段已經寫好的提示詞。以前大家找 PPT 模板、找 Excel 公式表，到了 AI 時代，找的就是精煉過的提示詞，讓 AI 一次就把一件事做好。
                     </p>
                     <div class="zone-grid" style="margin-top: 20px">
                         <div class="zone-card">
                             <div class="zone-label">🙌 安裝零門檻</div>
-                            <p>不用寫程式、不用改設定檔，說一句話就能裝好。</p>
+                            <p>不用寫程式、不用改設定檔，一句話就能裝好。</p>
                         </div>
                         <div class="zone-card">
                             <div class="zone-label">⚡ 即裝即用</div>
                             <p>
-                                裝完直接生效，不需要累計或者沉澱更多使用記錄。
+                                裝完直接生效，不必累積使用記錄才有感。
                             </p>
                         </div>
                         <div class="zone-card">
                             <div class="zone-label">📐 可被監督</div>
                             <p>
-                                Skill
-                                是純文字檔，可以藉由人工完成監察，判斷內容。
+                                <strong>Skill</strong> 是純文字檔，可以由人工檢視、判斷內容。
                             </p>
                         </div>
                     </div>
@@ -458,35 +641,32 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                         <span class="icon">🔎</span> 第一步：先裝一個會找 Skill 的 Skill
                     </h2>
                     <p>
-                        Skill 種類很多，與其自己去 GitHub 搜，不如裝一個 <strong>find-skills</strong>，之後想用什麼，請它去 Anthropic 官方 marketplace 找就好。把下面這段貼到 Claude Code 的輸入框：
+                        既然 <strong>Skill</strong> 能讓 AI 學會做一件事，那第一個該裝的 Skill，就是讓 AI 知道怎麼找 Skill。<strong>find-skills</strong> 就是這個入口。把下面這段提示詞貼到 <strong>Claude Code</strong> 即可：
                     </p>
                     <div class="code-block-wrapper">
                         <button class="copy-btn" data-copy-target="#installFindSkillsPrompt"></button>
                         <div class="code-block">
-                            <pre id="installFindSkillsPrompt">幫我安裝 Anthropic 官方的 find-skills plugin。
-步驟：
-1. 加入 Anthropic 官方 marketplace（如果還沒加的話）
-2. 安裝 find-skills 這個 plugin
-3. 安裝完 reload 一下，讓我可以直接在當前對話用</pre>
+                            <pre id="installFindSkillsPrompt">全局安裝 find-skills 的 Skill，讓我可以用自然語言直接尋找與安裝其他 Skill
+                                REPO Link:https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md</pre>
                         </div>
                     </div>
                     <p style="margin-top: 12px">
-                        裝完後輸入 <code>/</code>，能在指令選單看到 find-skills 就成功了。
+                        裝完後輸入 <code>/skills</code>，如果能在 Skills 清單看到 <strong>find-skills</strong>，就是安裝成功了。
                     </p>
                 </div>
 
                 <div class="card">
                     <h2>
-                        <span class="icon">🎨</span> 第二步：用 find-skills 找一個前端設計的 Skill
+                        <span class="icon">🎨</span> 第二步：用 find-skills 找一個提升美感的 Skill
                     </h2>
                     <p>
-                        Anthropic 有一個 <strong>frontend-design</strong> 的 Skill，能讓 Claude 寫 HTML 時排版質感更好。但你不需要自己去找它的安裝指令，直接告訴 find-skills 你要什麼就好：
+                        前面那份<strong>第二版</strong>報告內容夠扎實，但排版還是 AI 味很重。這一步找一個能讓 HTML 排版有質感的 Skill。打開 <strong>Claude Code</strong>，輸入以下提示詞：
                     </p>
+                    <p>本練習統一使用 <strong>frontend-design</strong>，方便對齊；實際工作中可依需求換成其他 Skill。</p>
                     <div class="code-block-wrapper">
                         <button class="copy-btn" data-copy-target="#installFrontendPrompt"></button>
                         <div class="code-block">
-                            <pre id="installFrontendPrompt">用 find-skills 幫我找一個能讓前端設計變漂亮的 Skill，然後裝起來，
-裝完後 reload，讓我可以在當前對話直接用。</pre>
+                            <pre id="installFrontendPrompt">幫我找能讓 html 設計變漂亮的 Skill。</pre>
                         </div>
                     </div>
                 </div>
@@ -496,7 +676,7 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                         <span class="icon">📐</span> 第三步：用 frontend-design 重做品牌報告
                     </h2>
                     <p>
-                        裝好之後，回頭把 Section 3 那份 <code>report.html</code> 重做一次。選好對象與風格，下方 prompt 會自動帶入，貼到輸入框送出：
+                        <strong>frontend-design</strong> 裝好後，套用到剛剛那份 <code>report.html</code>，就能得到<strong>第三版</strong>報告 — 內容沒變，但排版變成像樣的商業文件。把下面的提示詞貼到輸入框送出：
                     </p>
                     <div class="prompt-builder">
                         <div class="prompt-builder-options">
@@ -524,68 +704,21 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                             </div>
                         </div>
                     </div>
+                    <p style="margin-top: 16px">
+                        重新打開 <code>report.html</code>，視覺會完全不一樣。同樣的內容，<strong>第三版</strong>報告終於有了專業文件的樣子。
+                    </p>
                 </div>
 
-                <div class="card">
-                    <h2><span class="icon">🔍</span> 去哪裡找更多 Skill？</h2>
-                    <p>
-                        很多人會把自己做的 Skill 分享到 GitHub
-                        (開源社群，可以想像是工程師的 Thread) 上，直接去 GitHub
-                        逛是最快的。
-                    </p>
-                    <p>
-                        GitHub
-                        上的星星數（⭐）就像點讚，星星越多代表越多人覺得好用，剛開始挑
-                        Skill 的時候可以參考。
-                    </p>
-
-                    <p class="sub-step-title">
-                        <strong>🏢 官方出品：Anthropic Skills</strong>
-                    </p>
-                    <p>
-                        Anthropic 自己維護了一個
-                        <a
-                            href="https://github.com/anthropics/skills"
-                            target="_blank"
-                            >Skill 倉庫</a
-                        >，裡面有各種經過官方測試的 Skill
-                    </p>
-                    <div class="screenshot">
-                        <img
-                            src="img/14-Anthropics-SKILL.png"
-                            style="width: 100%"
-                            alt="Anthropic 官方 Skills GitHub 頁面"
-                        />
-                    </div>
-
-                    <p class="sub-step-title"><strong>😂 同事 Skill</strong></p>
-                    <p>
-                        <a
-                            href="https://github.com/titanwings/colleague-skill"
-                            target="_blank"
-                            ><strong>同事 Skill</strong></a
-                        >
-                        則是最近 GitHub
-                        上爆紅的SKILL，他可以通過歷史文件，模擬出同事的表現。
-                    </p>
-                    <div class="screenshot">
-                        <img
-                            src="img/13-tong-shi-SKILL.png"
-                            style="width: 100%"
-                            alt="Colleague Skill GitHub 頁面"
-                        />
-                    </div>
-                </div>
             </section>
 
             <hr class="section-divider" />
 
-            <!-- ====== Section 5: 瀏覽器自動化 ====== -->
+            <!-- ====== Section 6: 瀏覽器自動化 ====== -->
             <section id="playwright">
-                <span class="badge">綜合實戰</span>
-                <h1>🌐 實戰：用 AI 自動操作瀏覽器</h1>
+                <span class="badge">進到後台</span>
+                <h1>🌐 進到後台：讓 AI 直接登入 Seller Central 抓庫存</h1>
                 <p class="subtitle">
-                    讓 AI 幫你開網頁、點按鈕、抓資料，把重複的瀏覽器操作變成自動化流程
+                    第三版報告少一塊：庫存健康度。這是後台才看得到的資料，用 Claude for Chrome 把它補上，產出<strong>最終版</strong>
                 </p>
 
                 <div class="card">
@@ -593,19 +726,19 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                         <span class="icon">🤔</span> Claude for Chrome 是什麼？
                     </h2>
                     <p>
-                        <a href="https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome" target="_blank">Claude for Chrome</a> 是 Anthropic 官方的 Chrome 擴充功能，可以讓 Claude Code <strong>直接操作你平常在用的那個 Chrome 瀏覽器</strong>：開分頁、點按鈕、填表單、抓資料。
+                        <a href="https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome" target="_blank"><strong>Claude for Chrome</strong></a> 是 Anthropic 官方的 Chrome 擴充功能，可以讓 <strong>Claude Code</strong> 直接操作 Chrome：開分頁、點按鈕、填表單、抓資料。
                     </p>
-                    <p style="margin-top: 12px">
-                        重點是它共用你 Chrome 的<strong>登入狀態</strong>，所以那些需要登入才看得到的網站（Amazon 賣家後台、Gmail、公司內網），它都能像你本人一樣進去操作。
+                    <p>
+                        重點是它會共用你 Chrome 的<strong>登入狀態</strong>，所以能像本人一樣進入需要登入的後台頁面。
                     </p>
                     <div class="zone-grid" style="margin-top: 20px">
                         <div class="zone-card">
                             <div class="zone-label">🔐 共用登入</div>
-                            <p>不用重新登入。你 Chrome 已經登入的網站，Claude 也可以直接進。</p>
+                            <p>不用重新登入，保留網站登入狀態，<strong>Claude Code</strong> 直接接手。</p>
                         </div>
                         <div class="zone-card">
                             <div class="zone-label">👀 看得到畫面</div>
-                            <p>不是 headless 黑箱跑。整個操作過程在你眼前發生，可以隨時停下。</p>
+                            <p>Claude 可以看到瀏覽器的實際畫面，就像用戶本人在操作一樣。</p>
                         </div>
                         <div class="zone-card">
                             <div class="zone-label">🔁 跨網頁工作流</div>
@@ -624,7 +757,7 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                             >，點 <strong>「加入 Chrome」</strong> 安裝擴充功能。
                         </li>
                         <li>
-                            安裝後會出現在 Chrome 右上角，點開後用 <strong>同一個 Claude 帳號</strong>登入（就是你用 Claude Code 的那個帳號）。
+                            安裝後會出現在 Chrome 右上角，點開後用 <strong>同一個 Claude 帳號</strong>登入（就是你用 <strong>Claude Code</strong> 的那個帳號）。
                         </li>
                         <li>
                             回到終端機，<strong>關掉現在的 Claude Code</strong>（輸入 <code>/exit</code>），然後重新啟動時加上 <code>--chrome</code> 參數：
@@ -637,81 +770,73 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                         </div>
                     </div>
                     <p style="margin-top: 12px">
-                        如果已經在 Claude Code 裡面，也可以直接打 <code>/chrome</code> 啟用連線。連上之後，下方狀態列會多一個 Chrome 圖示，代表 Claude 現在能看到你的瀏覽器了。
+                        若已經在 <strong>Claude Code</strong> 裡面，也可以直接輸入 <code>/chrome</code> 啟用連線。連上後，下方狀態列會多一個 Chrome 圖示，代表 Claude 已經能看到你的瀏覽器了。
                     </p>
-                    <div class="highlight-box" style="margin-top: 16px">
-                        <p><strong>💡 只支援 Pro / Max / Team / Enterprise 訂閱</strong></p>
-                        <p>
-                            Claude for Chrome 目前是 Beta，需要付費訂閱帳號。Bedrock / Vertex AI 走 API 的學員暫時用不了。
-                        </p>
-                    </div>
                 </div>
 
                 <div class="card">
                     <h2>
-                        <span class="icon">🔍</span> 實戰：去 Amazon 看一下你的品牌
+                        <span class="icon">🔍</span> 實戰：把庫存健康度補進報告
                     </h2>
                     <p>
-                        Section 3 的報告是 Tavily 在公開網路上找到的資料。Amazon 站內的價格、評論細節，要實際打開頁面才看得到。這一步用 Claude for Chrome 把這部分補上。
+                        到目前為止，<code>report.html</code> 已經有了市場面（<strong>Tavily</strong> 抓到的公開資訊）跟銷售面（<strong>Business Report</strong> 的 ASIN 表現），還缺<strong>供應面</strong> — 庫存夠不夠、會不會斷貨、IPI 健不健康。
+                    </p>
+                    <p>
+                        這些資料只存在 <strong>Seller Central</strong> 後台。第三方工具看不到，<strong>Tavily</strong> 也進不去，必須讓 <strong>Claude for Chrome</strong> 用你的登入狀態去抓。
                     </p>
 
-                    <p class="sub-step-title"><strong>Step 1：打開 Amazon 美國站、登入</strong></p>
+                    <p class="sub-step-title"><strong>Step 1：在 Chrome 打開 Seller Central</strong></p>
                     <p>
-                        在 Chrome 手動打開 <a href="https://www.amazon.com" target="_blank">amazon.com</a>，用你的帳號登入。Claude 會用這個分頁的登入狀態操作。
+                        手動打開 <a href="https://sellercentral.amazon.com" target="_blank">sellercentral.amazon.com</a>，登入到主帳號的首頁。Claude 會用這個分頁的登入狀態進行操作。
                     </p>
 
-                    <p class="sub-step-title"><strong>Step 2：請 Claude 去抓品牌資料</strong></p>
+                    <p class="sub-step-title"><strong>Step 2：請 Claude 抓庫存資料</strong></p>
                     <p>
-                        品牌名稱會跟 Section 3 自動同步。下方 prompt 直接複製貼到輸入框：
+                        把下面的提示詞貼到輸入框：
                     </p>
-                    <div style="margin: 16px 0">
-                        <label for="brandNameChrome" class="text-input-label">品牌名稱</label>
-                        <input
-                            type="text"
-                            id="brandNameChrome"
-                            class="text-input"
-                            placeholder="Anker"
-                        />
-                    </div>
                     <div class="code-block-wrapper">
-                        <button class="copy-btn" data-copy-target="#chromeBrandPrompt"></button>
+                        <button class="copy-btn" data-copy-target="#chromeInventoryPrompt"></button>
                         <div class="code-block">
-                            <pre id="chromeBrandPrompt">用我目前開著的 Chrome 幫我做以下事情：
+                            <pre id="chromeInventoryPrompt">用我目前打開的 Chrome 進入 Seller Central，幫我做以下事情：
 
-1. 在 Amazon 搜尋「___」這個品牌
-2. 從搜尋結果裡挑出 5 個熱門 ASIN（標題、售價、星級、評論數）
-3. 點進其中評論最多的那一個產品頁，幫我抓最新 5 則評論（評分、標題、內文、日期）
-4. 整理成一份 markdown 表格，存成 amazon-snapshot.md
+1. 從首頁找到 Inventory → Manage FBA Inventory（庫存管理頁面）
+2. 抓取目前所有 ASIN 的庫存資料：FNSKU、ASIN、商品名稱、可售庫存、保留庫存、預計到貨
+3. 接著進入 Inventory → Inventory Performance Dashboard，把 IPI 分數、過量庫存、超齡庫存、斷貨風險的資料抓下來
+4. 整理成兩份 markdown 表格，存成 inventory-snapshot.md
 
 過程中如果遇到驗證碼或登入要求，停下來告訴我，我會手動處理。</pre>
                         </div>
                     </div>
                     <p style="margin-top: 12px">
-                        Claude 會在 Chrome 裡自己點頁面、抓資料，整個過程都看得到。如果它走錯方向，可以打斷它，告訴它「跳過這個」「再點下一頁」這類指令。
+                        Claude 會在 Chrome 裡自己點頁面、抓資料，整個過程都看得到。如果它走錯方向，按 <code>Esc</code> 打斷後，再用「跳過這個」「再點下一頁」這類指令引導它。
                     </p>
 
-                    <p class="sub-step-title"><strong>Step 3：把 Amazon 資料併回報告</strong></p>
+                    <p class="sub-step-title"><strong>Step 3：把庫存資料併進報告</strong></p>
                     <p>
-                        把剛剛抓到的內容整合進原本的 <code>report.html</code>：
+                        把剛剛抓到的 <code>inventory-snapshot.md</code> 整合進原本的 <code>report.html</code>，產出<strong>最終版</strong>報告：
                     </p>
                     <div class="code-block-wrapper">
-                        <button class="copy-btn" data-copy-target="#mergeReportPrompt"></button>
+                        <button class="copy-btn" data-copy-target="#mergeInventoryPrompt"></button>
                         <div class="code-block">
-                            <pre id="mergeReportPrompt">把 amazon-snapshot.md 的內容整合進 report.html 的「Amazon 表現」段落，
-重點放在：
-- 熱門 ASIN 的價格帶與評論密度
-- 評論裡反覆出現的優點和痛點
-- 跟原本報告結論對比，有沒有需要修正的判斷
+                            <pre id="mergeInventoryPrompt">把 inventory-snapshot.md 的內容整合進 report.html，新增一個「供應與庫存健康」段落，重點放在：
 
-直接更新 report.html，保持 frontend-design Skill 的設計風格。</pre>
+- 整體 IPI 分數與斷貨風險
+- 過量／超齡庫存佔比
+- 跟前面銷售下滑的 ASIN 對照，是不是同一批？是流量問題、轉換問題，還是供應跟不上？
+- 給出 2-3 條可執行的建議
+
+直接更新 report.html，保持 frontend-design Skill 的設計風格與排版風格。</pre>
                         </div>
                     </div>
+                    <p style="margin-top: 16px">
+                        到這裡，<code>report.html</code> 從一份公開資料拼湊的初稿，變成一份涵蓋市場、銷售、供應三個維度的<strong>完整品牌報告</strong>，排版也夠專業。整個過程沒打開 Excel、沒複製貼上，只用了一個資料夾跟幾段提示詞。
+                    </p>
                 </div>
             </section>
 
             <hr class="section-divider" />
 
-            <!-- ====== Section 6: 問卷 ====== -->
+            <!-- ====== Section 7: 問卷 ====== -->
             <section id="survey">
                 <span class="badge">課後問卷</span>
                 <h1>📝 請幫我們填寫課後問卷</h1>
@@ -737,6 +862,22 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                             >直接點我填問卷</a
                         >
                     </p>
+                </div>
+
+                <div class="line-cta-block">
+                    <div>
+                        <div class="qr-frame"><img src="img/Line.jpg" alt="官方 Line QR Code"></div>
+                        <div class="qr-meta">Scan to add · 掃碼加好友</div>
+                    </div>
+                    <div>
+                        <h3>掃 QR Code 加入官方 Line</h3>
+                        <p>
+                            打開 Line App，從右上角的「<strong>加入好友 → 行動條碼</strong>」進入掃描器，對準左方 QR Code 即可加入。
+                        </p>
+                        <p>
+                            加好友後，後續還會收到更多賣家專屬的訓練、工具與行業情報。
+                        </p>
+                    </div>
                 </div>
             </section>
         </div>
@@ -895,35 +1036,7 @@ curl -fsSL https://claude.ai/install.sh | bash</pre
                 );
             }
 
-            // ===== Section 5: 品牌名稱互動（帶入 Chrome 操作 prompt）=====
-            var brandNameChrome = document.getElementById("brandNameChrome");
-            var chromeBrandPrompt = document.getElementById("chromeBrandPrompt");
-
-            function getChromeBrandPromptText(name) {
-                return (
-                    "用我目前開著的 Chrome 幫我做以下事情：\n\n1. 在 Amazon 搜尋「" +
-                    (name || "___") +
-                    "」這個品牌\n2. 從搜尋結果裡挑出 5 個熱門 ASIN（標題、售價、星級、評論數）\n3. 點進其中評論最多的那一個產品頁，幫我抓最新 5 則評論（評分、標題、內文、日期）\n4. 整理成一份 markdown 表格，存成 amazon-snapshot.md\n\n過程中如果遇到驗證碼或登入要求，停下來告訴我，我會手動處理。"
-                );
-            }
-
-            if (brandNameChrome && chromeBrandPrompt) {
-                brandNameChrome.addEventListener("input", function () {
-                    chromeBrandPrompt.textContent = getChromeBrandPromptText(
-                        this.value.trim(),
-                    );
-                });
-                // 跟 Section 3 的品牌名稱聯動：在 Section 3 改品牌時，Section 5 也跟著改
-                if (brandName) {
-                    brandName.addEventListener("input", function () {
-                        var val = this.value.trim();
-                        brandNameChrome.value = val;
-                        chromeBrandPrompt.textContent = getChromeBrandPromptText(val);
-                    });
-                }
-            }
-
-            // ===== Section 6: 問卷 QR Code =====
+            // ===== Section 7: 問卷 QR Code =====
             (function () {
                 var now = new Date();
                 var y = now.getFullYear();
