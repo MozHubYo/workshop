@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>有曝光卻沒出單，是不是哪裡做錯了｜廣告冷啟動數據判讀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Serif+TC:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #faf8f3;
+    --paper-tint: #f3eee2;
+    --dark: #1a1a1a;
+    --ink: #1a1a1a;
+    --ink-soft: #3a3a3a;
+    --ink-mute: #6b6b6b;
+    --ink-faint: #8a8a8a;
+    --rule: #d8d2c4;
+    --rule-soft: #e6e1d4;
+    --accent: #c45a2e;
+    --accent-deep: #9c4420;
+    --deepblue: #0f3d5f;
+    --good: #2e5d3e;
+    --bad: #9c4420;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif TC', 'Cormorant Garamond', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(196, 90, 46, 0.3);
+    transition: border-color .2s;
+  }
+  a:hover { border-bottom-color: var(--accent); }
+
+  .col {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .bleed { width: 100%; }
+
+  /* Masthead */
+  .masthead { border-bottom: 2px solid var(--ink); padding-top: 28px; padding-bottom: 18px; }
+  .masthead-inner { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px; }
+  .masthead-title { font-family: 'Playfair Display', 'Noto Serif TC', serif; font-weight: 900; font-style: italic; font-size: 26px; letter-spacing: -0.5px; line-height: 1; }
+  .masthead-meta { font-family: 'Inter', 'Noto Serif TC', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-mute); }
+  .masthead-meta span + span::before { content: "·"; margin: 0 10px; color: var(--rule); }
+
+  /* Hero */
+  .hero { padding-top: 72px; padding-bottom: 56px; }
+  .kicker { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 28px; }
+  .hero h1 { font-family: 'Noto Serif TC', 'Playfair Display', serif; font-weight: 700; font-size: 52px; line-height: 1.18; letter-spacing: -1.5px; margin: 0 0 28px; color: var(--ink); }
+  .hero h1 em { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; color: var(--accent); }
+  .deck { font-family: 'Noto Serif TC', serif; font-size: 21px; line-height: 1.6; color: var(--ink-soft); font-weight: 400; margin: 0 0 40px; max-width: 660px; }
+  .byline { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-mute); padding-top: 20px; border-top: 1px solid var(--rule); }
+  .byline strong { color: var(--ink); font-weight: 600; }
+
+  /* Section heads */
+  .section-mark { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+  h2 { font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 32px; line-height: 1.3; letter-spacing: -0.5px; margin: 0 0 28px; color: var(--ink); }
+  h3 { font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 22px; line-height: 1.4; margin: 48px 0 16px; color: var(--ink); }
+  h4 { font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 18px; margin: 0 0 8px; color: var(--ink); }
+
+  /* Body */
+  p { margin: 0 0 22px; }
+  .lede p { font-size: 19px; line-height: 1.78; color: var(--ink-soft); }
+  .lede p:first-child::first-letter { font-family: 'Playfair Display', 'Noto Serif TC', serif; font-size: 72px; float: left; line-height: 0.85; padding: 6px 10px 0 0; font-weight: 700; color: var(--accent); }
+  .body p strong, .body strong { color: var(--ink); font-weight: 600; }
+  code, .mono { font-family: 'JetBrains Mono', 'Cormorant Garamond', monospace; font-size: 0.92em; background: var(--paper-tint); padding: 1px 6px; border-radius: 3px; color: var(--ink); }
+
+  section { padding-top: 72px; padding-bottom: 16px; }
+  section.tight { padding-top: 48px; }
+
+  /* Pull quote */
+  .pull { border-left: 3px solid var(--accent); padding: 6px 0 6px 24px; margin: 32px 0; font-family: 'Noto Serif TC', serif; font-style: italic; font-size: 21px; line-height: 1.55; color: var(--ink-soft); }
+  .pull cite { display: block; margin-top: 14px; font-family: 'Inter', sans-serif; font-style: normal; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-mute); }
+
+  /* Diagrams */
+  .diagram { margin: 36px 0; padding: 24px 0 20px; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); }
+  .diagram svg { display: block; width: 100%; height: auto; max-width: 100%; }
+  .diagram-cap { margin: 18px 0 0; font-family: 'Noto Serif TC', serif; font-style: italic; font-size: 14px; color: var(--ink-mute); line-height: 1.6; text-align: center; }
+
+  /* Lagging vs leading two-up */
+  .vs2 { display: grid; grid-template-columns: 1fr; gap: 0; margin: 32px 0; border-top: 2px solid var(--ink); }
+  .vs2 .side { padding: 24px 0; border-bottom: 1px solid var(--rule); }
+  .vs2 .side:last-child { border-bottom: none; }
+  .vs2 .side .lbl { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+  .vs2 .side.lag .lbl { color: var(--ink-mute); }
+  .vs2 .side.lead .lbl { color: var(--accent); }
+  .vs2 .side h4 { font-size: 19px; margin-bottom: 10px; }
+  .vs2 .side p { font-size: 15.5px; color: var(--ink-soft); margin: 0 0 10px; }
+  .vs2 .side .ex { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ink-mute); padding-left: 14px; border-left: 2px solid var(--rule); display: block; margin-top: 8px; }
+
+  /* Reverse calc */
+  .reverse { margin: 32px 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); }
+  .reverse .row { display: grid; grid-template-columns: 110px 1fr 130px; gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--rule-soft); align-items: baseline; }
+  .reverse .row:last-child { border-bottom: none; }
+  .reverse .level { font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; color: var(--accent); font-weight: 500; letter-spacing: 1px; }
+  .reverse h4 { margin: 0 0 4px; font-size: 17px; }
+  .reverse h4 .num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; color: var(--ink); margin-right: 6px; }
+  .reverse p { font-size: 14.5px; color: var(--ink-soft); margin: 0; line-height: 1.65; }
+  .reverse .calc { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--ink-mute); text-align: right; line-height: 1.55; }
+
+  /* Diagnosis (slide 9 ── 6-row table with verdicts) */
+  .diag { margin: 32px 0; border-top: 2px solid var(--ink); }
+  .diag .row { display: grid; grid-template-columns: 130px 110px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  .diag .row:last-child { border-bottom: none; }
+  .diag .label { font-family: 'Noto Serif TC', serif; font-size: 15px; color: var(--ink); font-weight: 600; }
+  .diag .label .en { display: block; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: var(--ink-mute); font-weight: 500; }
+  .diag .num { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--ink); }
+  .diag .verdict { font-size: 14.5px; line-height: 1.6; }
+  .diag .verdict .tag { display: inline-block; font-family: 'Inter', sans-serif; font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; padding: 2px 8px; border-radius: 2px; margin-right: 8px; vertical-align: middle; }
+  .diag .verdict .tag.bad { background: var(--accent-deep); color: #fff; }
+  .diag .verdict .tag.ok { background: var(--good); color: #fff; }
+  .diag .verdict .tag.weak { background: var(--paper-tint); color: var(--ink-mute); border: 1px solid var(--rule); }
+  .diag .verdict .tag.warn { background: var(--accent); color: #fff; }
+  .diag .verdict .gloss { color: var(--ink-soft); }
+
+  /* Sample size */
+  .sample { margin: 32px 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 24px 0; }
+  .sample .row { display: grid; grid-template-columns: 130px 1fr; gap: 22px; padding: 14px 0; border-bottom: 1px solid var(--rule-soft); }
+  .sample .row:last-child { border-bottom: none; }
+  .sample .case { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ink); }
+  .sample .case .pct { font-size: 18px; color: var(--accent); font-weight: 500; }
+  .sample p { margin: 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.65; }
+
+  /* Diagnosis branches */
+  .branch { margin: 32px 0; border-top: 2px solid var(--ink); }
+  .branch .b { padding: 24px 0; border-bottom: 1px solid var(--rule); }
+  .branch .b:last-child { border-bottom: none; }
+  .branch .when { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+  .branch h4 { margin: 0 0 8px; font-size: 18px; }
+  .branch p { font-size: 15px; color: var(--ink-soft); margin: 0 0 8px; }
+  .branch ul { margin: 8px 0 0; padding-left: 18px; font-size: 14.5px; color: var(--ink-soft); line-height: 1.85; }
+
+  /* Coda dark */
+  .coda { background: var(--ink); color: #f5f0e4; padding: 72px 0 56px; margin-top: 96px; }
+  .coda .section-mark { color: rgba(245, 240, 228, 0.5); border-bottom-color: rgba(245, 240, 228, 0.15); }
+  .coda h2 { color: #fff; }
+  .coda p { color: rgba(245, 240, 228, 0.78); }
+  .coda .pull { color: rgba(245, 240, 228, 0.92); border-left-color: var(--accent); }
+  .coda .pull cite { color: rgba(245, 240, 228, 0.5); }
+  .coda .colophon { margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(245, 240, 228, 0.15); font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(245, 240, 228, 0.45); }
+
+  /* Glossary */
+  .glossary { margin: 32px 0; }
+  .glossary dl { margin: 0; border-top: 1px solid var(--rule); }
+  .glossary div { display: grid; grid-template-columns: 130px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--rule-soft); }
+  .glossary dt { font-family: 'Inter', sans-serif; font-size: 13px; letter-spacing: 1px; color: var(--accent); font-weight: 700; }
+  .glossary dd { margin: 0; font-size: 15px; color: var(--ink-soft); line-height: 1.6; }
+  .glossary dd .en { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--ink-mute); }
+
+  /* Inventory readiness table (slide 15) */
+  .inv { margin: 32px 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); }
+  .inv table { width: 100%; border-collapse: collapse; font-family: 'Noto Serif TC', serif; }
+  .inv th { font-family: 'Inter', sans-serif; font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-mute); font-weight: 600; text-align: left; padding: 12px 6px; border-bottom: 1px solid var(--rule); }
+  .inv td { padding: 12px 6px; border-bottom: 1px solid var(--rule-soft); font-size: 13.5px; color: var(--ink-soft); vertical-align: top; line-height: 1.5; }
+  .inv td.site { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--ink); font-size: 12.5px; }
+  .inv td.cat { color: var(--ink); font-weight: 500; }
+  .inv td.score { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 1px; font-weight: 700; text-transform: uppercase; }
+  .inv td.score.go { color: var(--good); }
+  .inv td.score.wait { color: var(--accent); }
+  .inv td.score.no { color: var(--accent-deep); }
+  .inv tr:last-child td { border-bottom: none; }
+
+  /* Action / week */
+  .actions { margin: 32px 0; border-top: 2px solid var(--ink); }
+  .actions .a { padding: 24px 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 110px 1fr; gap: 18px; }
+  .actions .a:last-child { border-bottom: none; }
+  .actions .week { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: var(--accent); font-weight: 500; letter-spacing: 1px; }
+  .actions h4 { margin: 0 0 10px; font-size: 18px; }
+  .actions p { font-size: 15px; color: var(--ink-soft); margin: 0 0 6px; line-height: 1.7; }
+
+  /* Survey */
+  .survey { margin: 32px 0; padding: 36px 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 200px 1fr; gap: 36px; align-items: center; }
+  .survey .qr-frame { background: #fff; border: 1px solid var(--rule); padding: 14px; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; }
+  .survey .qr-frame img { max-width: 100%; height: auto; display: block; }
+  .survey .qr-meta { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-mute); margin-top: 8px; text-align: center; }
+  .survey h4 { margin: 0 0 12px; font-size: 20px; }
+  .survey p { font-size: 15px; color: var(--ink-soft); margin: 0 0 10px; }
+  .survey .survey-btn { display: inline-block; margin-top: 18px; padding: 12px 28px; background: var(--ink); color: var(--paper); border: none; border-bottom: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-decoration: none; transition: background .2s; }
+  .survey .survey-btn:hover { background: var(--accent); border-bottom: none; }
+
+  /* Ornament */
+  .ornament { text-align: center; margin: 56px 0; color: var(--rule); font-family: 'Playfair Display', serif; font-size: 20px; letter-spacing: 8px; }
+
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .hero h1 { font-size: 36px; letter-spacing: -0.8px; }
+    .deck { font-size: 18px; }
+    h2 { font-size: 26px; }
+    .reverse .row { grid-template-columns: 1fr; gap: 6px; }
+    .reverse .calc { text-align: left; }
+    .diag .row { grid-template-columns: 1fr; gap: 4px; }
+    .actions .a { grid-template-columns: 1fr; gap: 6px; }
+    .survey { grid-template-columns: 1fr; gap: 24px; }
+    .survey .qr-frame { margin: 0 auto; }
+    .glossary div { grid-template-columns: 90px 1fr; gap: 12px; }
+    .inv td { font-size: 12px; padding: 10px 4px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Masthead -->
+<header class="bleed masthead">
+  <div class="col">
+    <div class="masthead-inner">
+      <div class="masthead-title">廣告衝刺班</div>
+      <div class="masthead-meta">
+        <span>Day 2</span>
+        <span>數據判讀</span>
+        <span>官方培訓講義</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="bleed hero">
+  <div class="col">
+    <div class="kicker">Day 2 · 第二講</div>
+    <h1>有曝光卻沒出單，<br><em>是不是哪裡做錯了</em></h1>
+    <p class="deck">
+      Day 1 把廣告水量打開、跑出第一波曝光之後，多數新手在第 7 天會慌：「為什麼還沒出單？是不是該關掉重新投？」這堂課的目的，是教會你怎麼正確讀懂這份還很稚嫩的數據。
+    </p>
+    <div class="byline">
+      亞馬遜官方培訓團隊　|　廣告衝刺班 Day 2　|　從有流量到有出單
+    </div>
+  </div>
+</section>
+
+<!-- Lede -->
+<section class="tight">
+  <div class="col lede">
+    <p>
+      Day 1 講的是水龍頭：把兩千個廣泛單字打開、把每日曝光量推到 8,000 上下。水量起來之後，新手最常見的下一個焦慮是：「曝光是有了，可是怎麼還沒出單？」
+    </p>
+    <p>
+      先說一個官方內部從不對外明講、但會讓所有新手鬆一口氣的事實：<strong>所有新上架的 ASIN 裡，能在 90 天內出第一單的，不到 1%</strong>（亞馬遜美國 3P 賣家內部統計）。換句話說，你看到的 0 單、0% 轉化率，跟同期 99% 的賣家完全一樣。這不是失敗的證據，是冷啟動的標準狀態。
+    </p>
+    <p>
+      接下來幾天，後台會出現一些看起來不太好的數字：點擊率不穩、轉化率掛零、廣告銷售比飆高甚至顯示成 ∞。多數人的直覺反應，是把廣告關掉、降預算、或者把詞砍掉重投。這些動作絕大多數是錯的。
+    </p>
+    <p>
+      Day 2 要把同一份「不太好的數字」翻過來讀：哪些指標現在就有意義、哪些必須等到累積夠樣本、哪些根本不該在這個階段拿來下判斷。最後再回到一個現實檢核——廣告不是萬靈丹，產品本身的條件才是。
+    </p>
+  </div>
+</section>
+
+<div class="col"><div class="ornament">◆ ◆ ◆</div></div>
+
+<!-- 01 · The Question -->
+<section>
+  <div class="col">
+    <div class="section-mark">01 · The Question</div>
+    <h2>冷啟動的時候，到底該看什麼</h2>
+    <div class="body">
+      <p>
+        亞馬遜後台的廣告報表會吐出一整排數字：曝光量、點擊量、點擊率、花費、銷售額、廣告銷售比（ACoS）、轉化率、訂單數。新手很自然會盯住自己最在意的兩個——<strong>銷售額</strong>跟<strong>廣告銷售比</strong>。
+      </p>
+      <p>
+        這個直覺，在冷啟動階段必須先放下。原因不是這兩個指標不重要，而是它們<strong>在這個階段還沒有解析力</strong>。一支剛上線兩週的新品，廣告銷售比是 80% 還是 200%、轉化率是 0% 還是 4%，多半反映的是樣本太少導致的隨機波動，跟廣告做得好不好沒有關係。
+      </p>
+      <p>
+        冷啟動該看的，只有漏斗最上層的兩個指標：
+      </p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="廣告漏斗：曝光、點擊、轉化、出單">
+          <defs>
+            <style>
+              .fl-h { font-family: 'Noto Serif TC', serif; font-size: 16px; font-weight: 600; fill: #1a1a1a; }
+              .fl-en { font-family: 'Cormorant Garamond', serif; font-style: italic; fill: #8a8a8a; font-size: 13px; }
+              .fl-tag { font-family: 'Inter', sans-serif; font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
+              .fl-tag-on { fill: #c45a2e; }
+              .fl-tag-off { fill: #8a8a8a; }
+              .fl-note { font-family: 'Noto Serif TC', serif; font-size: 12.5px; fill: #6b6b6b; }
+              .fl-axis { stroke: #d8d2c4; stroke-width: 1; }
+            </style>
+          </defs>
+
+          <!-- center axis 200, total height 320 -->
+          <!-- Layer 1: 曝光（亮色，要看） -->
+          <polygon points="60,30 340,30 320,100 80,100" fill="#c45a2e"/>
+          <text x="200" y="62" text-anchor="middle" font-family="Noto Serif TC" font-size="22" font-weight="700" fill="#fff">曝光量</text>
+          <text x="200" y="84" text-anchor="middle" font-family="Inter" font-size="10" fill="#fff" letter-spacing="1.5">IMPRESSIONS</text>
+
+          <!-- Layer 2: 點擊（亮色，要看） -->
+          <polygon points="80,100 320,100 300,170 100,170" fill="#c45a2e" opacity="0.78"/>
+          <text x="200" y="132" text-anchor="middle" font-family="Noto Serif TC" font-size="20" font-weight="700" fill="#fff">點擊量</text>
+          <text x="200" y="154" text-anchor="middle" font-family="Inter" font-size="10" fill="#fff" letter-spacing="1.5">CLICKS</text>
+
+          <!-- Layer 3: 轉化（暗色，先別看） -->
+          <polygon points="100,170 300,170 280,240 120,240" fill="#c45a2e" opacity="0.30"/>
+          <text x="200" y="202" text-anchor="middle" font-family="Noto Serif TC" font-size="18" font-weight="700" fill="#1a1a1a">轉化率</text>
+          <text x="200" y="222" text-anchor="middle" font-family="Inter" font-size="10" fill="#1a1a1a" letter-spacing="1.5">CONVERSION</text>
+
+          <!-- Layer 4: 出單（暗色，先別看） -->
+          <polygon points="120,240 280,240 260,310 140,310" fill="#c45a2e" opacity="0.15"/>
+          <text x="200" y="272" text-anchor="middle" font-family="Noto Serif TC" font-size="16" font-weight="700" fill="#1a1a1a">出單</text>
+          <text x="200" y="292" text-anchor="middle" font-family="Inter" font-size="10" fill="#1a1a1a" letter-spacing="1.5">ORDERS · ACOS</text>
+
+          <!-- Right side: now / later labels -->
+          <line x1="340" y1="65" x2="380" y2="65" class="fl-axis"/>
+          <text x="388" y="58" class="fl-tag fl-tag-on">現在就看</text>
+          <text x="388" y="78" class="fl-h">還在你能控制的範圍</text>
+          <text x="388" y="98" class="fl-note">擴詞、加廣告活動、調出價，</text>
+          <text x="388" y="115" class="fl-note">下一週數字就會變。</text>
+
+          <line x1="320" y1="135" x2="380" y2="135" class="fl-axis"/>
+          <text x="388" y="128" class="fl-tag fl-tag-on">現在就看</text>
+          <text x="388" y="148" class="fl-h">主圖、價格、評論能調的</text>
+          <text x="388" y="168" class="fl-note">如果曝光夠但沒人點，</text>
+          <text x="388" y="185" class="fl-note">問題在廣告卡片本身。</text>
+
+          <line x1="280" y1="205" x2="380" y2="205" class="fl-axis"/>
+          <text x="388" y="198" class="fl-tag fl-tag-off">先別看</text>
+          <text x="388" y="218" class="fl-h">點擊量沒到 50 之前，談轉化</text>
+          <text x="388" y="238" class="fl-note">是統計上的噪音。今天 0%、明天</text>
+          <text x="388" y="255" class="fl-note">15%，反映的是樣本不是表現。</text>
+
+          <line x1="260" y1="275" x2="380" y2="275" class="fl-axis"/>
+          <text x="388" y="268" class="fl-tag fl-tag-off">先別看</text>
+          <text x="388" y="288" class="fl-h">出單與 ACoS 是落後指標</text>
+          <text x="388" y="308" class="fl-note">它是上面三層全部跑完之後</text>
+          <text x="388" y="325" class="fl-note">的結果，前面沒到位它一定不會好。</text>
+
+          <!-- bottom band -->
+          <line x1="60" y1="345" x2="700" y2="345" class="fl-axis"/>
+          <text x="60" y="365" font-family="Noto Serif TC" font-style="italic" font-size="13" fill="#1a1a1a">冷啟動的觀察次序：曝光量先就位 → 點擊率才有意義 → 點擊量累積到 50 之後 → 才能談轉化與 ACoS。</text>
+        </svg>
+        <figcaption class="diagram-cap">前兩層是領先指標，後兩層是落後指標。順序顛倒，會把「樣本太少」誤讀成「廣告很差」。</figcaption>
+      </figure>
+
+      <p>
+        亞馬遜廣告的全平台平均點擊率落在 <strong>0.4–0.5%</strong>、廣告轉化率約 <strong>9–13%</strong>（依 Adbadger、SalesDuo 2026 公開報告）。但這些是<strong>已經跑出量的成熟商品</strong>的平均數。一支剛上架兩週、累積點擊還沒過 30 的新品，往這些平均值對比沒意義——你拿的還不是它的長期表現，是它前 30 個點擊的隨機抽樣。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · Lagging vs Leading -->
+<section>
+  <div class="col">
+    <div class="section-mark">02 · Lagging vs Leading</div>
+    <h2>領先指標跟落後指標的差別</h2>
+    <div class="body">
+      <p>
+        管理學上把指標分兩種。<strong>落後指標（lagging）</strong>是結果——已經發生、無法回頭改的事；<strong>領先指標（leading）</strong>是過程——還在你今天的動作能影響的事。
+      </p>
+      <p>
+        舉個跟廣告無關的例子：減重的目標是體重數字，這是落後指標——你今天在體重計上踩出來的數字，反映的是過去 30 天熱量收支，今天再怎麼節食也改不了今天的數字。能改的是領先指標：今天吃了多少卡、走了幾步、睡了幾小時。盯著體重每天上下浮動，會把短期水分波動誤讀成減重失敗，最後早早放棄。
+      </p>
+
+      <div class="vs2">
+        <div class="side lag">
+          <div class="lbl">Lagging Indicators</div>
+          <h4>落後指標 — 是結果，不是動作</h4>
+          <p>
+            出單數、銷售額、廣告銷售比（ACoS）。它們是上層所有環節跑完之後的<strong>產物</strong>。今天 ACoS 是 80%，是過去兩週的曝光、點擊率、轉化率、客單價綜合作用的結果，今天看了之後也沒有辦法直接改。
+          </p>
+          <span class="ex">出單數 · 銷售額 · ACoS · ROAS · TACoS</span>
+        </div>
+        <div class="side lead">
+          <div class="lbl">Leading Indicators</div>
+          <h4>領先指標 — 是動作的下一個體溫計</h4>
+          <p>
+            曝光量、點擊量、活動數、關鍵詞數。當這些數字今天偏低，你下一個動作（多開一支活動、把出價提 10%、補上 200 個新詞）<strong>明天就能看到反應</strong>。冷啟動階段，所有的優化動作都應該對著這幾個指標。
+          </p>
+          <span class="ex">曝光量 · 點擊量 · 活動數 · 關鍵詞數 · 出價</span>
+        </div>
+      </div>
+
+      <blockquote class="pull">
+        盯體重，每天都會慌；盯熱量，三十天後體重自己會降。<br>
+        盯 ACoS，每天都會慌；盯曝光量，三十天後 ACoS 自己會降。
+        <cite>廣告衝刺班 · Day 2</cite>
+      </blockquote>
+
+      <p>
+        Day 1 結尾講過一句話：「廣告沒有好不好，只有快不快。」<strong>快不快指的就是領先指標累積的速度</strong>。一支新品要做的，是在最短時間內把曝光累積到 50,000、把點擊累積到 50。這兩條領先指標達成之前，落後指標的每一個百分點都是噪音。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 · Reverse-Engineer -->
+<section>
+  <div class="col">
+    <div class="section-mark">03 · Reverse-Engineer</div>
+    <h2>從目標反推，先算清楚要做到什麼水位</h2>
+    <div class="body">
+      <p>
+        知道了該看領先指標，下一個問題是：<strong>領先指標要到多少才算夠</strong>？這個數字不能憑感覺，要從你的目標倒推回去。
+      </p>
+      <p>
+        假設一支新品的合理目標是：<strong>上架 14 天內售出第一單</strong>。要做到這件事，下游每一層需要多少水量？三步反推法：
+      </p>
+
+      <div class="reverse">
+        <div class="row">
+          <div class="level">i. 落後指標</div>
+          <div>
+            <h4><span class="num">1 單</span> 上架 14 天內</h4>
+            <p>這是你訂的目標。從這個目標倒著算回去。</p>
+          </div>
+          <div class="calc">target<br>= 1 order / 14 days</div>
+        </div>
+        <div class="row">
+          <div class="level">ii. 合理假設</div>
+          <div>
+            <h4>轉化率 <span class="num">2%</span> · 點擊率 <span class="num">0.1%</span></h4>
+            <p>新品在前兩週還沒累積評論，這兩個指標都假設略低於亞馬遜全平台平均。穩了再上修。</p>
+          </div>
+          <div class="calc">CVR ≈ 2%<br>CTR ≈ 0.1%</div>
+        </div>
+        <div class="row">
+          <div class="level">iii. 領先指標</div>
+          <div>
+            <h4>需要 <span class="num">50</span> 個點擊　才能跑出 1 單</h4>
+            <p>50 = 1 ÷ 0.02。要 1 單，至少累積 50 個點擊。</p>
+          </div>
+          <div class="calc">clicks needed<br>= 1 / 0.02 = 50</div>
+        </div>
+        <div class="row">
+          <div class="level">iv. 領先指標</div>
+          <div>
+            <h4>需要 <span class="num">50,000</span> 個曝光　才能跑出 50 個點擊</h4>
+            <p>50,000 = 50 ÷ 0.001。要 50 點擊，至少累積 5 萬次曝光。攤到 14 天，每天 ≈ 3,500。</p>
+          </div>
+          <div class="calc">impressions needed<br>= 50 / 0.001 = 50,000</div>
+        </div>
+      </div>
+
+      <p>
+        這條反推鏈，是 Day 1 收在「每日 8,000 曝光量」這個數字的由來——把 14 天目標拆到每天，預留一倍的安全邊際，剛好就是 8,000/天的水位。當有人問你「為什麼是 8,000，不是 5,000 或 12,000」，答案就在這條鏈條裡。
+      </p>
+      <p>
+        反過來看：如果一支新品兩週只累積到 400 次曝光，那離反推出來的 50,000 還差 100 倍以上。在這個樣本下盯著「轉化率怎麼掛零」沒有意義——它本來就不該有轉化。<strong>該做的是把曝光衝上去，而不是把廣告關掉</strong>。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="col"><div class="ornament">◆ ◆ ◆</div></div>
+
+<!-- 04 · The 5-Day Window -->
+<section>
+  <div class="col">
+    <div class="section-mark">04 · The 5-Day Window</div>
+    <h2>為什麼領先指標要快——亞馬遜的冷啟動算法</h2>
+    <div class="body">
+      <p>
+        前面講了反推、樣本、領先指標，最後還剩一個沒說：<strong>為什麼這些動作都要趕</strong>？答案藏在亞馬遜搜尋團隊自己發表的一篇論文裡。
+      </p>
+      <p>
+        2022 年，Amazon Science 公開過一篇《Treating Cold Start in Product Search by Priors》（亞馬遜搜尋團隊著），白紙黑字寫了新品上架時，平台用什麼決定它的初始排名。流程是這樣的：
+      </p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="冷啟動算法的兩階段：prior 預估 → posterior 覆蓋">
+          <defs>
+            <style>
+              .cs-h { font-family: 'Noto Serif TC', serif; font-size: 16px; font-weight: 600; fill: #1a1a1a; }
+              .cs-en { font-family: 'Cormorant Garamond', serif; font-style: italic; fill: #8a8a8a; font-size: 12.5px; }
+              .cs-day { font-family: 'Playfair Display', serif; font-style: italic; font-size: 18px; fill: #c45a2e; font-weight: 500; }
+              .cs-tag { font-family: 'Inter', sans-serif; font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
+              .cs-note { font-family: 'Noto Serif TC', serif; font-size: 12.5px; fill: #6b6b6b; line-height: 1.6; }
+              .cs-axis { stroke: #1a1a1a; stroke-width: 1.5; }
+              .cs-rule { stroke: #d8d2c4; stroke-width: 1; }
+              .cs-band-prior { fill: #c45a2e; opacity: 0.18; }
+              .cs-band-mix { fill: #c45a2e; opacity: 0.55; }
+              .cs-band-real { fill: #c45a2e; opacity: 0.95; }
+            </style>
+          </defs>
+
+          <!-- horizontal timeline at y=180 -->
+          <line x1="60" y1="180" x2="700" y2="180" class="cs-axis"/>
+          <polygon points="700,180 690,175 690,185" fill="#1a1a1a"/>
+
+          <!-- Day markers -->
+          <line x1="120" y1="170" x2="120" y2="190" class="cs-axis"/>
+          <text x="120" y="210" text-anchor="middle" class="cs-day">D 0</text>
+          <text x="120" y="226" text-anchor="middle" class="cs-tag" fill="#8a8a8a">UPLOAD</text>
+
+          <line x1="280" y1="170" x2="280" y2="190" class="cs-axis"/>
+          <text x="280" y="210" text-anchor="middle" class="cs-day">D 5</text>
+          <text x="280" y="226" text-anchor="middle" class="cs-tag" fill="#c45a2e">FIRST POSTERIOR</text>
+
+          <line x1="500" y1="170" x2="500" y2="190" class="cs-axis"/>
+          <text x="500" y="210" text-anchor="middle" class="cs-day">D 14–30</text>
+          <text x="500" y="226" text-anchor="middle" class="cs-tag" fill="#c45a2e">FULLY ACTUAL</text>
+
+          <!-- Phase 1 band: prior dominant -->
+          <rect x="120" y="60" width="160" height="50" class="cs-band-prior"/>
+          <text x="200" y="80" text-anchor="middle" class="cs-h">階段 i · Prior</text>
+          <text x="200" y="100" text-anchor="middle" class="cs-en">based on attributes</text>
+
+          <!-- Phase 2 band: mix -->
+          <rect x="280" y="60" width="220" height="50" class="cs-band-mix"/>
+          <text x="390" y="80" text-anchor="middle" class="cs-h" fill="#fff">階段 ii · Posterior 覆蓋</text>
+          <text x="390" y="100" text-anchor="middle" class="cs-en" fill="rgba(255,255,255,0.85)">prior gradually replaced by real data</text>
+
+          <!-- Phase 3 band: real -->
+          <rect x="500" y="60" width="200" height="50" class="cs-band-real"/>
+          <text x="600" y="80" text-anchor="middle" class="cs-h" fill="#fff">階段 iii · 完全實績</text>
+          <text x="600" y="100" text-anchor="middle" class="cs-en" fill="rgba(255,255,255,0.85)">your numbers, your fate</text>
+
+          <!-- Connectors from band to timeline -->
+          <line x1="200" y1="110" x2="200" y2="170" class="cs-rule" stroke-dasharray="2,3"/>
+          <line x1="390" y1="110" x2="390" y2="170" class="cs-rule" stroke-dasharray="2,3"/>
+          <line x1="600" y1="110" x2="600" y2="170" class="cs-rule" stroke-dasharray="2,3"/>
+
+          <!-- Bottom annotation -->
+          <line x1="60" y1="260" x2="700" y2="260" class="cs-rule"/>
+          <text x="60" y="280" class="cs-h">D 0–5</text>
+          <text x="120" y="280" class="cs-note">亞馬遜根據新商品建檔時填的屬性（品類、品牌、規格完整度）給一個初始預估，跟同類目相似 ASIN 比對排序。</text>
+
+          <text x="60" y="305" class="cs-h">D 5+</text>
+          <text x="120" y="305" class="cs-note">演算法開始用你的真實表現（曝光點擊率、購買率、回購、退貨）逐步取代初始預估。</text>
+
+          <text x="60" y="330" class="cs-h">D 30</text>
+          <text x="120" y="330" class="cs-note">大部分產品的 prior 已被實績完全覆蓋。你前 30 天跑出的領先指標，會直接決定接下來幾個月的命運。</text>
+        </svg>
+        <figcaption class="diagram-cap">資料來源：Amazon Science · Treating Cold Start in Product Search by Priors（2022 公開論文）。</figcaption>
+      </figure>
+
+      <p>
+        翻成白話：你新品上架的時候，亞馬遜先<strong>幫你猜</strong>一個合理的位置——根據你商品的品牌、類目、規格屬性，跟同類目相似 ASIN 比，給一個 prior（先驗預估）。這個 prior 在前五天主導排名。
+      </p>
+      <p>
+        然後從<strong>第 5 天起</strong>，演算法開始把 prior 換掉，用<strong>你自己跑出來的實際表現</strong>覆蓋。如果這 5–30 天裡，你的曝光、點擊、購買數據是空白的——演算法沒辦法把空白當成「中性」處理，它會直接認定這支商品「在競爭中無法獲勝」，把你從相關搜尋結果裡降權。
+      </p>
+      <p>
+        對 Day 2 主軸的意義：<strong>領先指標的時間壓力，不是你想像出來的</strong>。前 5 天到 30 天，是亞馬遜內建的觀察窗，你交不出領先指標的數據，演算法就替你做最差的假設。
+      </p>
+
+      <blockquote class="pull">
+        新品冷啟動不是「給你 30 天蜜月期」，<br>
+        是「給你 30 天面試時間」。
+        <cite>廣告衝刺班 · Day 2</cite>
+      </blockquote>
+
+      <p>
+        坊間流傳的「30 天蜜月期會自動推廣」的說法，<strong>只說對了一半</strong>。蜜月期確實存在——但它推的不是你的銷售，而是讓平台有機會看清楚你這支商品的真實表現。在這個窗內你不投放、不衝曝光、不累積點擊，蜜月期不只沒有紅利，反而會用「無法獲勝」的假設把你的長期排名定型。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 · A Real Diagnosis -->
+<section>
+  <div class="col">
+    <div class="section-mark">05 · A Real Diagnosis</div>
+    <h2>同一份數據，學會兩種讀法</h2>
+    <div class="body">
+      <p>
+        把上面這套反推用回真實的數據。下面這份報表，是一支新品上架兩週後的後台截圖（依教學需要改寫過數字），多數新手看一眼就會說「這支廣告做壞了」：
+      </p>
+
+      <div class="diag">
+        <div class="row">
+          <div class="label">曝光量<span class="en">Impressions</span></div>
+          <div class="num">400</div>
+          <div class="verdict"><span class="tag bad">沒到位</span><span class="gloss">目標 50,000，現在差 125 倍。問題的源頭在這裡。</span></div>
+        </div>
+        <div class="row">
+          <div class="label">關鍵詞數<span class="en">Keywords</span></div>
+          <div class="num">80 / 100</div>
+          <div class="verdict"><span class="tag warn">不足</span><span class="gloss">水龍頭只開了 80 個，繼續追加；理想至少 2,000。</span></div>
+        </div>
+        <div class="row">
+          <div class="label">點擊量<span class="en">Clicks</span></div>
+          <div class="num">12</div>
+          <div class="verdict"><span class="tag warn">慢</span><span class="gloss">目標 50，現在 24%。曝光起來了會自然帶上來。</span></div>
+        </div>
+        <div class="row">
+          <div class="label">點擊率<span class="en">CTR</span></div>
+          <div class="num">3.0%</div>
+          <div class="verdict"><span class="tag ok">超預期</span><span class="gloss">假設值是 0.1%，現在 3.0%，比預期好 30 倍。主圖跟價格沒問題。</span></div>
+        </div>
+        <div class="row">
+          <div class="label">轉化率<span class="en">CVR</span></div>
+          <div class="num">0% (0/12)</div>
+          <div class="verdict"><span class="tag weak">樣本太少</span><span class="gloss">12 個點擊不足以判斷，不要用這格做任何決定。</span></div>
+        </div>
+        <div class="row">
+          <div class="label">出單<span class="en">Orders</span></div>
+          <div class="num">0</div>
+          <div class="verdict"><span class="tag weak">樣本太少</span><span class="gloss">落後指標。在曝光、點擊到位之前，零單是預期內的結果。</span></div>
+        </div>
+      </div>
+
+      <p>
+        把六格分開看，結論完全不同了。<strong>真正的問題只有一個：曝光量不到位</strong>。其他每一格的「壞數字」都是這一格的衍生：曝光不夠 → 點擊跟不上 → 轉化率沒樣本 → 出單為零。
+      </p>
+      <p>
+        新手最容易在這個畫面上犯的錯，是看到「轉化率 0%」就把廣告關掉。實際上，這支廣告的<strong>點擊率比假設好 30 倍</strong>——主圖、標題、價格做得很對，買家願意點。差的只是曝光的水量還沒打開。下一週該做的事，是把關鍵詞從 80 加到 800、再加到 2,000，把曝光衝上去；廣告卡片本身不用動。
+      </p>
+
+      <blockquote class="pull">
+        廣告沒做壞，是還沒做夠。<br>
+        曝光不到位之前，後面每一格的壞數字都是它的影子。
+        <cite>廣告衝刺班 · Day 2</cite>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- 06 · Sample Size Trap -->
+<section>
+  <div class="col">
+    <div class="section-mark">06 · The Sample Trap</div>
+    <h2>0/12 跟 0/200，是完全不同的兩件事</h2>
+    <div class="body">
+      <p>
+        上一節的表格裡有一格寫著「樣本太少」。這個概念值得單獨講，因為它是新手最容易踩進去的陷阱。
+      </p>
+      <p>
+        同樣寫著「轉化率 0%」，<strong>0/12（12 個點擊 0 單）</strong>跟 <strong>0/200（200 個點擊 0 單）</strong>，傳達的訊息完全不一樣。第一個是還沒到能下判斷的時候；第二個是真的有問題、需要動商品頁。直覺上很容易把它們當成同一件事。
+      </p>
+
+      <div class="sample">
+        <div class="row">
+          <div class="case"><span class="pct">0%</span><br>0 / 12 clicks</div>
+          <p>
+            12 個點擊樣本太小，連算機率都不夠。假設真實轉化率是 2%，那 12 個點擊跑出 0 單的機率本來就高達 78%——什麼都沒發生才是常態。這時的 0%，<strong>不代表「商品不會轉」</strong>，只代表「還沒到知道答案的時候」。
+          </p>
+        </div>
+        <div class="row">
+          <div class="case"><span class="pct">0%</span><br>0 / 200 clicks</div>
+          <p>
+            200 個點擊還跑不出 1 單，假設真實轉化率是 2%，這個結果只會在 2% 機率以下出現。換句話說，這時的 0% 是有訊號的——商品頁、價格、評論、規格說明，<strong>真的有東西需要修</strong>。
+          </p>
+        </div>
+        <div class="row">
+          <div class="case"><span class="pct">門檻</span><br>≥ 50 clicks</div>
+          <p>
+            業界做廣告數據判讀的常用門檻是「<strong>單一關鍵詞累積 ≥ 50 個點擊</strong>」才動轉化率的決策。Day 1 那條反推鏈剛好對得上：50 個點擊，是新品第一單的合理樣本。在這之前，把所有資源放在領先指標。
+          </p>
+        </div>
+      </div>
+
+      <p>
+        統計上有個更精準的講法：「<strong>樣本量越小，方差越大</strong>」。冷啟動階段的轉化率，每天上下波動 5–15% 是常態，那不是廣告變好變壞，那是樣本在跳。你只要等樣本累積到一定程度，這條曲線會自己穩下來。
+      </p>
+      <p>
+        實務上的判斷次序是這樣：先看曝光量，曝光夠了再看點擊率；點擊率正常之後，等點擊累積到 50 以上，再看轉化率；轉化率穩住之後，最後才看 ACoS。<strong>跳級看數字，等於拿亂碼當情報</strong>。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="col"><div class="ornament">◆ ◆ ◆</div></div>
+
+<!-- 07 · The Diagnosis Framework -->
+<section>
+  <div class="col">
+    <div class="section-mark">07 · The Diagnosis Framework</div>
+    <h2>哪一層卡住，就修哪一層</h2>
+    <div class="body">
+      <p>
+        把領先指標跟樣本概念合在一起，就有了一套順序固定的診斷流程。每天打開後台，按下面這條順序看：哪一層先卡住，就先修哪一層；上面卡住沒解之前，動下面只是徒勞。
+      </p>
+
+      <div class="branch">
+        <div class="b">
+          <div class="when">第一關 · 曝光量 &lt; 8,000/天</div>
+          <h4>水龍頭沒開夠</h4>
+          <p>絕大多數新品的問題卡在這一層。你能動的只有「投放第一層」這一格——擴詞、加活動、調出價。</p>
+          <ul>
+            <li>把關鍵詞從 80 補到 2,000（用 Day 1 給的 CSV）</li>
+            <li>每個 ASIN 一支獨立廣告活動，不要塞在同一支裡</li>
+            <li>出價先設在類目平均的 50–70%，不夠就 +10% 試</li>
+            <li>這一週不要看點擊率、轉化率、ACoS</li>
+          </ul>
+        </div>
+        <div class="b">
+          <div class="when">第二關 · 曝光夠了，點擊率 &lt; 0.1%</div>
+          <h4>看到了但不點</h4>
+          <p>曝光起來之後，點擊率才是有意義的指標。低於假設值很多的時候，問題在「廣告卡片」這一格——主圖、標題前 80 字、價格、評論數與星級。</p>
+          <ul>
+            <li>主圖：跟同類目前 5 名比，你的辨識度夠不夠</li>
+            <li>價格：跟最相似的競品比，差距在 ±15% 以內</li>
+            <li>評論：&lt; 5 則或星級 &lt; 4.0 之前不要期待點擊率</li>
+            <li>標題：第一個逗號之前的字，能不能讓買家秒看懂</li>
+          </ul>
+        </div>
+        <div class="b">
+          <div class="when">第三關 · 點擊累積 ≥ 50，轉化率 &lt; 2%</div>
+          <h4>點進來了卻不下單</h4>
+          <p>這一關才開始看轉化率。樣本到位之後，低於假設值的話，問題在「商品頁深層」這一格——A+、五點描述、規格表、Q&amp;A、退貨理由。</p>
+          <ul>
+            <li>看顧客之聲（VOC）儀表板，找退貨主因</li>
+            <li>看評論裡的「但是 ⋯」「希望 ⋯」「可惜 ⋯」</li>
+            <li>A+ 內容是不是回答了買家最常問的疑慮</li>
+            <li>規格表（材質、尺寸、相容性）有沒有缺項</li>
+          </ul>
+        </div>
+        <div class="b">
+          <div class="when">第四關 · 三層都到位，ACoS &gt; 50%</div>
+          <h4>有單但賠錢</h4>
+          <p>到這一步才談廣告銷售比。這一格動的是「投放結構」，把 Day 1 講的「探索 → 收斂 → 收割」三段流程跑完整。</p>
+          <ul>
+            <li>把高轉化的搜尋詞抽出來投精準匹配</li>
+            <li>把高點擊低轉化的搜尋詞加為否定關鍵詞</li>
+            <li>主預算移到精準匹配的廣告活動</li>
+            <li>廣泛活動降出價，當作探索詞庫</li>
+          </ul>
+        </div>
+      </div>
+
+      <p>
+        這條順序最常被打破的地方，是新手一上來就跳到第四關，盯著 ACoS 看。這支廣告才上線兩週、曝光只有 400，根本還沒進到第四關的對話。把上面三關走完之前，動第四關的決策都是用噪音當情報。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 · Ad is Not a Silver Bullet -->
+<section>
+  <div class="col">
+    <div class="section-mark">08 · Reality Check</div>
+    <h2>廣告不是萬靈丹</h2>
+    <div class="body">
+      <p>
+        最後一節，要把整個討論收回到一個現實檢核——<strong>廣告系統會放大產品本身的條件，不會幫你重新發明一支產品</strong>。當廣告投了兩週還是動不了，回頭檢查的應該是產品這一邊有沒有先到位。
+      </p>
+      <p>
+        我們去年盤點過合作賣家在開廣告之前的「庫存與物流就緒度」，列在下面這張表（站點與品類經過模糊化）。同一張表，可以拿來自我檢查：你的 ASIN 屬於哪一類？
+      </p>
+
+      <div class="inv">
+        <table>
+          <thead>
+            <tr><th>站點</th><th>品類</th><th>有貨 SKU</th><th>庫存深度</th><th>物流</th><th>類目趨勢</th><th>就緒度</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="site">US</td>
+              <td class="cat">記憶卡 / 隨身碟 / SSD</td>
+              <td>111 個</td>
+              <td>11,689 件</td>
+              <td>FBA</td>
+              <td>持平</td>
+              <td class="score go">就緒</td>
+            </tr>
+            <tr>
+              <td class="site">UK</td>
+              <td class="cat">SSD / 記憶卡 / 隨身碟</td>
+              <td>12 個</td>
+              <td>990 件</td>
+              <td>全 FBA</td>
+              <td>上升</td>
+              <td class="score go">就緒</td>
+            </tr>
+            <tr>
+              <td class="site">UK</td>
+              <td class="cat">濕疹機能衣</td>
+              <td>4 個</td>
+              <td>9 件</td>
+              <td>FBA + MFN</td>
+              <td>上升</td>
+              <td class="score wait">深度太淺</td>
+            </tr>
+            <tr>
+              <td class="site">US</td>
+              <td class="cat">手鉤公仔 / 自行車煞車片</td>
+              <td>6 個</td>
+              <td>594 件 (+360 在途)</td>
+              <td>FBA</td>
+              <td>上升</td>
+              <td class="score go">就緒</td>
+            </tr>
+            <tr>
+              <td class="site">US</td>
+              <td class="cat">浴室收納架 / 皂液器</td>
+              <td>3 個</td>
+              <td>43 件</td>
+              <td>全 FBA</td>
+              <td>近期回升</td>
+              <td class="score wait">深度太淺</td>
+            </tr>
+            <tr>
+              <td class="site">JP</td>
+              <td class="cat">高階電源供應器</td>
+              <td>1 個</td>
+              <td>2 件</td>
+              <td>FBA</td>
+              <td>類目早期</td>
+              <td class="score wait">先補貨</td>
+            </tr>
+            <tr>
+              <td class="site">JP</td>
+              <td class="cat">女鞋</td>
+              <td>0</td>
+              <td>0</td>
+              <td>FBA + MFN</td>
+              <td>剛賣完等補貨</td>
+              <td class="score no">不能投</td>
+            </tr>
+            <tr>
+              <td class="site">US</td>
+              <td class="cat">咖啡濾杯</td>
+              <td>0</td>
+              <td>0</td>
+              <td>全 FBM</td>
+              <td>持平 · 低水位</td>
+              <td class="score no">不能投</td>
+            </tr>
+            <tr>
+              <td class="site">US</td>
+              <td class="cat">機能襪</td>
+              <td>0</td>
+              <td>0</td>
+              <td>FBA + MFN</td>
+              <td>下行</td>
+              <td class="score no">不能投</td>
+            </tr>
+            <tr>
+              <td class="site">US</td>
+              <td class="cat">烏魚子 + 斜背包</td>
+              <td>5 個</td>
+              <td>320 件</td>
+              <td>MFN + FBA</td>
+              <td>無近期銷售</td>
+              <td class="score no">先檢查商品頁</td>
+            </tr>
+            <tr>
+              <td class="site">US</td>
+              <td class="cat">跌倒偵測器</td>
+              <td>0</td>
+              <td>0</td>
+              <td>FBA + MFN</td>
+              <td>無近期銷售</td>
+              <td class="score no">不能投</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        把同一張表的判斷邏輯抽出來，廣告開跑前要先對齊的條件有四項：
+      </p>
+
+      <div class="branch">
+        <div class="b">
+          <div class="when">i · 庫存深度</div>
+          <h4>至少能撐過第一輪曝光放大</h4>
+          <p>每日曝光做到 8,000 之後，前期客單轉化頂到天花板大約是 50–80 件/月。庫存深度低於兩個月的銷售目標，廣告很容易把貨打空、然後排名直接掉下來。</p>
+          <p>盤點：庫存深度 ÷ 預期月銷量 ≥ 2。低於這個值，先補貨再開廣告。</p>
+        </div>
+        <div class="b">
+          <div class="when">ii · 物流模式</div>
+          <h4>FBA 是廣告的最佳搭檔</h4>
+          <p>純 MFN 賣家在亞馬遜搜尋結果的點擊率，普遍比 FBA 低一截——買家在搜尋結果頁看到 Prime 標籤的瞬間，就會把沒 Prime 的選項過濾掉。冷啟動階段又特別吃這個。</p>
+          <p>純 FBM 的 ASIN，先別把預算砸在廣告上；先把貨送進 FBA，再開廣告。</p>
+        </div>
+        <div class="b">
+          <div class="when">iii · 類目趨勢</div>
+          <h4>逆勢開廣告，等於在向下扶梯往上跑</h4>
+          <p>商機探測器（Product Opportunity Explorer）會給每個利基（niche）一個趨勢標籤：上升、持平、下行。下行類目的整體點擊都在減少，這時候開廣告，預算會花得快但反應淺。</p>
+          <p>新品建議挑「上升」或「持平」的類目；下行類目要做的不是開廣告，是換產品。</p>
+        </div>
+        <div class="b">
+          <div class="when">iv · 商品頁狀態</div>
+          <h4>主圖、五點、A+、評論這四件先就位</h4>
+          <p>「烏魚子 + 斜背包」那一行最值得注意——有貨、有庫存深度，但類目沒有近期銷售。這通常代表商品頁本身有問題：選品太冷、文案沒寫對、或者主圖跟類目氣質不合。先解這個，再開廣告。</p>
+          <p>
+            <strong>關於評論——2025 年 7 月之後 Vine 規則改了一個關鍵點</strong>：以前 Vine 只能在商品<em>上線後</em>才能跑，現在開放<strong>上架前 30 天就能投放</strong>，等到正式上線那一刻，商品頁可以直接帶著最多 30 則 Vine 評論亮相。對 Day 2 的 5 天 prior 觀察窗特別重要——演算法第 5 天開始評估你的點擊與購買時，0 評論跟 30 評論的點擊率差距，會直接寫進你的長期排名裡。
+          </p>
+          <p>
+            申請成本是每個 ASIN USD $200。用「上架日就有評論」這個新規則，是這兩年新手最划算的單一動作。
+          </p>
+        </div>
+      </div>
+
+      <blockquote class="pull">
+        廣告會把好產品做大，也會把壞產品做小。<br>
+        它不會幫你把不對的選品變對。
+        <cite>廣告衝刺班 · Day 2</cite>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<div class="col"><div class="ornament">◆ ◆ ◆</div></div>
+
+<!-- 09 · Two-Week Action -->
+<section>
+  <div class="col">
+    <div class="section-mark">09 · Action</div>
+    <h2>第一輪兩週的行動清單</h2>
+    <div class="body">
+      <p>
+        把 Day 1 的水龍頭跟 Day 2 的判讀框架接在一起，整理成兩週的固定動作。每一天打開後台，按這份清單做。
+      </p>
+
+      <div class="actions">
+        <div class="a">
+          <div class="week">D−30 ~ D−1</div>
+          <div>
+            <h4>上架前先掛 Vine</h4>
+            <p>Vine 已開放 pre-launch 投放，新品上架前 30 天就能下單。等正式上線那一刻直接帶 30 則評論亮相，能把第 5 天起的 prior 覆蓋過程，墊在比 0 評論高得多的點擊率上。</p>
+          </div>
+        </div>
+        <div class="a">
+          <div class="week">D+0</div>
+          <div>
+            <h4>開廣告之前先盤點</h4>
+            <p>對著上一節的四個條件自我檢查：庫存深度、物流模式、類目趨勢、商品頁狀態。任何一項沒到位，先補它，不要開廣告。</p>
+          </div>
+        </div>
+        <div class="a">
+          <div class="week">D+1 ~ D+3</div>
+          <div>
+            <h4>只看曝光量</h4>
+            <p>每天看一個數字：曝光量。沒到 3,000 就追加關鍵詞、加廣告活動、提出價 10%。這三天不要看點擊率、轉化率、ACoS。</p>
+          </div>
+        </div>
+        <div class="a">
+          <div class="week">D+4 ~ D+7</div>
+          <div>
+            <h4>曝光穩了，開始看點擊率</h4>
+            <p>單日曝光穩定在 3,000 以上之後，把點擊率納入觀察。低於 0.1% 連續三天，動主圖跟價格。否則繼續追加關鍵詞。</p>
+          </div>
+        </div>
+        <div class="a">
+          <div class="week">D+8 ~ D+14</div>
+          <div>
+            <h4>累積點擊到 50，再看轉化</h4>
+            <p>單一活動點擊累積過 50 之後，轉化率才開始有意義。這時候才打開搜尋詞報告，找出值得收割的詞。</p>
+          </div>
+        </div>
+        <div class="a">
+          <div class="week">D+15 起</div>
+          <div>
+            <h4>進入收斂階段</h4>
+            <p>用 Day 1 的「探索 → 收斂 → 收割」三段流程開新的詞組與精準匹配活動。這時候才有資格盯 ACoS 看每一個百分點。</p>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        不需要記每個數字的閾值，只需要記住順序：<strong>曝光 → 點擊率 → 轉化率 → ACoS</strong>。同事問你「這支廣告怎麼樣」，你的第一個反問就是「曝光累積到多少了」。順序對了，每一個動作都有依據；順序錯了，所有動作都是猜。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Coda -->
+<div class="bleed coda">
+  <div class="col">
+    <div class="section-mark">Coda</div>
+    <h2>把焦慮翻成耐心</h2>
+    <p>
+      Day 1 教的是怎麼把水龍頭打開、把曝光衝到位；Day 2 教的是怎麼讀懂水龍頭打開之後、還沒出單之前的那段空窗。空窗不是失敗，是樣本還沒累積到能下判斷的時候。多數新手在這個空窗裡把廣告關掉，等於把好不容易跑出來的領先指標也一併丟掉。
+    </p>
+    <p>
+      落後指標每天看，會放大焦慮；領先指標每天做，會堆出實力。冷啟動的兩週，盯曝光量、加關鍵詞、開新活動，把第一層做滿。第三週開始，下游的數字會自己穩下來。那時候再看 ACoS，每一個百分點才反映你真實的廣告能力。
+    </p>
+    <blockquote class="pull">
+      看到 0% 不要慌，先看分母。<br>
+      分母太小，0% 跟 100% 是同一句話。
+      <cite>廣告衝刺班 · Day 2</cite>
+    </blockquote>
+    <p>
+      最後一句：廣告會把好產品做大、把壞產品做小。如果這套流程跑了一個月還是動不起來，回頭看的不該是廣告設定，是上一節那張就緒度表。換產品，比換廣告策略快得多。記住三個亞馬遜不會明說的數字——<strong>90 天內第一單的賣家不到 1%</strong>、<strong>第 5 天起演算法開始用實績覆蓋預估</strong>、<strong>Vine 在 2025 年 7 月後開放上架前投放</strong>。把這三件事疊起來，你就比 99% 的同期新品多出兩個禮拜的領先。
+    </p>
+    <div class="colophon">
+      亞馬遜官方培訓 · 廣告衝刺班 Day 2 · 數據判讀
+    </div>
+  </div>
+</div>
+
+<!-- Glossary -->
+<section>
+  <div class="col">
+    <div class="section-mark">附錄 · Glossary</div>
+    <h2>術語表</h2>
+    <div class="body">
+      <p style="color:var(--ink-mute); font-size:15px">本講出現的指標與術語對照，供回查。</p>
+    </div>
+
+    <div class="glossary">
+      <dl>
+        <div>
+          <dt>領先指標</dt>
+          <dd><span class="en">Leading Indicator</span>　還在你今天動作能影響的指標。冷啟動階段：曝光量、點擊量、活動數、關鍵詞數。</dd>
+        </div>
+        <div>
+          <dt>落後指標</dt>
+          <dd><span class="en">Lagging Indicator</span>　已經發生、無法回頭改的結果。出單數、銷售額、ACoS、ROAS、TACoS。</dd>
+        </div>
+        <div>
+          <dt>CTR</dt>
+          <dd><span class="en">Click-Through Rate</span>　點擊率 = 點擊量 ÷ 曝光量。亞馬遜廣告全平台均值約 0.4–0.5%。</dd>
+        </div>
+        <div>
+          <dt>CVR</dt>
+          <dd><span class="en">Conversion Rate</span>　轉化率 = 訂單數 ÷ 點擊量。亞馬遜廣告全平台均值約 9–13%。</dd>
+        </div>
+        <div>
+          <dt>ACoS</dt>
+          <dd><span class="en">Advertising Cost of Sales</span>　廣告銷售比 = 廣告花費 ÷ 廣告帶來的銷售額。冷啟動階段不是首要指標。</dd>
+        </div>
+        <div>
+          <dt>ROAS</dt>
+          <dd><span class="en">Return on Ad Spend</span>　廣告報酬率 = 廣告銷售 ÷ 廣告花費。ACoS 的倒數。</dd>
+        </div>
+        <div>
+          <dt>TACoS</dt>
+          <dd><span class="en">Total Advertising Cost of Sales</span>　廣告花費佔總銷售（含自然單）的比例，反映廣告對整體生意的依存度。</dd>
+        </div>
+        <div>
+          <dt>樣本量</dt>
+          <dd><span class="en">Sample Size</span>　統計上能否下判斷的依據。轉化率的常用門檻是單一關鍵詞累積 ≥ 50 個點擊。</dd>
+        </div>
+        <div>
+          <dt>商機探測器</dt>
+          <dd><span class="en">Product Opportunity Explorer</span>　亞馬遜後台的市場研究工具，提供利基（niche）的趨勢標籤、真實搜尋量、轉化率分位。</dd>
+        </div>
+        <div>
+          <dt>VOC</dt>
+          <dd><span class="en">Voice of the Customer</span>　顧客之聲。賣家中心儀表板，聚合評論的關鍵問題與正向回饋，是診斷轉化率的入口。</dd>
+        </div>
+        <div>
+          <dt>FBA / MFN</dt>
+          <dd><span class="en">Fulfilled by Amazon / Merchant</span>　由亞馬遜出貨 / 由賣家自己出貨。FBA 商品在搜尋結果頁帶 Prime 標籤，點擊率明顯較高。</dd>
+        </div>
+        <div>
+          <dt>Vine</dt>
+          <dd><span class="en">Amazon Vine</span>　亞馬遜官方邀請制評論計畫，每個 ASIN USD $200，最多取得 30 則 Vine Voices 評論。<strong>2025 年 7 月起開放 pre-launch</strong>，可在商品上架前 30 天投放，正式上線時即可帶著評論亮相。</dd>
+        </div>
+        <div>
+          <dt>Prior / Posterior</dt>
+          <dd><span class="en">Cold Start Algorithm</span>　亞馬遜搜尋團隊 2022 年公開論文揭露的冷啟動機制：新品上架先給 prior 預估，第 5 天起改用實際表現逐步覆蓋，30 天內 prior 大致歸零。</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- Survey -->
+<section>
+  <div class="col">
+    <div class="section-mark">附錄 · 課後問卷</div>
+    <h2>請花一分鐘填寫課後問卷</h2>
+    <div class="body">
+      <p>
+        Day 2 的內容比 Day 1 更偏判讀與耐心，最容易在實作裡被打折扣。哪一段不夠清楚、哪一個診斷邏輯希望多舉例，都歡迎告訴我們。
+      </p>
+
+      <div class="survey">
+        <div>
+          <div class="qr-frame"><img id="survey-qr" alt="課後問卷 QR Code"></div>
+          <div class="qr-meta">Scan to open · 掃碼填寫</div>
+        </div>
+        <div>
+          <h4>掃碼或點按鈕，皆可</h4>
+          <p>
+            手機掃左邊的 QR Code，會帶你到亞馬遜內部問卷頁。用電腦上課的同學，也可以直接點下方按鈕：
+          </p>
+          <a id="survey-link" class="survey-btn" href="#" target="_blank" rel="noopener noreferrer">前往填寫問卷 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="height: 80px"></div>
+
+<script>
+  (function () {
+    var now = new Date();
+    var y = now.getFullYear();
+    var m = String(now.getMonth() + 1).padStart(2, '0');
+    var d = String(now.getDate()).padStart(2, '0');
+    var dateStr = y + m + d;
+    var fullUrl = 'https://pulse.amazon/survey/IWDN6OM1?source=' + dateStr + '_day2';
+    var qrApi = 'https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(fullUrl) + '&size=400x400&margin=0';
+    var img = document.getElementById('survey-qr');
+    var link = document.getElementById('survey-link');
+    if (img) img.src = qrApi;
+    if (link) link.href = fullUrl;
+  })();
+</script>
+
+</body>
+</html>
